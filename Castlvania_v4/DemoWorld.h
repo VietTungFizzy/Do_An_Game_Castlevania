@@ -1,8 +1,12 @@
 #pragma once
 #include "GameWorld.h"
+#include"Map.h"
+#include"Camera.h"
 class DemoWorld :
 	public GameWorld
 {
+private:
+	Camera * camera;
 public:
 
 	void KeyState(BYTE *states);

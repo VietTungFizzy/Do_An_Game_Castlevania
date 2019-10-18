@@ -48,7 +48,7 @@ void WorldManager::LoadResources()
 
 	std::ifstream input1(L"Resources/TileSet_Description.txt");
 
-	if (!input1.is_open())DebugOut(L"Khong mo duoc file");
+	if (!input1.is_open())DebugOut(L"Khong mo duoc file\n");
 
 	int n,id,totalColumn,totalRow,r,g,b, frameHeight,frameWidth;
 	std::string strfilePath;
@@ -81,7 +81,7 @@ void WorldManager::LoadResources()
 
 	input1.open(L"Resources/Animation_Description.txt");
 
-	if (!input1.is_open())DebugOut(L"Khong mo duoc file");
+	if (!input1.is_open())DebugOut(L"Khong mo duoc file\n");
 	input1 >> n;
 	int tileID,animationID, beginSpriteID, endSpriteID, time;
 	for (int i = 0; i < n; i++)

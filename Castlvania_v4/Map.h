@@ -14,15 +14,14 @@ public:
 	TileMap(float x, float y,LPSPRITE sprite);
 	~TileMap();
 };
-
+typedef TileMap * LPTILEMAP;
 class Map
 {
-	TileMap ** mapMatrix;
+	LPTILEMAP ** mapMatrix;
 	int mapWidth, mapHeight, tileID;
-	float x, y;
 public:
-	void draw();
-	Map(LPCWSTR mapDesFilePath,LPCWSTR objDesFilePath,float x, float y);
+	void Render(Camera * camera);
+	Map(LPCWSTR mapDesFilePath);
 	~Map();
 };
 
@@ -30,13 +29,11 @@ class MapManager
 {
 	Map * map;
 	std::vector<LPCWSTR> mapDescriptionList;
-	std::vector<LPCWSTR> objectDescriptionList;
 public:
 	static MapManager * __instance;
 	static MapManager * getInstance();
 	void setMap(WorldID id);
-	void drawMap();
-	std::vector<LPGAMEOBJECT> getObjectFromMap();
+	void drawMap(Camera * camera);
 	MapManager();
 	~MapManager();
 };
