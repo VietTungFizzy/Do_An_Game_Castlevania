@@ -3,6 +3,7 @@
 #include"GameWorld.h"
 #include"Texture.h"
 #include"Sprite.h"
+#include "Map.h"
 class WorldManager
 {
 private:

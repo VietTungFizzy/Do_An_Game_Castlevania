@@ -7,6 +7,7 @@ class DemoWorld :
 {
 private:
 	Camera * camera;
+	
 public:
 
 	void KeyState(BYTE *states);

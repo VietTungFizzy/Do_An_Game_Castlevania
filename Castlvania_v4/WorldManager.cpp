@@ -45,7 +45,7 @@ void WorldManager::LoadResources()
 	CTextures * textureManager = CTextures::GetInstance();
 	CSprites *spriteManager = CSprites::GetInstance();
 	CAnimations * animationManager = CAnimations::GetInstance();
-
+	MapManager * mapManager = MapManager::GetInstance();
 	std::ifstream input1(L"Resources/TileSet_Description.txt");
 
 	if (!input1.is_open())DebugOut(L"Khong mo duoc file\n");
@@ -68,11 +68,11 @@ void WorldManager::LoadResources()
 			for (int k = 0; k < totalColumn; k++)
 			{
 				spriteManager->Add(id,
-									i * totalColumn + k,
+									j * totalColumn + k,
 									k * frameWidth, 
-									i*frameHeight, 
+									j*frameHeight, 
 									k * frameWidth + frameWidth, 
-									i*frameHeight + frameHeight, 
+									j*frameHeight + frameHeight, 
 									textureManager->Get(id)->getTexture());
 			}
 		}

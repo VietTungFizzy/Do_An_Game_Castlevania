@@ -20,10 +20,14 @@ void DemoWorld::Update(DWORD dt)
 
 void DemoWorld::LoadResources()
 {
+	MapManager::GetInstance()->setMap(PROLOGUE);
+	camera = new Camera(0, MapManager::GetInstance()->getMap()->getMapWidth());
+	camera->SetPosition(0, 0);
 }
 
 void DemoWorld::Render()
 {
+	MapManager::GetInstance()->getMap()->Render(camera);
 }
 
 DemoWorld::DemoWorld()

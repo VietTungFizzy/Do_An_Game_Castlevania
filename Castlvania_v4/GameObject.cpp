@@ -4,7 +4,7 @@
 
 void CGameObject::RenderBoundingBox(Camera * camera)
 {
-	D3DXVECTOR2 pos = camera->translateWorldToScreen(x, y);
+	D3DXVECTOR3 p(x, y, 0);
 	RECT rect;
 
 	LPDIRECT3DTEXTURE9 bbox = CTextures::GetInstance()->Get(BBOX)->getTexture();

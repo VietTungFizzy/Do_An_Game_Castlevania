@@ -9,9 +9,11 @@ class TileMap
 private:
 	LPSPRITE sprite;
 	float x, y;
+	int spriteID;
 public:
 	void draw();
-	TileMap(float x, float y,LPSPRITE sprite);
+	int getID() { return spriteID; }
+	TileMap(float x, float y,int spriteID,LPSPRITE sprite);
 	~TileMap();
 };
 typedef TileMap * LPTILEMAP;
@@ -21,6 +23,7 @@ class Map
 	int mapWidth, mapHeight, tileID;
 public:
 	void Render(Camera * camera);
+	int getMapWidth();
 	Map(LPCWSTR mapDesFilePath);
 	~Map();
 };
@@ -28,12 +31,12 @@ public:
 class MapManager
 {
 	Map * map;
-	std::vector<LPCWSTR> mapDescriptionList;
+	std::vector<std::wstring> mapDescriptionList;
 public:
 	static MapManager * __instance;
-	static MapManager * getInstance();
+	static MapManager * GetInstance();
 	void setMap(WorldID id);
-	void drawMap(Camera * camera);
+	Map * getMap() { return map; }
 	MapManager();
 	~MapManager();
 };

@@ -1,70 +1,10 @@
-﻿  Camera.cpp
+﻿  Map.cpp
   d:\third_party_lib\directx_sdk\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
 d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(15): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
   d:\third_party_lib\directx_sdk\include\dinput.h(42): note: see previous definition of 'DIRECTINPUT_VERSION'
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(61): error C2365: 'BRICK': redefinition; previous definition was 'enumerator'
-  d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(28): note: see declaration of 'BRICK'
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\camera.cpp(6): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\camera.cpp(7): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-  DemoWorld.cpp
-  d:\third_party_lib\directx_sdk\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(15): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
-  d:\third_party_lib\directx_sdk\include\dinput.h(42): note: see previous definition of 'DIRECTINPUT_VERSION'
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(61): error C2365: 'BRICK': redefinition; previous definition was 'enumerator'
-  d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(28): note: see declaration of 'BRICK'
-  Game.cpp
-  d:\third_party_lib\directx_sdk\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(15): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
-  d:\third_party_lib\directx_sdk\include\dinput.h(42): note: see previous definition of 'DIRECTINPUT_VERSION'
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(61): error C2365: 'BRICK': redefinition; previous definition was 'enumerator'
-  d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(28): note: see declaration of 'BRICK'
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\game.cpp(281): warning C4305: '=': truncation from '__int64' to 'float'
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\game.cpp(282): warning C4305: '=': truncation from '__int64' to 'float'
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\game.cpp(292): warning C4305: '=': truncation from '__int64' to 'float'
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\game.cpp(293): warning C4305: '=': truncation from '__int64' to 'float'
-  GameObject.cpp
-  d:\third_party_lib\directx_sdk\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(15): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
-  d:\third_party_lib\directx_sdk\include\dinput.h(42): note: see previous definition of 'DIRECTINPUT_VERSION'
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(61): error C2365: 'BRICK': redefinition; previous definition was 'enumerator'
-  d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(28): note: see declaration of 'BRICK'
-  GameWorld.cpp
-  d:\third_party_lib\directx_sdk\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(15): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
-  d:\third_party_lib\directx_sdk\include\dinput.h(42): note: see previous definition of 'DIRECTINPUT_VERSION'
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(61): error C2365: 'BRICK': redefinition; previous definition was 'enumerator'
-  d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(28): note: see declaration of 'BRICK'
-  Map.cpp
-  d:\third_party_lib\directx_sdk\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(15): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
-  d:\third_party_lib\directx_sdk\include\dinput.h(42): note: see previous definition of 'DIRECTINPUT_VERSION'
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(61): error C2365: 'BRICK': redefinition; previous definition was 'enumerator'
-  d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(28): note: see declaration of 'BRICK'
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\map.h(39): error C3646: 'MapManager': unknown override specifier
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\map.h(39): error C2059: syntax error: ')'
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\map.h(39): error C2238: unexpected token(s) preceding ';'
-  Source.cpp
-  d:\third_party_lib\directx_sdk\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(15): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
-  d:\third_party_lib\directx_sdk\include\dinput.h(42): note: see previous definition of 'DIRECTINPUT_VERSION'
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(61): error C2365: 'BRICK': redefinition; previous definition was 'enumerator'
-  d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(28): note: see declaration of 'BRICK'
-  Sprite.cpp
-  d:\third_party_lib\directx_sdk\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(15): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
-  d:\third_party_lib\directx_sdk\include\dinput.h(42): note: see previous definition of 'DIRECTINPUT_VERSION'
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(61): error C2365: 'BRICK': redefinition; previous definition was 'enumerator'
-  d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(28): note: see declaration of 'BRICK'
-  Texture.cpp
-  d:\third_party_lib\directx_sdk\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(15): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
-  d:\third_party_lib\directx_sdk\include\dinput.h(42): note: see previous definition of 'DIRECTINPUT_VERSION'
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(61): error C2365: 'BRICK': redefinition; previous definition was 'enumerator'
-  d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(28): note: see declaration of 'BRICK'
-  WorldManager.cpp
-  d:\third_party_lib\directx_sdk\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(15): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
-  d:\third_party_lib\directx_sdk\include\dinput.h(42): note: see previous definition of 'DIRECTINPUT_VERSION'
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(61): error C2365: 'BRICK': redefinition; previous definition was 'enumerator'
-  d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(28): note: see declaration of 'BRICK'
-  Generating Code...
+d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\map.cpp(7): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\map.cpp(8): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\map.cpp(45): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\map.cpp(47): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\map.cpp(91): warning C4101: 'id': unreferenced local variable
+  Castlvania_v4.vcxproj -> D:\Exercise\DoAnGame\Prototype\Castlvania_v4\Debug\Castlvania_v4.exe
