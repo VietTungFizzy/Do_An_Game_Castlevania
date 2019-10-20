@@ -4,7 +4,7 @@
 
 void CGameObject::RenderBoundingBox(Camera * camera)
 {
-	D3DXVECTOR3 p(x, y, 0);
+	D3DXVECTOR2 pos = camera->translateWorldToScreen(x, y);
 	RECT rect;
 
 	LPDIRECT3DTEXTURE9 bbox = CTextures::GetInstance()->Get(BBOX)->getTexture();
@@ -17,7 +17,7 @@ void CGameObject::RenderBoundingBox(Camera * camera)
 	rect.right = (int)r - (int)l;
 	rect.bottom = (int)b - (int)t;
 
-	Game::GetInstance()->Draw(x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, false,32);
+	Game::GetInstance()->Draw(pos.x, pos.y, bbox, rect.left, rect.top, rect.right, rect.bottom, false,32);
 }
 
 LPCOLLISIONEVENT CGameObject::SweptAABBEx(LPGAMEOBJECT coO)

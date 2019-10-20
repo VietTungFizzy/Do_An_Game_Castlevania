@@ -6,14 +6,14 @@ void Map::Render(Camera * camera)
 	int franeWidth = CTextures::GetInstance()->Get(tileID)->getFrameWidth();
 	int currentCamRow = camera->getY() / frameHeight;
 	int currentCamColumn = camera->getX() / franeWidth;
-	
 	for (int i = currentCamRow; i < currentCamRow + SCREEN_HEIGHT / frameHeight; i++)
 	{
 		for (int j = currentCamColumn; j < currentCamColumn + SCREEN_WIDTH / franeWidth; j++)
 		{
 			if (i < 0 || i >= mapHeight || j < 0 || j >= mapWidth) continue;
 			if (mapMatrix[i][j]->getID() == -1) continue;
-			mapMatrix[i][j]->draw();
+			D3DXVECTOR2 pos = camera->translateWorldToScreen(j * franeWidth, i * frameHeight);
+			mapMatrix[i][j]->draw(pos.x,pos.y);
 		}
 	}
 }
@@ -42,9 +42,9 @@ Map::Map(LPCWSTR mapDesFilePath)
 		{
 			input >> spriteID;
 			if(spriteID != -1)
-				mapMatrix[i][j] = new TileMap(j* frameWidth,i*frameHeight,spriteID, CSprites::GetInstance()->Get(tileID, spriteID));
+				mapMatrix[i][j] = new TileMap(spriteID, CSprites::GetInstance()->Get(tileID, spriteID));
 			else
-				mapMatrix[i][j] = new TileMap(j* frameWidth, i*frameHeight, spriteID, NULL);
+				mapMatrix[i][j] = new TileMap(spriteID, NULL);
 		}
 	}
 	input.close();
@@ -54,16 +54,14 @@ Map::~Map()
 {
 }
 
-void TileMap::draw()
+void TileMap::draw(float x,float y)
 {
 	sprite->Draw(x, y, false);
 }
 
-TileMap::TileMap(float x, float y, int spriteID, LPSPRITE sprite)
+TileMap::TileMap( int spriteID, LPSPRITE sprite)
 {
 	this->spriteID = spriteID;
-	this->x = x;
-	this->y = y;
 	this->sprite = sprite;
 }
 
@@ -80,6 +78,7 @@ MapManager * MapManager::GetInstance()
 void MapManager::setMap(WorldID id)
 {
 	LPCWSTR filePath = mapDescriptionList[id].c_str();
+	if (map != NULL) delete map;
 	map = new Map(filePath);
 	DebugOut(L"Load success map with id= %d\n", id);
 }

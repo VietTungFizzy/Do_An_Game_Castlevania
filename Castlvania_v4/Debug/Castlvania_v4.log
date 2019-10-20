@@ -1,10 +1,5 @@
-﻿  Map.cpp
+﻿  BigTorch.cpp
   d:\third_party_lib\directx_sdk\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
 d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(15): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
   d:\third_party_lib\directx_sdk\include\dinput.h(42): note: see previous definition of 'DIRECTINPUT_VERSION'
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\map.cpp(7): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\map.cpp(8): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\map.cpp(45): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\map.cpp(47): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\map.cpp(91): warning C4101: 'id': unreferenced local variable
   Castlvania_v4.vcxproj -> D:\Exercise\DoAnGame\Prototype\Castlvania_v4\Debug\Castlvania_v4.exe

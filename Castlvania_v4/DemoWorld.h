@@ -7,6 +7,7 @@ class DemoWorld :
 {
 private:
 	Camera * camera;
+	std::vector<LPGAMEOBJECT> lstObject;
 	
 public:
 

@@ -16,8 +16,6 @@ Camera::Camera(int boundaryLeft, int boundaryRight)
 {
 	this->boundaryLeft = boundaryLeft;
 	this->boundaryRight = boundaryRight;
-	width = SCREEN_WIDTH;
-	height = SCREEN_HEIGHT;
 }
 
 Camera::~Camera()

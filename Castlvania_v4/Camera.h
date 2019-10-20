@@ -3,7 +3,6 @@
 class Camera
 {
 	float x, y;
-	int width, height;
 	int boundaryLeft, boundaryRight;
 public:
 	void SetPosition(float x, float y)	{ this->x = x, this->y = y; }

@@ -137,7 +137,7 @@ void Game::Init(HWND hWnd)
 
 void Game::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, bool isFlipVertical,int alpha)
 {
-	D3DXVECTOR3 p(floor(x - cam_x), floor(y - cam_y), 0);
+	D3DXVECTOR3 p(floor(x), floor(y), 0);
 	RECT r;
 	r.left = left;
 	r.top = top;

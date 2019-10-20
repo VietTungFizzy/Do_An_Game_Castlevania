@@ -11,9 +11,9 @@ private:
 	float x, y;
 	int spriteID;
 public:
-	void draw();
+	void draw(float x, float y);
 	int getID() { return spriteID; }
-	TileMap(float x, float y,int spriteID,LPSPRITE sprite);
+	TileMap(int spriteID,LPSPRITE sprite);
 	~TileMap();
 };
 typedef TileMap * LPTILEMAP;

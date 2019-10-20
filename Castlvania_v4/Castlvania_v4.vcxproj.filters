@@ -28,6 +28,12 @@
     <Filter Include="Object\Item">
       <UniqueIdentifier>{d2ebcaf6-91b8-4104-b2d5-a7694f871871}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Ground">
+      <UniqueIdentifier>{caf82f6d-f9c5-4dcf-833e-24bd15acaf84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Candle">
+      <UniqueIdentifier>{1d77d6f9-6a48-456b-ba45-6022a2a44b33}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -63,6 +69,18 @@
     <ClCompile Include="Map.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Brick.cpp">
+      <Filter>Object\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="Simon.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="BigTorch.cpp">
+      <Filter>Object\Candle</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectHidden.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Define.h">
@@ -95,8 +113,20 @@
     <ClInclude Include="Camera.h">
       <Filter>Object</Filter>
     </ClInclude>
-    <ClInclude Include="Map.h">
+    <ClInclude Include="Brick.h">
+      <Filter>Object\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="Simon.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="BigTorch.h">
+      <Filter>Object\Candle</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectHidden.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
