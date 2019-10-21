@@ -1,4 +1,4 @@
-﻿  BigTorch.cpp
+﻿  Brick.cpp
   d:\third_party_lib\directx_sdk\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
 d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(15): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
   d:\third_party_lib\directx_sdk\include\dinput.h(42): note: see previous definition of 'DIRECTINPUT_VERSION'

@@ -9,8 +9,6 @@ void DemoWorld::KeyState(BYTE * states)
 		camera->SetPosition(camera->getX() + 10, camera->getY());
 	if(Game::GetInstance()->IsKeyDown(DIK_LEFT))
 		camera->SetPosition(camera->getX() - 10, camera->getY());
-	DebugOut(L"x: %f\n", camera->getX());
-	DebugOut(L"y: %f\n", camera->getY());
 }
 
 void DemoWorld::OnKeyDown(int KeyCode)
@@ -23,7 +21,10 @@ void DemoWorld::OnKeyUp(int KeyCode)
 
 void DemoWorld::Update(DWORD dt)
 {
+
+
 	camera->Update(dt);
+	simon->Update(dt, &lstObject);
 }
 
 void DemoWorld::LoadResources()
@@ -55,6 +56,7 @@ void DemoWorld::LoadResources()
 		}
 		lstObject.push_back(temp);
 	}
+	simon = new Simon(camera);
 }
 
 void DemoWorld::Render()
@@ -64,6 +66,7 @@ void DemoWorld::Render()
 	{
 		lstObject[i]->Render(camera);
 	}
+	simon->Render(camera);
 }
 
 DemoWorld::DemoWorld()

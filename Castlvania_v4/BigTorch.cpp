@@ -13,6 +13,7 @@ void BigTorch::Render(Camera * camera)
 {
 	if (health > 0)
 	{
+		RenderBoundingBox(camera);
 		float l, t, r, b;
 		GetBoundingBox(l, t, r, b);
 		if (r < camera->getX() || b < camera->getY() || camera->getX() + SCREEN_WIDTH < l || camera->getY() + SCREEN_HEIGHT < t) return;

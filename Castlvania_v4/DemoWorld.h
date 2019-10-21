@@ -2,13 +2,14 @@
 #include "GameWorld.h"
 #include"Map.h"
 #include"Camera.h"
+#include"Simon.h"
 class DemoWorld :
 	public GameWorld
 {
 private:
 	Camera * camera;
 	std::vector<LPGAMEOBJECT> lstObject;
-	
+	Simon * simon;
 public:
 
 	void KeyState(BYTE *states);
