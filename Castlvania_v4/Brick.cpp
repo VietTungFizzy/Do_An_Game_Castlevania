@@ -26,6 +26,7 @@ Brick::Brick(float x, float y, int w, int h)
 	this->w = w;
 	this->h = h;
 	sprite = CSprites::GetInstance()->Get(BRICK, BRICK_SPRITE_ID);
+	id = BRICK_OBJ;
 }
 
 Brick::~Brick()

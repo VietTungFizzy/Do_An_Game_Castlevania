@@ -38,7 +38,7 @@ public:
 	float vy;
 
 	int nx;
-
+	ObjectID id;
 
 	DWORD dt;
 

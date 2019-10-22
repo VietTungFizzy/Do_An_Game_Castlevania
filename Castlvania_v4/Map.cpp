@@ -6,9 +6,9 @@ void Map::Render(Camera * camera)
 	int franeWidth = CTextures::GetInstance()->Get(tileID)->getFrameWidth();
 	int currentCamRow = camera->getY() / frameHeight;
 	int currentCamColumn = camera->getX() / franeWidth;
-	for (int i = currentCamRow; i < currentCamRow + (int)ceil(SCREEN_HEIGHT / frameHeight); i++)
+	for (int i = currentCamRow; i < currentCamRow + (int)ceil(SCREEN_HEIGHT / frameHeight + 1); i++)
 	{
-		for (int j = currentCamColumn; j < currentCamColumn + (int)ceil(SCREEN_WIDTH / franeWidth); j++)
+		for (int j = currentCamColumn; j < currentCamColumn + (int)ceil(SCREEN_WIDTH / franeWidth + 1); j++)
 		{
 			if (i < 0 || i >= mapHeight || j < 0 || j >= mapWidth) continue;
 			if (mapMatrix[i][j]->getID() == -1) continue;

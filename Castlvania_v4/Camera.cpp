@@ -12,7 +12,7 @@ D3DXVECTOR2 Camera::translateWorldToScreen(float xWorld, float yWorld)
 	return D3DXVECTOR2(xWorld - x, yWorld - y);
 }
 
-Camera::Camera(int boundaryLeft, int boundaryRight)
+Camera::Camera(float boundaryLeft, float boundaryRight)
 {
 	this->boundaryLeft = boundaryLeft;
 	this->boundaryRight = boundaryRight;

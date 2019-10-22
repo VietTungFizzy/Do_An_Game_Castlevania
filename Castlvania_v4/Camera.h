@@ -3,7 +3,7 @@
 class Camera
 {
 	float x, y;
-	int boundaryLeft, boundaryRight;
+	float boundaryLeft, boundaryRight;
 public:
 	void SetPosition(float x, float y)	{ this->x = x, this->y = y; }
 	float getX()						{ return x; }
@@ -13,7 +13,7 @@ public:
 
 	void Update(DWORD dt);
 	D3DXVECTOR2 translateWorldToScreen(float xWorld, float yWorld);
-	Camera(int boundaryLeft,int boundaryRight);
+	Camera(float boundaryLeft,float boundaryRight);
 	~Camera();
 };
 

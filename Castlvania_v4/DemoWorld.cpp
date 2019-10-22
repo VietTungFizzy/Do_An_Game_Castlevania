@@ -5,32 +5,62 @@
 
 void DemoWorld::KeyState(BYTE * states)
 {
+	if (Game::GetInstance()->IsKeyDown(DIK_DOWN))
+	{
+		simon->Sit();
+	}
+	if (simon->isAttacking || simon->isSitting) return;
 	if (Game::GetInstance()->IsKeyDown(DIK_RIGHT))
-		camera->SetPosition(camera->getX() + 10, camera->getY());
-	if(Game::GetInstance()->IsKeyDown(DIK_LEFT))
-		camera->SetPosition(camera->getX() - 10, camera->getY());
+	{
+		simon->isWalking = true;
+		simon->setDirection(1);
+	}
+	else
+		if (Game::GetInstance()->IsKeyDown(DIK_LEFT))
+		{
+			simon->isWalking = true;
+			simon->setDirection(-1);
+		}
+		else
+		{
+			simon->isWalking = false;
+		}
 }
 
 void DemoWorld::OnKeyDown(int KeyCode)
 {
+	if (simon->isInAir) return;
+	if (KeyCode == DIK_X)
+	{
+		simon->Jump();
+	}
 }
 
 void DemoWorld::OnKeyUp(int KeyCode)
 {
+	if (KeyCode == DIK_DOWN)
+	{
+		float x, y;
+		simon->GetPosition(x, y);
+		simon->SetPosition(x, y +2);
+		simon->isSitting = false;
+	}
 }
 
 void DemoWorld::Update(DWORD dt)
-{
-
-
-	camera->Update(dt);
+{	
 	simon->Update(dt, &lstObject);
+	
+	float x, y;
+	simon->GetPosition(x, y);
+	camera->SetPosition(x - SCREEN_WIDTH / 2 + 30, camera->getY());
+	camera->Update(dt);
 }
 
 void DemoWorld::LoadResources()
 {
 	MapManager::GetInstance()->setMap(PROLOGUE);
-	camera = new Camera(0, MapManager::GetInstance()->getMap()->getMapWidth() - SCREEN_WIDTH);
+	camera = new Camera(0, (float)(MapManager::GetInstance()->getMap()->getMapWidth() - SCREEN_WIDTH));
 	camera->SetPosition(0, 0);
 
 	std::ifstream input(L"Resources/Map_Prologue_Object_Description.txt");

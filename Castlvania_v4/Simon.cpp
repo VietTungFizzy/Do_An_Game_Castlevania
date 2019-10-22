@@ -6,23 +6,41 @@ void Simon::GetBoundingBox(float & left, float & top, float & right, float & bot
 {
 	if (isSitting)
 	{
-
+		if (direction == 1)
+		{
+			left = x + SIMON_SITTING_RIGHT_OFFSET_X;
+			top = y + SIMON_SITTING_OFFSET_Y;
+			right = left + SIMON_SITTING_BBOX_WIDTH;
+			bottom = top + SIMON_SITTING_BBOX_HEIGHT;
+		}
+		else
+		{
+			left = x + SIMON_SITTING_LEFT_OFFSET_X;
+			top = y + SIMON_SITTING_OFFSET_Y;
+			right = left + SIMON_SITTING_BBOX_WIDTH;
+			bottom = top + SIMON_SITTING_BBOX_HEIGHT;
+		}
 	}
 	else
 	{
 		if (direction == 1)
 		{
 			left = x + SIMON_DIRECTION_RIGHT_OFFSET_X;
-			top = y + SIMON_OFFSET_Y;
+			top = y + SIMON_STANDING_OFFSET_Y;
 			right = left + SIMON_STANDING_BBOX_WIDTH;
 			bottom = top + SIMON_STANDING_BBOX_HEIGHT;
 		}
 		else
 		{
 			left = x + SIMON_DIRECTION_LEFT_OFFSET_X;
-			top = y + SIMON_OFFSET_Y;
+			top = y + SIMON_STANDING_OFFSET_Y;
 			right = left + SIMON_STANDING_BBOX_WIDTH;
 			bottom = top + SIMON_STANDING_BBOX_HEIGHT;
+		}
+		if (isInAir)
+		{
+			top = y + SIMON_JUMPING_BBOX_OFFSET_Y;
+			bottom = top + SIMON_JUMPING_BBOX_HEIGHT;
 		}
 	}
 }
@@ -33,42 +51,26 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		x = camera->getBoundaryLeft();
 	}
-	if (x + SIMON_STANDING_BBOX_WIDTH > camera->getBoundaryRight())
+	if (x + SIMON_STANDING_BBOX_WIDTH > camera->getBoundaryRight() + SCREEN_WIDTH - 24)
 	{
-		x = camera->getBoundaryRight() + SCREEN_WIDTH - SIMON_STANDING_BBOX_WIDTH;
+		x = (float)(camera->getBoundaryRight() + SCREEN_WIDTH - 42);
 	}
 
 	CGameObject::Update(dt);
 
 	vy += SIMON_GRAVITY * dt;
 
-	std::vector<LPCOLLISIONEVENT> coEvents;
-	std::vector<LPCOLLISIONEVENT> coEventsResult;
+	collisionWithGround(coObjects);
 
-	coEvents.clear();
-	CalcPotentialCollisions(coObjects, coEvents);
-	if (coEvents.size() == 0)
+	if (isWalking)
+		vx = SIMON_WALKING_SPEED * direction;
+	else vx = 0;
+	if (isSitting)
 	{
-		x += dx;
-		y += dy;
+		vx = 0;
 	}
-	else
-	{
-		float min_tx, min_ty, nx = 0, ny;
-
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-
-		// block 
-		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-		y += min_ty * dy + ny * 0.4f;
-
-		if (nx != 0) vx = 0;
-		if (ny != 0) vy = 0;
-	}
-
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-
-
+	DebugOut(L"x: %f\n", x);
+	DebugOut(L"y: %f\n", y);
 }
 
 void Simon::Render(Camera * camera)
@@ -90,9 +92,9 @@ void Simon::Render(Camera * camera)
 		else
 		{
 			if (direction == 1)
-				lstSprite.at(SIMON_SITTING_SPRITE_ID)->Draw(pos.x, pos.y, true);
+				lstSprite.at(SIMON_SITTING_SPRITE_ID)->Draw(pos.x, pos.y + 5, true);
 			else
-				lstSprite.at(SIMON_SITTING_SPRITE_ID)->Draw(pos.x, pos.y, false);
+				lstSprite.at(SIMON_SITTING_SPRITE_ID)->Draw(pos.x, pos.y + 5, false);
 		}
 	}
 	else
@@ -121,29 +123,84 @@ void Simon::Render(Camera * camera)
 			if (isWalking)
 			{
 				if (direction == 1)
-					lstAnimation.at((int)SIMON_WALKING)->Render(pos.x, pos.y, true);
+					lstAnimation.at((int)SIMON_WALKING)->Render(pos.x, pos.y + 1, true);
 				else
-					lstAnimation.at((int)SIMON_WALKING)->Render(pos.x, pos.y, false);
+					lstAnimation.at((int)SIMON_WALKING)->Render(pos.x, pos.y + 1, false);
 			}
 			else
 			{
 				if (isAttacking)
 				{
 					if (direction == 1)
-						lstAnimation.at((int)SIMON_ATTACKING_STANDING)->Render(pos.x, pos.y, true);
+						lstAnimation.at((int)SIMON_ATTACKING_STANDING)->Render(pos.x, pos.y + 1, true);
 					else
-						lstAnimation.at((int)SIMON_ATTACKING_STANDING)->Render(pos.x, pos.y, false);
+						lstAnimation.at((int)SIMON_ATTACKING_STANDING)->Render(pos.x, pos.y + 1, false);
 
 					if (lstAnimation.at((int)SIMON_ATTACKING_STANDING)->getCurrentFrame() == 2)
 						isAttacking = false;
 				}
 				else
 					if(direction == 1)
-						lstSprite.at(SIMON_STANDING_SPRITE_ID)->Draw(pos.x, pos.y, true);
+						lstSprite.at(SIMON_STANDING_SPRITE_ID)->Draw(pos.x, pos.y + 1, true);
 					else
-						lstSprite.at(SIMON_STANDING_SPRITE_ID)->Draw(pos.x, pos.y, false);
+						lstSprite.at(SIMON_STANDING_SPRITE_ID)->Draw(pos.x, pos.y + 1, false);
 			}
 	}
+}
+
+void Simon::collisionWithGround(vector<LPGAMEOBJECT>* coObjects)
+{
+	std::vector<LPCOLLISIONEVENT> coEvents;
+	std::vector<LPCOLLISIONEVENT> coEventsResult;
+	coEvents.clear();
+	std::vector<LPGAMEOBJECT> lstBrick;
+	for (UINT i = 0; i < coObjects->size(); i++)
+	{
+		if (coObjects->at(i)->id == BRICK_OBJ)
+		{
+			lstBrick.push_back(coObjects->at(i));
+		}
+	}
+	CalcPotentialCollisions(&lstBrick, coEvents);
+
+	if (coEvents.size() == 0)
+	{
+		x += dx;
+		y += dy;
+	}
+	else
+	{
+		float min_tx, min_ty, nx = 0, ny;
+
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+
+		// block 
+		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+		y += min_ty * dy + ny * 0.4f;
+
+		if (nx != 0) vx = 0;
+		if (ny != 0) vy = 0;
+		if (isInAir)
+		{
+			isInAir = false;
+			y -= 1;
+		}
+	}
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+}
+
+void Simon::Jump()
+{
+	isInAir = true;
+	vy = SIMON_JUMPING_SPEED;
+}
+
+void Simon::Sit()
+{
+	if (isSitting)return;
+	vx = 0;
+	y -= 4;
+	isSitting = true;
 }
 
 Simon::Simon(Camera * camera)
@@ -164,7 +221,8 @@ Simon::Simon(Camera * camera)
 	}
 	input.close();
 	direction = -1;
-	isSitting = isAttacking = isInAir = isWalking = false;
+	isSitting = isAttacking = isJumping = isWalking = false;
+	isInAir = true;
 	x = 10;
 	y = 10;
 	this->camera = camera;

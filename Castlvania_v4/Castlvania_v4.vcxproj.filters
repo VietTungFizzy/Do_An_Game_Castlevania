@@ -66,9 +66,6 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Object</Filter>
     </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Brick.cpp">
       <Filter>Object\Ground</Filter>
     </ClCompile>
@@ -78,8 +75,11 @@
     <ClCompile Include="BigTorch.cpp">
       <Filter>Object\Candle</Filter>
     </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Graphic</Filter>
+    </ClCompile>
     <ClCompile Include="ObjectHidden.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -122,10 +122,10 @@
     <ClInclude Include="BigTorch.h">
       <Filter>Object\Candle</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectHidden.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Map.h">
+      <Filter>Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectHidden.h">
       <Filter>Object</Filter>
     </ClInclude>
   </ItemGroup>
