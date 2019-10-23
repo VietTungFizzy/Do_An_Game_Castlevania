@@ -25,7 +25,7 @@ struct CCollisionEvent
 
 class CGameObject
 {
-public:
+protected:
 
 	float x;
 	float y;
@@ -38,7 +38,7 @@ public:
 	float vy;
 
 	int nx;
-	ObjectID id;
+	int health;
 
 	DWORD dt;
 
@@ -50,6 +50,8 @@ public:
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 	void SetWidthHeight(int w, int h) { this->w = w; this->h = h; }
 	void getWidthHeight(int &w, int &h) { this->w = w; this->h = h; }
+	void lostHealth(int amount) { health -= amount; }
+	int getHealth()				{ return health; }
 	void RenderBoundingBox(Camera * camera);
 
 	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);

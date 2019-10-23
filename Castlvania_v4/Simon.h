@@ -29,8 +29,7 @@ class Simon :
 	public CGameObject
 {
 private:
-	int health,
-		direction;
+	int direction;
 	std::vector<LPANIMATION> lstAnimation;
 	std::vector<LPSPRITE> lstSprite;
 	Camera * camera;

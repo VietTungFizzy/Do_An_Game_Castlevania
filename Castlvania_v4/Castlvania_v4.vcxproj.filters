@@ -81,6 +81,15 @@
     <ClCompile Include="ObjectHidden.cpp">
       <Filter>Object</Filter>
     </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Object\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="MorningStar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Define.h">
@@ -127,6 +136,15 @@
     </ClInclude>
     <ClInclude Include="ObjectHidden.h">
       <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="MorningStar.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

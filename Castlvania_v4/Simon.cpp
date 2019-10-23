@@ -156,7 +156,7 @@ void Simon::collisionWithGround(vector<LPGAMEOBJECT>* coObjects)
 	std::vector<LPGAMEOBJECT> lstBrick;
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		if (coObjects->at(i)->id == BRICK_OBJ)
+		if (dynamic_cast<Brick*>(coObjects->at(i)))
 		{
 			lstBrick.push_back(coObjects->at(i));
 		}

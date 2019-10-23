@@ -9,7 +9,7 @@ void DemoWorld::KeyState(BYTE * states)
 	{
 		simon->Sit();
 	}
-	if (simon->isAttacking || simon->isSitting) return;
+	if (simon->isAttacking || simon->isSitting || simon->isInAir) return;
 	if (Game::GetInstance()->IsKeyDown(DIK_RIGHT))
 	{
 		simon->isWalking = true;
