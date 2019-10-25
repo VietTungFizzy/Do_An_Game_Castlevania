@@ -64,6 +64,7 @@ public:
 	void Add(int tileID, int spriteId, DWORD time =0);
 	void Render(float x, float y,bool isFlipVertical ,int alpha = 255);
 	int getCurrentFrame() { return currentFrame; }
+	void setCurrentFrame(int newFrame) { currentFrame = newFrame; }
 };
 
 typedef CAnimation *LPANIMATION;

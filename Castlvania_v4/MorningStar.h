@@ -6,15 +6,15 @@
 #define MORNING_STAR_2_BBOX_HEIGHT 7
 #define MORNING_STAR_3_BBOX_WIDTH 39
 #define MORNING_STAR_3_BBOX_HEIGHT 7
-#define ANIMATION_LAST_FRAME 2
+#define ANIMATION_LAST_FRAME 3
+#define ANIMATION_FRAME_TO_CHECK_COLLSION 2
 
 class MorningStar :
 	public Weapon
 {
 private:
 	vector<LPANIMATION> lstAnimation;
-	int level,
-		direction;
+	int level;
 public:
 	void InitialAttack(float x, float y,int direction);
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);

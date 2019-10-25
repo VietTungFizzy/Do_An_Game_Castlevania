@@ -1,7 +1,7 @@
 #pragma once
 #include"GameObject.h"
 #include"Camera.h"
-
+#include"MorningStar.h"
 //spriteID
 #define SIMON_STANDING_SPRITE_ID 0
 #define SIMON_SITTING_SPRITE_ID 1
@@ -28,19 +28,33 @@
 class Simon :
 	public CGameObject
 {
-private:
-	int direction;
-	std::vector<LPANIMATION> lstAnimation;
-	std::vector<LPSPRITE> lstSprite;
-	Camera * camera;
 public:
 	bool isAttacking;
 	bool isSitting;
 	bool isFreazing;
 	bool isWalking;
 	bool isHurt;
-	bool isJumping;
 	bool isInAir;
+
+	enum WeaponType
+	{
+		MORNING_STAR,
+		KNIFE,
+		AXE,
+		HOLY_WATER,
+		BOOMERANG,
+		STOP_WATCH,
+		NO_SECONDARY_WEAPON
+	};
+private:
+	int direction;
+	int heart;
+	std::vector<LPANIMATION> lstAnimation;
+	std::vector<LPSPRITE> lstSprite;
+	unordered_map<WeaponType, Weapon*> lstWeapon;
+	Camera * camera;
+	WeaponType currentSecondaryWeaponType;
+
 public:
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
@@ -50,6 +64,7 @@ public:
 
 	void Jump();
 	void Sit();
+	void Attack(WeaponType weaponType);
 	Simon(Camera * camera);
 	~Simon();
 };

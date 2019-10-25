@@ -4,8 +4,8 @@
 
 void MorningStar::InitialAttack(float x, float y,int direction)
 {
-	Weapon::InitialAttack(x, y);
-	this->direction = direction;
+	Weapon::InitialAttack(x, y,direction);
+	lstAnimation[level]->setCurrentFrame(-1);
 
 }
 
@@ -38,19 +38,23 @@ void MorningStar::GetBoundingBox(float & left, float & top, float & right, float
 
 void MorningStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (lstAnimation[level]->getCurrentFrame() == ANIMATION_LAST_FRAME)
+	this->x -= 12;
+	this->y += 5;
+	if (lstAnimation[level]->getCurrentFrame() == ANIMATION_FRAME_TO_CHECK_COLLSION)
 	{
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
-			if (dynamic_cast<BigTorch*>(coObjects->at(i)))
+			if (coObjects->at(i)->getHealth() > 0)
 			{
-				if (isCollideWithOtherObject(coObjects->at(i)))
+				if (dynamic_cast<BigTorch*>(coObjects->at(i)))
 				{
-					coObjects->at(i)->lostHealth(1);
+					if (isCollideWithOtherObject(coObjects->at(i)))
+					{
+						coObjects->at(i)->lostHealth(1);
+					}
 				}
 			}
 		}
-		isOn = false;
 	}
 }
 
@@ -78,6 +82,8 @@ void MorningStar::Render(Camera * camera)
 			lstAnimation[2]->Render(pos.x, pos.y, false);
 		break;
 	}
+	if (lstAnimation[level]->getCurrentFrame() == 2)
+		isOn = false;
 }
 
 void MorningStar::Upgrade()

@@ -5,11 +5,14 @@
 
 void DemoWorld::KeyState(BYTE * states)
 {
+	if (simon->isAttacking ||  simon->isInAir) return;
 	if (Game::GetInstance()->IsKeyDown(DIK_DOWN))
 	{
 		simon->Sit();
+		if(Game::GetInstance()->IsKeyDown(DIK_RIGHT)) simon->setDirection(1);
+		else if (Game::GetInstance()->IsKeyDown(DIK_LEFT)) simon->setDirection(-1);
+		return;
 	}
-	if (simon->isAttacking || simon->isSitting || simon->isInAir) return;
 	if (Game::GetInstance()->IsKeyDown(DIK_RIGHT))
 	{
 		simon->isWalking = true;
@@ -24,13 +27,21 @@ void DemoWorld::KeyState(BYTE * states)
 		else
 		{
 			simon->isWalking = false;
+			simon->isSitting = false;
 		}
 }
 
 void DemoWorld::OnKeyDown(int KeyCode)
 {
+	if (simon->isAttacking) return;
+	if (KeyCode == DIK_A && Game::GetInstance()->IsKeyDown(DIK_UP))
+	{
+
+	}
+	else
+		if (KeyCode == DIK_A) simon->Attack(simon->MORNING_STAR);
 	if (simon->isInAir) return;
-	if (KeyCode == DIK_X)
+	if (KeyCode == DIK_S)
 	{
 		simon->Jump();
 	}
@@ -38,11 +49,9 @@ void DemoWorld::OnKeyDown(int KeyCode)
 
 void DemoWorld::OnKeyUp(int KeyCode)
 {
+	if (simon->isAttacking)return;
 	if (KeyCode == DIK_DOWN)
 	{
-		float x, y;
-		simon->GetPosition(x, y);
-		simon->SetPosition(x, y +2);
 		simon->isSitting = false;
 	}
 }

@@ -69,22 +69,33 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		vx = 0;
 	}
-	DebugOut(L"x: %f\n", x);
-	DebugOut(L"y: %f\n", y);
+
+	for (auto i : lstWeapon)
+	{
+		if (i.second->isOn)
+		{
+			i.second->isSimonSitting = isSitting;
+			if (i.first == MORNING_STAR)
+				i.second->SetPosition(x, y);
+			i.second->Update(dt,coObjects);
+			
+		}
+	}
 }
 
 void Simon::Render(Camera * camera)
 {
 	D3DXVECTOR2 pos = camera->translateWorldToScreen(x, y);
 	RenderBoundingBox(camera);
+#pragma region Simon
 	if (isSitting)
 	{
 		if (isAttacking)
 		{
 			if (direction == 1)
-				lstAnimation.at((int)SIMON_ATTACKING_SITTING)->Render(pos.x, pos.y, true);
+				lstAnimation.at((int)SIMON_ATTACKING_SITTING)->Render(pos.x, pos.y + 5, true);
 			else
-				lstAnimation.at((int)SIMON_ATTACKING_SITTING)->Render(pos.x, pos.y, false);
+				lstAnimation.at((int)SIMON_ATTACKING_SITTING)->Render(pos.x, pos.y + 5, false);
 
 			if (lstAnimation.at((int)SIMON_ATTACKING_SITTING)->getCurrentFrame() == 2)
 				isAttacking = false;
@@ -140,12 +151,24 @@ void Simon::Render(Camera * camera)
 						isAttacking = false;
 				}
 				else
-					if(direction == 1)
+					if (direction == 1)
 						lstSprite.at(SIMON_STANDING_SPRITE_ID)->Draw(pos.x, pos.y + 1, true);
 					else
 						lstSprite.at(SIMON_STANDING_SPRITE_ID)->Draw(pos.x, pos.y + 1, false);
 			}
 	}
+#pragma endregion
+
+	for (auto i : lstWeapon)
+	{
+		if (i.second->isOn)
+		{
+			i.second->RenderBoundingBox(camera);
+			i.second->Render(camera);
+		}
+	}
+
+
 }
 
 void Simon::collisionWithGround(vector<LPGAMEOBJECT>* coObjects)
@@ -203,6 +226,29 @@ void Simon::Sit()
 	isSitting = true;
 }
 
+void Simon::Attack(WeaponType weaponType)
+{
+	if (weaponType == NO_SECONDARY_WEAPON) return;
+	if (lstWeapon[weaponType]->isOn == false)
+	{
+		if (weaponType != MORNING_STAR)
+		{
+			if (weaponType != STOP_WATCH)
+			{
+				if (heart < 5) return;
+				else heart -= 5;
+			}
+			else
+				if (heart < 1) return;
+				else heart -= 1;
+
+		}
+		lstWeapon[weaponType]->InitialAttack(x, y, direction);
+		isAttacking = true;
+		isWalking = false;
+	}
+}
+
 Simon::Simon(Camera * camera)
 {
 	std::ifstream input(L"Resources/Simon_Graphic.txt");
@@ -220,12 +266,16 @@ Simon::Simon(Camera * camera)
 		lstSprite.push_back(CSprites::GetInstance()->Get(tileID, id));
 	}
 	input.close();
+
 	direction = -1;
-	isSitting = isAttacking = isJumping = isWalking = false;
+	heart = 5;
+	isSitting = isAttacking = isWalking = false;
 	isInAir = true;
 	x = 10;
 	y = 10;
 	this->camera = camera;
+	lstWeapon[MORNING_STAR] = new MorningStar();
+	currentSecondaryWeaponType = NO_SECONDARY_WEAPON;
 }
 
 
