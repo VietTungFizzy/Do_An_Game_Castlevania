@@ -56,6 +56,12 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x = (float)(camera->getBoundaryRight() + SCREEN_WIDTH - 42);
 	}
 
+	if (lstAnimation.at((int)SIMON_ATTACKING_SITTING)->getCurrentFrame() == 3 || 
+		lstAnimation.at((int)SIMON_ATTACKING_STANDING)->getCurrentFrame() == 3)
+	{
+		isAttacking = false;
+	}
+
 	CGameObject::Update(dt);
 
 	vy += SIMON_GRAVITY * dt;
@@ -86,7 +92,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void Simon::Render(Camera * camera)
 {
 	D3DXVECTOR2 pos = camera->translateWorldToScreen(x, y);
-	RenderBoundingBox(camera);
+	/*RenderBoundingBox(camera);*/
 #pragma region Simon
 	if (isSitting)
 	{
@@ -96,9 +102,6 @@ void Simon::Render(Camera * camera)
 				lstAnimation.at((int)SIMON_ATTACKING_SITTING)->Render(pos.x, pos.y + 5, true);
 			else
 				lstAnimation.at((int)SIMON_ATTACKING_SITTING)->Render(pos.x, pos.y + 5, false);
-
-			if (lstAnimation.at((int)SIMON_ATTACKING_SITTING)->getCurrentFrame() == 2)
-				isAttacking = false;
 		}
 		else
 		{
@@ -118,9 +121,6 @@ void Simon::Render(Camera * camera)
 					lstAnimation.at((int)SIMON_ATTACKING_STANDING)->Render(pos.x, pos.y, true);
 				else
 					lstAnimation.at((int)SIMON_ATTACKING_STANDING)->Render(pos.x, pos.y, false);
-
-				if (lstAnimation.at((int)SIMON_ATTACKING_STANDING)->getCurrentFrame() == 2)
-					isAttacking = false;
 			}
 			else
 			{
@@ -146,9 +146,6 @@ void Simon::Render(Camera * camera)
 						lstAnimation.at((int)SIMON_ATTACKING_STANDING)->Render(pos.x, pos.y + 1, true);
 					else
 						lstAnimation.at((int)SIMON_ATTACKING_STANDING)->Render(pos.x, pos.y + 1, false);
-
-					if (lstAnimation.at((int)SIMON_ATTACKING_STANDING)->getCurrentFrame() == 2)
-						isAttacking = false;
 				}
 				else
 					if (direction == 1)
@@ -246,6 +243,8 @@ void Simon::Attack(WeaponType weaponType)
 		lstWeapon[weaponType]->InitialAttack(x, y, direction);
 		isAttacking = true;
 		isWalking = false;
+		lstAnimation.at((int)SIMON_ATTACKING_SITTING)->setCurrentFrame(-1);
+		lstAnimation.at((int)SIMON_ATTACKING_STANDING)->setCurrentFrame(-1);
 	}
 }
 

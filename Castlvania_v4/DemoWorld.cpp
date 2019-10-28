@@ -49,11 +49,7 @@ void DemoWorld::OnKeyDown(int KeyCode)
 
 void DemoWorld::OnKeyUp(int KeyCode)
 {
-	if (simon->isAttacking)return;
-	if (KeyCode == DIK_DOWN)
-	{
-		simon->isSitting = false;
-	}
+
 }
 
 void DemoWorld::Update(DWORD dt)

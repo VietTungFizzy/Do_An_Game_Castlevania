@@ -7,7 +7,6 @@ class BigTorch :
 	public CGameObject
 {
 private:
-	int health;
 	LPANIMATION animation;
 public:
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);

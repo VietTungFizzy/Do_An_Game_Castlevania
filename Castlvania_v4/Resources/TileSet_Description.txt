@@ -14,6 +14,6 @@ Resources/tileset_prologue.png
 Resources/groung.png
 6 1 1 255 255 255
 Resources/morning_star.png
-7 3 3 255 255 255
+7 4 3 255 255 255
 // filePath 
 // id  - totalColumn - totalRow - transparent color R - G  - B

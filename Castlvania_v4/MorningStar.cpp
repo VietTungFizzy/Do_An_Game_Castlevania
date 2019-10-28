@@ -1,33 +1,41 @@
 #include "MorningStar.h"
-#include"BigTorch.h"
 
 
 void MorningStar::InitialAttack(float x, float y,int direction)
 {
 	Weapon::InitialAttack(x, y,direction);
 	lstAnimation[level]->setCurrentFrame(-1);
-
 }
 
 void MorningStar::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
+	if (direction == 1)
+	{
+		left = x + ADJUST_BBOX_POSITION_X_SIMON_STAND_RIGHT;
+		top = y + ADJUST_BBOX_POSITION_Y_SIMON_STAND_RIGHT;
+	}
+	else
+	{
+		left = x + ADJUST_BBOX_POSITION_X_SIMON_STAND_LEFT;
+		top = y + ADJUST_BBOX_POSITION_Y_SIMON_STAND_LEFT;
+	}
 	switch (level)
 	{
 	case 0:
-		left = x;
-		top = y;
 		right = left + MORNING_STAR_1_BBOX_WIDTH;
 		bottom = top + MORNING_STAR_1_BBOX_HEIGHT;
 		break;
 	case 1:
-		left = x;
-		top = y;
+		top += 2;
 		right = left + MORNING_STAR_2_BBOX_WIDTH;
 		bottom = top + MORNING_STAR_2_BBOX_HEIGHT;
 		break;
 	case 2:
-		left = x;
-		top = y;
+		top += 2;
+		if (direction == 1)
+			left += 2;
+		else
+			left -= 15;
 		right = left + MORNING_STAR_3_BBOX_WIDTH;
 		bottom = top + MORNING_STAR_3_BBOX_HEIGHT;
 		break;
@@ -38,23 +46,22 @@ void MorningStar::GetBoundingBox(float & left, float & top, float & right, float
 
 void MorningStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	this->x -= 12;
-	this->y += 5;
-	if (lstAnimation[level]->getCurrentFrame() == ANIMATION_FRAME_TO_CHECK_COLLSION)
+	if (isSimonSitting)
+		y += ADJUST_POSITION_Y_SIMON_SIT;
+	else
+		y += ADJUST_POSITION_Y_SIMON_STAND;
+	if (direction == 1)
 	{
-		for (UINT i = 0; i < coObjects->size(); i++)
-		{
-			if (coObjects->at(i)->getHealth() > 0)
-			{
-				if (dynamic_cast<BigTorch*>(coObjects->at(i)))
-				{
-					if (isCollideWithOtherObject(coObjects->at(i)))
-					{
-						coObjects->at(i)->lostHealth(1);
-					}
-				}
-			}
-		}
+		this->x -= ADJUST_POSITION_X_SIMON_STAND_RIGHT;
+	}
+	else
+	{
+		x -= ADJUST_POSITION_X_SIMON_STAND_LEFT;
+	}
+	if (lstAnimation[level]->getCurrentFrame() == ANIMATION_FRAME_TO_CHECK_COLLSION && isCollisionChecked == false)
+	{
+		Weapon::Update(dt, coObjects);
+		isCollisionChecked = true;
 	}
 }
 
@@ -82,7 +89,7 @@ void MorningStar::Render(Camera * camera)
 			lstAnimation[2]->Render(pos.x, pos.y, false);
 		break;
 	}
-	if (lstAnimation[level]->getCurrentFrame() == 2)
+	if (lstAnimation[level]->getCurrentFrame() == 3)
 		isOn = false;
 }
 
@@ -99,8 +106,9 @@ MorningStar::MorningStar()
 		int temp = MORNING_STAR_1 + i;
 		lstAnimation.push_back(CAnimations::GetInstance()->Get((AnimationID)temp));
 	}
-	level = 0;
+	level = 2;
 	isOn = false;
+
 }
 
 
