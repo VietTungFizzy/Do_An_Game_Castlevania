@@ -121,9 +121,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BigHeart.cpp" />
     <ClCompile Include="BigTorch.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Dagger.cpp" />
+    <ClCompile Include="Dagger_Item.cpp" />
     <ClCompile Include="DebugOut.cpp" />
     <ClCompile Include="DemoWorld.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -131,19 +134,25 @@
     <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MoneyBag.cpp" />
     <ClCompile Include="MorningStar.cpp" />
     <ClCompile Include="ObjectHidden.cpp" />
     <ClCompile Include="Simon.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="SpecialMoneyBag.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="WhipUpgrade.cpp" />
     <ClCompile Include="WorldManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BigHeart.h" />
     <ClInclude Include="BigTorch.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Dagger.h" />
+    <ClInclude Include="Dagger_Item.h" />
     <ClInclude Include="DebugOut.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="DemoWorld.h" />
@@ -152,12 +161,15 @@
     <ClInclude Include="GameWorld.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="MoneyBag.h" />
     <ClInclude Include="MorningStar.h" />
     <ClInclude Include="ObjectHidden.h" />
     <ClInclude Include="Simon.h" />
+    <ClInclude Include="SpecialMoneyBag.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Weapon.h" />
+    <ClInclude Include="WhipUpgrade.h" />
     <ClInclude Include="WorldManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -15,14 +15,14 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		if (dynamic_cast<BigTorch*>(coObjects->at(i)))
+		if (coObjects->at(i)->getHealth() > 0)
 		{
-			if (coObjects->at(i)->getHealth() > 0)
+			if (isCollideWithOtherObject(coObjects->at(i)))
 			{
-				if (isCollideWithOtherObject(coObjects->at(i)))
+				if (dynamic_cast<BigTorch*>(coObjects->at(i)))
 				{
-					/*coObjects->at(i)->lostHealth(1);*/
-					DebugOut(L"Hit ");
+				coObjects->at(i)->lostHealth(1);
+				DebugOut(L"Hit ");
 				}
 			}
 		}

@@ -55,7 +55,17 @@ void DemoWorld::OnKeyUp(int KeyCode)
 void DemoWorld::Update(DWORD dt)
 {	
 	simon->Update(dt, &lstObject);
-	
+	for (int i = 0; i < lstObject.size(); i++)
+	{
+		lstObject[i]->Update(dt, &lstObject);
+		if (lstObject[i]->getHealth() == 0)
+		{
+
+		}
+		
+	}
+
+
 	float x, y;
 	simon->GetPosition(x, y);
 	camera->SetPosition(x - SCREEN_WIDTH / 2 + 30, camera->getY());
