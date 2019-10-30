@@ -65,6 +65,9 @@ public:
 	void Jump();
 	void Sit();
 	void Attack(WeaponType weaponType);
+	void upgradeWhip();
+	void setSecondaryWeapon(WeaponType weaponType);
+	void collectHeart(int amount) { heart += amount;}
 	Simon(Camera * camera);
 	~Simon();
 };

@@ -1,6 +1,6 @@
 #include "Simon.h"
 #include"Brick.h"
-
+#include"Dagger.h"
 
 void Simon::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
@@ -246,6 +246,35 @@ void Simon::Attack(WeaponType weaponType)
 		lstAnimation.at((int)SIMON_ATTACKING_SITTING)->setCurrentFrame(-1);
 		lstAnimation.at((int)SIMON_ATTACKING_STANDING)->setCurrentFrame(-1);
 	}
+}
+
+void Simon::upgradeWhip()
+{
+	MorningStar * temp = dynamic_cast<MorningStar*>(lstWeapon[MORNING_STAR]);
+	temp->Upgrade();
+	isFreazing = true;
+}
+
+void Simon::setSecondaryWeapon(WeaponType weaponType)
+{
+	switch (weaponType)
+	{
+	case Simon::KNIFE:
+		if (lstWeapon[weaponType] == NULL)
+			lstWeapon[weaponType] = new Dagger();
+		break;
+	case Simon::AXE:
+		break;
+	case Simon::HOLY_WATER:
+		break;
+	case Simon::BOOMERANG:
+		break;
+	case Simon::STOP_WATCH:
+		break;
+	default:
+		break;
+	}
+	currentSecondaryWeaponType = weaponType;
 }
 
 Simon::Simon(Camera * camera)

@@ -16,7 +16,7 @@ MoneyBag::MoneyBag(float x, float y, int type)
 	spark = CSprites::GetInstance()->Get(EFFECT, SPARK_SPRITE_ID);
 	effectTimeDisplayed = 0;
 	itemTiemDisplayed = 0;
-	isOn = true;
+	isOn = false;
 	isItemSpawned = false;
 
 	switch (type)

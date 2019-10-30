@@ -51,7 +51,7 @@ SpecialMoneyBag::SpecialMoneyBag(float x, float y)
 	animation = CAnimations::GetInstance()->Get(MONEY_BAG);
 	effectTimeDisplayed = 0;
 	itemTiemDisplayed = 0;
-	isOn = true;
+	isOn = false;
 	isItemSpawned = false;
 	isFinishedRising = false;
 	vy = SPECIAL_MONEY_BAG_RISING_SPEED;

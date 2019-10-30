@@ -2,6 +2,10 @@
 #include"BigTorch.h"
 #include"Brick.h"
 #include"ObjectHidden.h"
+#include"WhipUpgrade.h"
+#include"BigHeart.h"
+#include"Dagger_Item.h"
+#include"SpecialMoneyBag.h"
 
 void DemoWorld::KeyState(BYTE * states)
 {
@@ -60,16 +64,22 @@ void DemoWorld::Update(DWORD dt)
 		lstObject[i]->Update(dt, &lstObject);
 		if (lstObject[i]->getHealth() == 0)
 		{
-
+			lstItem[i]->isOn = true;
+			lstObject[i]->lostHealth(1);
 		}
-		
+
 	}
-
-
+	for (pair<int,Item*> element : lstItem)
+	{
+		if (element.second->isOn)
+			element.second->Update(dt, &lstObject);
+	}
 	float x, y;
 	simon->GetPosition(x, y);
 	camera->SetPosition(x - SCREEN_WIDTH / 2 + 30, camera->getY());
 	camera->Update(dt);
+
+	checkCollisionSimonWithItem();
 }
 
 void DemoWorld::LoadResources()
@@ -79,13 +89,13 @@ void DemoWorld::LoadResources()
 	camera->SetPosition(0, 0);
 
 	std::ifstream input(L"Resources/Map_Prologue_Object_Description.txt");
-	int n,objectID,x,y,w,h;
+	int n,objectType,x,y,w,h;
 	input >> n;
 	for (int i = 0; i < n; i++)
 	{
-		input >> objectID >> x >> y >> w >> h;
+		input >> objectType >> x >> y >> w >> h;
 		LPGAMEOBJECT temp;
-		switch (objectID)
+		switch (objectType)
 		{
 		case BRICK_OBJ:
 			temp = new Brick(x, y, w, h);
@@ -101,6 +111,30 @@ void DemoWorld::LoadResources()
 		}
 		lstObject.push_back(temp);
 	}
+	input >> n;
+	int objectid, itemType,model;
+	for (int i = 0; i < n; i++)
+	{
+		input >> objectid >> itemType >> x >> y >> model;
+		Item * temp = NULL;
+		switch (itemType)
+		{
+		case WHIP_UPGRADE:
+			temp = new WhipUpgrade(x, y);
+			break;
+		case BIG_HEART:
+			temp = new BigHeart(x, y);
+			break;
+		case DAGGER:
+			temp = new Dagger_Item(x, y);
+			break;
+		case SPECIAL_MONEY_BAG:
+			temp = new SpecialMoneyBag(x, y);
+		default:
+			break;
+		}
+		lstItem[objectid] = temp;
+	}
 	simon = new Simon(camera);
 }
 
@@ -111,7 +145,42 @@ void DemoWorld::Render()
 	{
 		lstObject[i]->Render(camera);
 	}
+	for (pair<int, Item*> element : lstItem)
+	{
+		if (element.second->isOn)
+		{
+			element.second->RenderBoundingBox(camera);
+			element.second->Render(camera);
+		}
+	}
 	simon->Render(camera);
+}
+
+void DemoWorld::checkCollisionSimonWithItem()
+{
+	for (pair<int, Item*> element : lstItem)
+	{
+		if (element.second->isOn && element.second->isItemSpawned)
+		{
+			if (simon->isCollideWithOtherObject(element.second))
+			{
+				if(dynamic_cast<BigHeart*>(element.second))
+				{ 
+					simon->collectHeart(5);
+				}
+				if (dynamic_cast<WhipUpgrade*>(element.second))
+				{
+					simon->upgradeWhip();
+				}
+				if (dynamic_cast<Dagger_Item *>(element.second))
+				{
+					simon->setSecondaryWeapon(simon->KNIFE);
+				}
+
+				element.second->isOn = false;
+			}
+		}
+	}
 }
 
 DemoWorld::DemoWorld()

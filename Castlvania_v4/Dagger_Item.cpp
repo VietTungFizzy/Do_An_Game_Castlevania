@@ -14,9 +14,10 @@ Dagger_Item::Dagger_Item(float x, float y)
 	this->y = y;
 	fireAnimation = CAnimations::GetInstance()->Get(EFFECT_SPARK);
 	spark = CSprites::GetInstance()->Get(EFFECT, DAGGER_ITEM_SPRITE_ID);
+	sprite = CSprites::GetInstance()->Get(ITEM, DAGGER_ITEM_SPRITE_ID);
 	effectTimeDisplayed = 0;
 	itemTiemDisplayed = 0;
-	isOn = true;
+	isOn = false;
 	isItemSpawned = false;
 	vy = ITEM_GRAVITY;
 }

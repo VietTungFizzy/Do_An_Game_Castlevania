@@ -20,7 +20,7 @@ BigHeart::BigHeart(float x, float y)
 	spark = CSprites::GetInstance()->Get(EFFECT, SPARK_SPRITE_ID);
 	effectTimeDisplayed = 0;
 	itemTiemDisplayed = 0;
-	isOn = true;
+	isOn = false;
 	isItemSpawned = false;
 	sprite = CSprites::GetInstance()->Get(ITEM, BIG_HEART_SPRITE_ID);
 	vy = ITEM_GRAVITY;

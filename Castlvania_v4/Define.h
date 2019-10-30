@@ -55,10 +55,24 @@ enum WorldID
 	WORLD_1
 };
 
-enum ObjectID
+enum ObjectType
 {
 	SIMON = 4,
 	BRICK_OBJ = 5,
 	BIG_TORCH_OBJ =6,
 	HIDDEN_OBJ =7
+};
+enum ItemType
+{
+	WHIP_UPGRADE,
+	BIG_HEART,
+	LITTLE_HEART,
+	DAGGER,
+	SPECIAL_MONEY_BAG,
+	MONEY_BAG_1,
+	MONEY_BAG_2,
+	MONEY_BAG_3,
+	HAMMER_ITEM,
+	HOLY_WATER_ITEM,
+
 };
