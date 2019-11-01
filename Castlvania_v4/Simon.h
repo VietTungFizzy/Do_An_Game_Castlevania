@@ -24,6 +24,7 @@
 #define SIMON_GRAVITY 0.0005f
 #define SIMON_WALKING_SPEED 0.12f
 #define SIMON_JUMPING_SPEED -0.2f
+#define SIMON_FREEZE_TIME_MAX 500
 
 class Simon :
 	public CGameObject
@@ -31,10 +32,11 @@ class Simon :
 public:
 	bool isAttacking;
 	bool isSitting;
-	bool isFreazing;
+	bool isFreezing;
 	bool isWalking;
 	bool isHurt;
 	bool isInAir;
+	bool isAutoGo;
 
 	enum WeaponType
 	{
@@ -54,7 +56,7 @@ private:
 	unordered_map<WeaponType, Weapon*> lstWeapon;
 	Camera * camera;
 	WeaponType currentSecondaryWeaponType;
-
+	DWORD timeFreezed;
 public:
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
@@ -67,6 +69,7 @@ public:
 	void Attack(WeaponType weaponType);
 	void upgradeWhip();
 	void setSecondaryWeapon(WeaponType weaponType);
+	WeaponType getSecondaryWeapon();
 	void collectHeart(int amount) { heart += amount;}
 	Simon(Camera * camera);
 	~Simon();

@@ -5,6 +5,9 @@
 #include"Simon.h"
 #include"Item.h"
 #include"Define.h"
+
+#define OBJECT_HIDDEN_ID_FOR_GO_TO_NEXT_LEVEL 6
+#define OBJECT_HIDDEN_ID_FOR_SPECIAL_BONUS 7
 class DemoWorld :
 	public GameWorld
 {
@@ -24,6 +27,7 @@ public:
 	void Render();
 
 	void checkCollisionSimonWithItem();
+	void checkCollisionSimonWithObjectHidden();
 	DemoWorld();
 	~DemoWorld();
 };

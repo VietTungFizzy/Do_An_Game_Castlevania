@@ -17,6 +17,7 @@ public:
 	CSprite(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
 
 	void Draw(float x, float y, bool isFlipVertical,int alpha = 255);
+	void Draw(float x, float y, bool isFlipVertical, int r, int g, int b);
 };
 
 typedef CSprite * LPSPRITE;
@@ -65,6 +66,7 @@ public:
 	void Render(float x, float y,bool isFlipVertical ,int alpha = 255);
 	int getCurrentFrame() { return currentFrame; }
 	void setCurrentFrame(int newFrame) { currentFrame = newFrame; }
+	LPANIMATION_FRAME getCurrentAnimationFrame() { return frames[currentFrame]; }
 };
 
 typedef CAnimation *LPANIMATION;

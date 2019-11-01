@@ -9,7 +9,7 @@
 
 void DemoWorld::KeyState(BYTE * states)
 {
-	if (simon->isAttacking ||  simon->isInAir) return;
+	if (simon->isAttacking ||  simon->isInAir || simon->isFreezing || simon->isAutoGo) return;
 	if (Game::GetInstance()->IsKeyDown(DIK_DOWN))
 	{
 		simon->Sit();
@@ -37,10 +37,10 @@ void DemoWorld::KeyState(BYTE * states)
 
 void DemoWorld::OnKeyDown(int KeyCode)
 {
-	if (simon->isAttacking) return;
+	if (simon->isAttacking || simon->isFreezing || simon->isAutoGo) return;
 	if (KeyCode == DIK_A && Game::GetInstance()->IsKeyDown(DIK_UP))
 	{
-
+		simon->Attack(simon->getSecondaryWeapon());
 	}
 	else
 		if (KeyCode == DIK_A) simon->Attack(simon->MORNING_STAR);
@@ -94,7 +94,7 @@ void DemoWorld::LoadResources()
 	for (int i = 0; i < n; i++)
 	{
 		input >> objectType >> x >> y >> w >> h;
-		LPGAMEOBJECT temp;
+		LPGAMEOBJECT temp = NULL;
 		switch (objectType)
 		{
 		case BRICK_OBJ:
@@ -109,6 +109,7 @@ void DemoWorld::LoadResources()
 		default:
 			break;
 		}
+		temp->setID(i);
 		lstObject.push_back(temp);
 	}
 	input >> n;
@@ -179,6 +180,21 @@ void DemoWorld::checkCollisionSimonWithItem()
 
 				element.second->isOn = false;
 			}
+		}
+	}
+}
+
+void DemoWorld::checkCollisionSimonWithObjectHidden()
+{
+	if (simon->isCollideWithOtherObject(lstObject[OBJECT_HIDDEN_ID_FOR_SPECIAL_BONUS]))
+	{
+		lstItem[OBJECT_HIDDEN_ID_FOR_SPECIAL_BONUS]->isOn = true;
+	}
+	else
+	{
+		if (simon->isCollideWithOtherObject(lstObject[OBJECT_HIDDEN_ID_FOR_GO_TO_NEXT_LEVEL]))
+		{
+			
 		}
 	}
 }

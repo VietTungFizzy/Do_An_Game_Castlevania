@@ -62,6 +62,16 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		isAttacking = false;
 	}
 
+	if (isFreezing)
+	{
+		if (timeFreezed < SIMON_FREEZE_TIME_MAX)
+		{
+			timeFreezed += dt;
+			return;
+		}
+		else
+			isFreezing = false;
+	}
 	CGameObject::Update(dt);
 
 	vy += SIMON_GRAVITY * dt;
@@ -93,69 +103,6 @@ void Simon::Render(Camera * camera)
 {
 	D3DXVECTOR2 pos = camera->translateWorldToScreen(x, y);
 	/*RenderBoundingBox(camera);*/
-#pragma region Simon
-	if (isSitting)
-	{
-		if (isAttacking)
-		{
-			if (direction == 1)
-				lstAnimation.at((int)SIMON_ATTACKING_SITTING)->Render(pos.x, pos.y + 5, true);
-			else
-				lstAnimation.at((int)SIMON_ATTACKING_SITTING)->Render(pos.x, pos.y + 5, false);
-		}
-		else
-		{
-			if (direction == 1)
-				lstSprite.at(SIMON_SITTING_SPRITE_ID)->Draw(pos.x, pos.y + 5, true);
-			else
-				lstSprite.at(SIMON_SITTING_SPRITE_ID)->Draw(pos.x, pos.y + 5, false);
-		}
-	}
-	else
-	{
-		if (isInAir)
-		{
-			if (isAttacking)
-			{
-				if (direction == 1)
-					lstAnimation.at((int)SIMON_ATTACKING_STANDING)->Render(pos.x, pos.y, true);
-				else
-					lstAnimation.at((int)SIMON_ATTACKING_STANDING)->Render(pos.x, pos.y, false);
-			}
-			else
-			{
-				if (direction == 1)
-					lstSprite.at(SIMON_SITTING_SPRITE_ID)->Draw(pos.x, pos.y, true);
-				else
-					lstSprite.at(SIMON_SITTING_SPRITE_ID)->Draw(pos.x, pos.y, false);
-			}
-		}
-		else
-			if (isWalking)
-			{
-				if (direction == 1)
-					lstAnimation.at((int)SIMON_WALKING)->Render(pos.x, pos.y + 1, true);
-				else
-					lstAnimation.at((int)SIMON_WALKING)->Render(pos.x, pos.y + 1, false);
-			}
-			else
-			{
-				if (isAttacking)
-				{
-					if (direction == 1)
-						lstAnimation.at((int)SIMON_ATTACKING_STANDING)->Render(pos.x, pos.y + 1, true);
-					else
-						lstAnimation.at((int)SIMON_ATTACKING_STANDING)->Render(pos.x, pos.y + 1, false);
-				}
-				else
-					if (direction == 1)
-						lstSprite.at(SIMON_STANDING_SPRITE_ID)->Draw(pos.x, pos.y + 1, true);
-					else
-						lstSprite.at(SIMON_STANDING_SPRITE_ID)->Draw(pos.x, pos.y + 1, false);
-			}
-	}
-#pragma endregion
-
 	for (auto i : lstWeapon)
 	{
 		if (i.second->isOn)
@@ -164,8 +111,133 @@ void Simon::Render(Camera * camera)
 			i.second->Render(camera);
 		}
 	}
+#pragma region Simon
+	if (isFreezing)
+	{
+		if (isSitting)
+		{
+			if (isAttacking)
+			{
+				if (direction == 1)
+					lstAnimation.at((int)SIMON_ATTACKING_SITTING)->getCurrentAnimationFrame()->GetSprite()->Draw(pos.x, pos.y + 5, true, rand() % 256, rand() % 256, rand() % 256);
+				else
+					lstAnimation.at((int)SIMON_ATTACKING_SITTING)->getCurrentAnimationFrame()->GetSprite()->Draw(pos.x, pos.y + 5, false, rand() % 256, rand() % 256, rand() % 256);
+			}
+			else
+			{
+				if (direction == 1)
+					lstSprite.at(SIMON_SITTING_SPRITE_ID)->Draw(pos.x, pos.y + 5, true, rand() % 256, rand() % 256, rand() % 256);
+				else
+					lstSprite.at(SIMON_SITTING_SPRITE_ID)->Draw(pos.x, pos.y + 5, false, rand() % 256, rand() % 256, rand() % 256);
+			}
+		}
+		else
+		{
+			if (isInAir)
+			{
+				if (isAttacking)
+				{
+					if (direction == 1)
+						lstAnimation.at((int)SIMON_ATTACKING_STANDING)->getCurrentAnimationFrame()->GetSprite()->Draw(pos.x, pos.y, true, rand() % 256, rand() % 256, rand() % 256);
+					else
+						lstAnimation.at((int)SIMON_ATTACKING_STANDING)->getCurrentAnimationFrame()->GetSprite()->Draw(pos.x, pos.y, false, rand() % 256, rand() % 256, rand() % 256);
+				}
+				else
+				{
+					if (direction == 1)
+						lstSprite.at(SIMON_SITTING_SPRITE_ID)->Draw(pos.x, pos.y, true, rand() % 256, rand() % 256, rand() % 256);
+					else
+						lstSprite.at(SIMON_SITTING_SPRITE_ID)->Draw(pos.x, pos.y, false, rand() % 256, rand() % 256, rand() % 256);
+				}
+			}
+			else
+				if (isWalking)
+				{
+					if (direction == 1)
+						lstAnimation.at((int)SIMON_WALKING)->getCurrentAnimationFrame()->GetSprite()->Draw(pos.x, pos.y + 1, true, rand() % 256, rand() % 256, rand() % 256);
+					else
+						lstAnimation.at((int)SIMON_WALKING)->getCurrentAnimationFrame()->GetSprite()->Draw(pos.x, pos.y + 1, false, rand() % 256, rand() % 256, rand() % 256);
+				}
+				else
+				{
+					if (isAttacking)
+					{
+						if (direction == 1)
+							lstAnimation.at((int)SIMON_ATTACKING_STANDING)->getCurrentAnimationFrame()->GetSprite()->Draw(pos.x, pos.y + 1, true, rand() % 256, rand() % 256, rand() % 256);
+						else
+							lstAnimation.at((int)SIMON_ATTACKING_STANDING)->getCurrentAnimationFrame()->GetSprite()->Draw(pos.x, pos.y + 1, false, rand() % 256, rand() % 256, rand() % 256);
+					}
+					else
+						if (direction == 1)
+							lstSprite.at(SIMON_STANDING_SPRITE_ID)->Draw(pos.x, pos.y + 1, true, rand() % 256, rand() % 256, rand() % 256);
+						else
+							lstSprite.at(SIMON_STANDING_SPRITE_ID)->Draw(pos.x, pos.y + 1, false, rand() % 256, rand() % 256, rand() % 256);
+				}
+		}
+	}
+	else
+		if (isSitting)
+		{
+			if (isAttacking)
+			{
+				if (direction == 1)
+					lstAnimation.at((int)SIMON_ATTACKING_SITTING)->Render(pos.x, pos.y + 5, true);
+				else
+					lstAnimation.at((int)SIMON_ATTACKING_SITTING)->Render(pos.x, pos.y + 5, false);
+			}
+			else
+			{
+				if (direction == 1)
+					lstSprite.at(SIMON_SITTING_SPRITE_ID)->Draw(pos.x, pos.y + 5, true);
+				else
+					lstSprite.at(SIMON_SITTING_SPRITE_ID)->Draw(pos.x, pos.y + 5, false);
+			}
 
-
+		}
+		else
+		{
+			if (isInAir)
+			{
+				if (isAttacking)
+				{
+					if (direction == 1)
+						lstAnimation.at((int)SIMON_ATTACKING_STANDING)->Render(pos.x, pos.y, true);
+					else
+						lstAnimation.at((int)SIMON_ATTACKING_STANDING)->Render(pos.x, pos.y, false);
+				}
+				else
+				{
+					if (direction == 1)
+						lstSprite.at(SIMON_SITTING_SPRITE_ID)->Draw(pos.x, pos.y, true);
+					else
+						lstSprite.at(SIMON_SITTING_SPRITE_ID)->Draw(pos.x, pos.y, false);
+				}
+			}
+			else
+				if (isWalking)
+				{
+					if (direction == 1)
+						lstAnimation.at((int)SIMON_WALKING)->Render(pos.x, pos.y + 1, true);
+					else
+						lstAnimation.at((int)SIMON_WALKING)->Render(pos.x, pos.y + 1, false);
+				}
+				else
+				{
+					if (isAttacking)
+					{
+						if (direction == 1)
+							lstAnimation.at((int)SIMON_ATTACKING_STANDING)->Render(pos.x, pos.y + 1, true);
+						else
+							lstAnimation.at((int)SIMON_ATTACKING_STANDING)->Render(pos.x, pos.y + 1, false);
+					}
+					else
+						if (direction == 1)
+							lstSprite.at(SIMON_STANDING_SPRITE_ID)->Draw(pos.x, pos.y + 1, true);
+						else
+							lstSprite.at(SIMON_STANDING_SPRITE_ID)->Draw(pos.x, pos.y + 1, false);
+				}
+		}
+#pragma endregion
 }
 
 void Simon::collisionWithGround(vector<LPGAMEOBJECT>* coObjects)
@@ -252,7 +324,10 @@ void Simon::upgradeWhip()
 {
 	MorningStar * temp = dynamic_cast<MorningStar*>(lstWeapon[MORNING_STAR]);
 	temp->Upgrade();
-	isFreazing = true;
+	isFreezing = true;
+	vx = 0;
+	vy = 0;
+	timeFreezed = 0;
 }
 
 void Simon::setSecondaryWeapon(WeaponType weaponType)
@@ -275,6 +350,11 @@ void Simon::setSecondaryWeapon(WeaponType weaponType)
 		break;
 	}
 	currentSecondaryWeaponType = weaponType;
+}
+
+Simon::WeaponType Simon::getSecondaryWeapon()
+{
+	return currentSecondaryWeaponType;
 }
 
 Simon::Simon(Camera * camera)

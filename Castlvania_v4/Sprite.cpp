@@ -24,6 +24,16 @@ void CSprite::Draw(float x, float y,bool isFlipVertical, int alpha)
 	game->Draw(x, y, texture, left, top, right, bottom, isFlipVertical,alpha);
 }
 
+void CSprite::Draw(float x, float y, bool isFlipVertical, int r, int g, int b)
+{
+	Game * game = Game::GetInstance();
+	D3DXCOLOR color;
+	color.r = r;
+	color.g = g;
+	color.b = b;
+	game->Draw(x, y, texture, left, top, right, bottom, isFlipVertical, color);
+}
+
 void CSprites::Add(int tileID, int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)
 {
 	LPSPRITE s = new CSprite(id, left, top, right, bottom, tex);

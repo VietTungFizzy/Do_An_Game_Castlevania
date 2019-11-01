@@ -173,6 +173,44 @@ void Game::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top,
 	spriteHandler->SetTransform(&b);
 }
 
+void Game::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, bool isFlipVertical, D3DXCOLOR color)
+{
+	D3DXVECTOR3 p(floor(x), floor(y), 0);
+	RECT r;
+	r.left = left;
+	r.top = top;
+	r.right = right;
+	r.bottom = bottom;
+	D3DXMATRIX a, b, c;
+	if (isFlipVertical)
+	{
+		D3DXMatrixTransformation2D(&a,
+			&D3DXVECTOR2(x + (right - left) / 2, y + (bottom - top) / 2),
+			0,
+			&D3DXVECTOR2(-1.0f, 1.0f),
+			NULL,
+			0,
+			NULL);
+	}
+	else
+	{
+		D3DXMatrixTransformation2D(&a,
+			&D3DXVECTOR2(x + (right - left) / 2, y + (bottom - top) / 2),
+			0,
+			&D3DXVECTOR2(1.0f, 1.0f),
+			NULL,
+			0,
+			NULL);
+	}
+
+	spriteHandler->GetTransform(&b);
+	c = a * b;
+	spriteHandler->SetTransform(&c);
+	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_XRGB((int)color.r, (int)color.g, (int)color.b));
+
+	spriteHandler->SetTransform(&b);
+}
+
 int Game::IsKeyDown(int KeyCode)
 {
 	return (keyStates[KeyCode] & 0x80) > 0;

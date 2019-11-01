@@ -38,8 +38,9 @@ protected:
 	float vy;
 
 	int nx;
-	int health;
 
+	int health;
+	int id;
 	DWORD dt;
 
 
@@ -52,6 +53,8 @@ public:
 	void getWidthHeight(int &w, int &h) { this->w = w; this->h = h; }
 	void lostHealth(int amount) { health -= amount; }
 	int getHealth()				{ return health; }
+	int getID()					{ return id; }
+	void setID(int id)			{ this->id = id; }
 	void RenderBoundingBox(Camera * camera);
 
 	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
