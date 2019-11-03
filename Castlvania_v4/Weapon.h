@@ -9,6 +9,7 @@ protected:
 public:
 	bool isOn;
 	bool isSimonSitting;
+	bool isWeaponSpawned;
 public:
 	virtual void InitialAttack(float x, float y,int direction);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom) = 0;

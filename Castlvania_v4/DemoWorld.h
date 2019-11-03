@@ -6,8 +6,10 @@
 #include"Item.h"
 #include"Define.h"
 
-#define OBJECT_HIDDEN_ID_FOR_GO_TO_NEXT_LEVEL 6
-#define OBJECT_HIDDEN_ID_FOR_SPECIAL_BONUS 7
+#define OBJECT_HIDDEN_ID_FOR_GO_TO_NEXT_LEVEL 7
+#define OBJECT_HIDDEN_ID_FOR_SPECIAL_BONUS 6
+
+#define POSITION_TO_STOP_AUTO_WALKING 680
 class DemoWorld :
 	public GameWorld
 {
@@ -16,6 +18,8 @@ private:
 	std::vector<LPGAMEOBJECT> lstObject;
 	unordered_map<int,Item*> lstItem;
 	Simon * simon;
+
+	bool isSimonWalkingToCastle;
 public:
 
 	void KeyState(BYTE *states);

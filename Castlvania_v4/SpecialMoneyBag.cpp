@@ -49,7 +49,7 @@ SpecialMoneyBag::SpecialMoneyBag(float x, float y)
 	this->x = x;
 	this->y = y;
 	animation = CAnimations::GetInstance()->Get(MONEY_BAG);
-	effectTimeDisplayed = 0;
+	effectTimeDisplayed = max(FIRE_TIME_DISPLAY_MAX, SPARK_TIME_DISPLAY_MAX);
 	itemTiemDisplayed = 0;
 	isOn = false;
 	isItemSpawned = false;

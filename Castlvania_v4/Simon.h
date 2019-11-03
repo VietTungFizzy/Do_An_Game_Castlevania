@@ -51,12 +51,18 @@ public:
 private:
 	int direction;
 	int heart;
+
+
 	std::vector<LPANIMATION> lstAnimation;
 	std::vector<LPSPRITE> lstSprite;
 	unordered_map<WeaponType, Weapon*> lstWeapon;
+
 	Camera * camera;
 	WeaponType currentSecondaryWeaponType;
 	DWORD timeFreezed;
+
+	int autoGoDirection;
+	float autoGoDistance;
 public:
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
@@ -66,6 +72,8 @@ public:
 
 	void Jump();
 	void Sit();
+	void StandUp();
+	void setAutoWalk(float positionToGo);
 	void Attack(WeaponType weaponType);
 	void upgradeWhip();
 	void setSecondaryWeapon(WeaponType weaponType);

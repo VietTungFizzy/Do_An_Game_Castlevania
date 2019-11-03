@@ -5,6 +5,7 @@
 void Weapon::InitialAttack(float x, float y,int direction)
 {
 	isOn = true;
+	isWeaponSpawned = false;
 	this->x = x;
 	this->y = y;
 	this->direction = direction;

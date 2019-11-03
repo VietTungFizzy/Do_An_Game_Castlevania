@@ -145,6 +145,7 @@
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="WhipUpgrade.cpp" />
     <ClCompile Include="WorldManager.cpp" />
+    <ClCompile Include="World_1.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BigHeart.h" />
@@ -171,6 +172,7 @@
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="WhipUpgrade.h" />
     <ClInclude Include="WorldManager.h" />
+    <ClInclude Include="World_1.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

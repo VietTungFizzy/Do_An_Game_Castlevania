@@ -108,6 +108,9 @@
     <ClCompile Include="WhipUpgrade.cpp">
       <Filter>Object\Item</Filter>
     </ClCompile>
+    <ClCompile Include="World_1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Define.h">
@@ -181,6 +184,9 @@
     </ClInclude>
     <ClInclude Include="WhipUpgrade.h">
       <Filter>Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="World_1.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

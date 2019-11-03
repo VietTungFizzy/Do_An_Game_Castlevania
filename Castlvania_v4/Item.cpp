@@ -15,6 +15,7 @@ void Item::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (itemTiemDisplayed < ITEM_TIME_DISPLAY_MAX)
 		{
 			itemTiemDisplayed += dt;
+			//DebugOut(L"time: %d\n", itemTiemDisplayed);
 			isItemSpawned = true;
 		}
 		else

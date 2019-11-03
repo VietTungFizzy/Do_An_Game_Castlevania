@@ -61,7 +61,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		isAttacking = false;
 	}
-
+	if (isAttacking) DebugOut(L"IsAttacking\n");
 	if (isFreezing)
 	{
 		if (timeFreezed < SIMON_FREEZE_TIME_MAX)
@@ -81,21 +81,34 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (isWalking)
 		vx = SIMON_WALKING_SPEED * direction;
 	else vx = 0;
-	if (isSitting)
-	{
-		vx = 0;
-	}
 
 	for (auto i : lstWeapon)
 	{
 		if (i.second->isOn)
 		{
-			i.second->isSimonSitting = isSitting;
-			if (i.first == MORNING_STAR)
-				i.second->SetPosition(x, y);
-			i.second->Update(dt,coObjects);
-			
+			if (i.second->isWeaponSpawned)
+			{
+				i.second->isSimonSitting = isSitting;
+				if (i.first == MORNING_STAR)
+					i.second->SetPosition(x, y);
+				i.second->Update(dt, coObjects);
+			}
+			else
+			{
+				if (lstAnimation.at((int)SIMON_ATTACKING_SITTING)->getCurrentFrame() == 2 ||
+					lstAnimation.at((int)SIMON_ATTACKING_STANDING)->getCurrentFrame() == 2)
+				{
+					i.second->isWeaponSpawned = true;
+				}
+			}
 		}
+	}
+
+	if (isAutoGo)
+	{
+		if (isInAir) return;
+		isWalking = true;
+		direction = autoGoDirection;
 	}
 }
 
@@ -103,14 +116,7 @@ void Simon::Render(Camera * camera)
 {
 	D3DXVECTOR2 pos = camera->translateWorldToScreen(x, y);
 	/*RenderBoundingBox(camera);*/
-	for (auto i : lstWeapon)
-	{
-		if (i.second->isOn)
-		{
-			i.second->RenderBoundingBox(camera);
-			i.second->Render(camera);
-		}
-	}
+	
 #pragma region Simon
 	if (isFreezing)
 	{
@@ -238,6 +244,14 @@ void Simon::Render(Camera * camera)
 				}
 		}
 #pragma endregion
+		for (auto i : lstWeapon)
+		{
+			if (i.second->isOn && i.second->isWeaponSpawned)
+			{
+				i.second->RenderBoundingBox(camera);
+				i.second->Render(camera);
+			}
+		}
 }
 
 void Simon::collisionWithGround(vector<LPGAMEOBJECT>* coObjects)
@@ -291,8 +305,26 @@ void Simon::Sit()
 {
 	if (isSitting)return;
 	vx = 0;
-	y -= 4;
+	y -= 6;
 	isSitting = true;
+	isWalking = false;
+}
+
+void Simon::StandUp()
+{
+	if (isSitting == false) return;
+	y += 3;
+	isSitting = false;
+}
+
+void Simon::setAutoWalk(float positionToGo)
+{
+	isAutoGo = true;
+	autoGoDistance = abs(x - positionToGo);
+	if (x - positionToGo < 0)
+		autoGoDirection = 1;
+	else
+		autoGoDirection = -1;
 }
 
 void Simon::Attack(WeaponType weaponType)
@@ -302,7 +334,7 @@ void Simon::Attack(WeaponType weaponType)
 	{
 		if (weaponType != MORNING_STAR)
 		{
-			if (weaponType != STOP_WATCH)
+			if (weaponType == STOP_WATCH)
 			{
 				if (heart < 5) return;
 				else heart -= 5;
@@ -310,9 +342,13 @@ void Simon::Attack(WeaponType weaponType)
 			else
 				if (heart < 1) return;
 				else heart -= 1;
-
+			lstWeapon[weaponType]->InitialAttack(x, y, direction);
 		}
-		lstWeapon[weaponType]->InitialAttack(x, y, direction);
+		else
+		{
+			lstWeapon[weaponType]->InitialAttack(x, y, direction);
+			lstWeapon[weaponType]->isWeaponSpawned = true;
+		}
 		isAttacking = true;
 		isWalking = false;
 		lstAnimation.at((int)SIMON_ATTACKING_SITTING)->setCurrentFrame(-1);
@@ -336,7 +372,7 @@ void Simon::setSecondaryWeapon(WeaponType weaponType)
 	{
 	case Simon::KNIFE:
 		if (lstWeapon[weaponType] == NULL)
-			lstWeapon[weaponType] = new Dagger();
+			lstWeapon[weaponType] = new Dagger(camera);
 		break;
 	case Simon::AXE:
 		break;

@@ -5,7 +5,7 @@
 void Dagger::InitialAttack(float x, float y, int direction)
 {
 	Weapon::InitialAttack(x, y, direction);
-
+	vx = DAGGER_SPEED * direction;
 }
 
 void Dagger::GetBoundingBox(float & left, float & top, float & right, float & bottom)
@@ -26,37 +26,36 @@ void Dagger::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		isOn = false;
 		return;
 	}
-	if (isCollisionChecked == false)
+	x += dx;
+	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		for (UINT i = 0; i < coObjects->size(); i++)
+		if (coObjects->at(i)->getHealth() > 0)
 		{
-			if (coObjects->at(i)->getHealth() > 0)
+			if (isCollideWithOtherObject(coObjects->at(i)))
 			{
-				if (isCollideWithOtherObject(coObjects->at(i)))
+				if (dynamic_cast<BigTorch*>(coObjects->at(i)))
 				{
-					if (dynamic_cast<BigTorch*>(coObjects->at(i)))
-					{
-						coObjects->at(i)->lostHealth(1);
-						DebugOut(L"Hit ");
-						isOn = false;
-					}
+					coObjects->at(i)->lostHealth(1);
+					DebugOut(L"Hit ");
+					isOn = false;
 				}
 			}
 		}
-		isCollisionChecked = true;
 	}
 }
 
 void Dagger::Render(Camera * camera)
 {
 	D3DXVECTOR2 pos = camera->translateWorldToScreen(x, y);
-	sprite->Draw(pos.x, pos.y, false);
+	if(direction == 1)
+		sprite->Draw(pos.x, pos.y, false);
+	else
+		sprite->Draw(pos.x, pos.y, true);
 }
 
-Dagger::Dagger()
+Dagger::Dagger(Camera * camera)
 {
 	sprite = CSprites::GetInstance()->Get(ITEM, DAGGER_SPRITE_ID);
-	vx = DAGGER_SPEED;
 	this->camera = camera;
 }
 

@@ -1,4 +1,6 @@
 #include "DemoWorld.h"
+#include"WorldManager.h"
+#include"World_1.h"
 #include"BigTorch.h"
 #include"Brick.h"
 #include"ObjectHidden.h"
@@ -17,6 +19,10 @@ void DemoWorld::KeyState(BYTE * states)
 		else if (Game::GetInstance()->IsKeyDown(DIK_LEFT)) simon->setDirection(-1);
 		return;
 	}
+	else
+	{
+		simon->StandUp();
+	}
 	if (Game::GetInstance()->IsKeyDown(DIK_RIGHT))
 	{
 		simon->isWalking = true;
@@ -31,7 +37,7 @@ void DemoWorld::KeyState(BYTE * states)
 		else
 		{
 			simon->isWalking = false;
-			simon->isSitting = false;
+			simon->StandUp();
 		}
 }
 
@@ -59,6 +65,18 @@ void DemoWorld::OnKeyUp(int KeyCode)
 void DemoWorld::Update(DWORD dt)
 {	
 	simon->Update(dt, &lstObject);
+
+	if (isSimonWalkingToCastle)
+	{
+		float x, y;
+		simon->GetPosition(x, y);
+		if (abs(x - POSITION_TO_STOP_AUTO_WALKING) <= 1.0f)
+		{
+			WorldManager::GetInstance()->setWorld(new World_1());
+			return;
+		}
+		
+	}
 	for (int i = 0; i < lstObject.size(); i++)
 	{
 		lstObject[i]->Update(dt, &lstObject);
@@ -80,6 +98,7 @@ void DemoWorld::Update(DWORD dt)
 	camera->Update(dt);
 
 	checkCollisionSimonWithItem();
+	checkCollisionSimonWithObjectHidden();
 }
 
 void DemoWorld::LoadResources()
@@ -188,13 +207,15 @@ void DemoWorld::checkCollisionSimonWithObjectHidden()
 {
 	if (simon->isCollideWithOtherObject(lstObject[OBJECT_HIDDEN_ID_FOR_SPECIAL_BONUS]))
 	{
-		lstItem[OBJECT_HIDDEN_ID_FOR_SPECIAL_BONUS]->isOn = true;
+		if(lstItem[OBJECT_HIDDEN_ID_FOR_SPECIAL_BONUS]->isItemSpawned == false)
+			lstItem[OBJECT_HIDDEN_ID_FOR_SPECIAL_BONUS]->isOn = true;
 	}
 	else
 	{
 		if (simon->isCollideWithOtherObject(lstObject[OBJECT_HIDDEN_ID_FOR_GO_TO_NEXT_LEVEL]))
 		{
-			
+			simon->setAutoWalk(POSITION_TO_STOP_AUTO_WALKING);
+			isSimonWalkingToCastle = true;
 		}
 	}
 }
