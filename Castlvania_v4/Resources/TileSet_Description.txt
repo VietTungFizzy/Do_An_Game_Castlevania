@@ -1,4 +1,4 @@
-8
+10
 Resources/bbox.png
 -100 1 1 255 255 255
 Resources/Item_SpriteSheet.png 
@@ -12,8 +12,12 @@ Resources/simon_tileset.png
 Resources/tileset_prologue.png
 5 10 3 255 255 255
 Resources/groung.png
-6 1 1 255 255 255
+6 4 1 255 255 255
 Resources/morning_star.png
 7 4 3 255 255 255
+Resources/ground_1.png
+8 1 1 255 255 255
+Resources/World_1_Stage_HallWay.png
+9 10 12 255 255 255
 // filePath 
 // id  - totalColumn - totalRow - transparent color R - G  - B
