@@ -17,7 +17,7 @@ Resources/morning_star.png
 7 4 3 255 255 255
 Resources/ground_1.png
 8 1 1 255 255 255
-Resources/World_1_Stage_HallWay.png
+Resources/World_1_spritesheet.png
 9 10 12 255 255 255
 // filePath 
 // id  - totalColumn - totalRow - transparent color R - G  - B

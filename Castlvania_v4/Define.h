@@ -61,7 +61,8 @@ enum ObjectType
 	BRICK_OBJ = 5,
 	BIG_TORCH_OBJ =6,
 	HIDDEN_OBJ =7,
-	LITTLE_TORCH_OBJ,
+	LITTLE_TORCH_OBJ = 8,
+	BREAKABLE_BRICK_OBJ =9
 };
 enum ItemType
 {

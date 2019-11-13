@@ -108,16 +108,16 @@ void DemoWorld::LoadResources()
 	camera->SetPosition(0, 0);
 
 	std::ifstream input(L"Resources/Map_Prologue_Object_Description.txt");
-	int n,objectType,x,y,w,h;
+	int n,objectType,x,y,w,h,type;
 	input >> n;
 	for (int i = 0; i < n; i++)
 	{
-		input >> objectType >> x >> y >> w >> h;
+		input >> objectType >> x >> y >> w >> h >> type;
 		LPGAMEOBJECT temp = NULL;
 		switch (objectType)
 		{
 		case BRICK_OBJ:
-			temp = new Brick(x, y, w, h);
+			temp = new Brick(x, y, w, h,type);
 			break;
 		case BIG_TORCH_OBJ:
 			temp = new BigTorch(x, y);

@@ -1,12 +1,12 @@
 8
-5 0 144 768 16
-6 88 113 0 0
-6 215 113 0 0
-6 342 113 0 0
-6 469 113 0 0
-6 596 113 0 0
-7 730 110 16 32
-7 650 113 60 32
+5 0 144 768 16 0
+6 88 113 0 0 -1
+6 215 113 0 0 -1
+6 342 113 0 0 -1
+6 469 113 0 0 -1
+6 596 113 0 0 -1
+7 730 110 16 32 -1
+7 650 113 60 32 -1
 6
 1 1 88 113 -1
 2 0 215 113 -1
@@ -15,6 +15,6 @@
 5 3 596 113 -1
 6 4 630 113 -1
 //totalObject
-//ObjectID - x - y - width - height
+//ObjectID - x - y - width - height - type (-1 is no type, for brick only)
 //totalItem
-//Object Index - ItemID - x - y - type
+//Object Index - ItemID - x - y - type (-1 is no type, for money bag only)

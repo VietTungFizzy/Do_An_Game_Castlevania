@@ -1,6 +1,7 @@
 #include"Game.h"
 #include"WorldManager.h"
 #include "DemoWorld.h"
+#include"World_1.h"
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"CastleVania_v4"
 
@@ -147,7 +148,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	game->InitKeyboard();
 	
 	worldManager->LoadResources();
-	worldManager->setWorld(new DemoWorld());
+	worldManager->setWorld(new World_1());
 
 	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH * 2, SCREEN_HEIGHT * 2, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 

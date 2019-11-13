@@ -19,13 +19,13 @@ void Brick::Render(Camera * camera)
 	}
 }
 
-Brick::Brick(float x, float y, int w, int h)
+Brick::Brick(float x, float y, int w, int h, int type)
 {
 	this->x = x;
 	this->y = y;
 	this->w = w;
 	this->h = h;
-	sprite = CSprites::GetInstance()->Get(BRICK, BRICK_SPRITE_ID);
+	sprite = CSprites::GetInstance()->Get(BRICK, type);
 	health = -1;
 }
 

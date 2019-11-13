@@ -1,8 +1,20 @@
 #pragma once
 #include "GameWorld.h"
+#include"Map.h"
+#include"Camera.h"
+#include"Simon.h"
+#include"Item.h"
+#include"Define.h"
+
 class World_1 :
 	public GameWorld
 {
+private:
+	Camera * camera;
+	unordered_map<int,vector<LPGAMEOBJECT>> lstObject;
+	unordered_map<int, Item*> lstItem;
+	Simon * simon;
+	int stage;
 public:
 	void KeyState(BYTE *states);
 	void OnKeyDown(int KeyCode);
