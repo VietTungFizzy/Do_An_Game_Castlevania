@@ -8,7 +8,7 @@ Resources/candle.png
 Resources/Effect.png 
 3 6 1 34 177 76
 Resources/simon_tileset.png
-4  6 4 255 255 255
+4  6 5 255 255 255
 Resources/tileset_prologue.png
 5 10 3 255 255 255
 Resources/groung.png

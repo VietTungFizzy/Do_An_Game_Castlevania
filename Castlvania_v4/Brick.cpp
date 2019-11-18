@@ -10,6 +10,7 @@ void Brick::GetBoundingBox(float & left, float & top, float & right, float & bot
 
 void Brick::Render(Camera * camera)
 {
+	RenderBoundingBox(camera);
 	int frameWidth = CTextures::GetInstance()->Get(BRICK)->getFrameWidth();
 	int amount = (int)ceil(w / frameWidth);
 	for (int i = 0; i < amount; i++)

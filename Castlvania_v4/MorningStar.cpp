@@ -1,15 +1,15 @@
 #include "MorningStar.h"
 
 
-void MorningStar::InitialAttack(float x, float y,int direction)
+void MorningStar::InitialAttack(float x, float y,int directionX)
 {
-	Weapon::InitialAttack(x, y,direction);
+	Weapon::InitialAttack(x, y,directionX);
 	lstAnimation[level]->setCurrentFrame(-1);
 }
 
 void MorningStar::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
-	if (direction == 1)
+	if (directionX == 1)
 	{
 		left = x + ADJUST_BBOX_POSITION_X_SIMON_STAND_RIGHT;
 		top = y + ADJUST_BBOX_POSITION_Y_SIMON_STAND_RIGHT;
@@ -32,7 +32,7 @@ void MorningStar::GetBoundingBox(float & left, float & top, float & right, float
 		break;
 	case 2:
 		top += 2;
-		if (direction == 1)
+		if (directionX == 1)
 			left += 2;
 		else
 			left -= 15;
@@ -50,7 +50,7 @@ void MorningStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		y += ADJUST_POSITION_Y_SIMON_SIT;
 	else
 		y += ADJUST_POSITION_Y_SIMON_STAND;
-	if (direction == 1)
+	if (directionX == 1)
 	{
 		this->x -= ADJUST_POSITION_X_SIMON_STAND_RIGHT;
 	}
@@ -71,19 +71,19 @@ void MorningStar::Render(Camera * camera)
 	switch (level)
 	{
 	case 0:
-		if (direction == 1)
+		if (directionX == 1)
 			lstAnimation[0]->Render(pos.x, pos.y, true);
 		else
 			lstAnimation[0]->Render(pos.x, pos.y, false);
 		break;
 	case 1:
-		if (direction == 1)
+		if (directionX == 1)
 			lstAnimation[1]->Render(pos.x, pos.y, true);
 		else
 			lstAnimation[1]->Render(pos.x, pos.y, false);
 		break;
 	case 2:
-		if (direction == 1)
+		if (directionX == 1)
 			lstAnimation[2]->Render(pos.x, pos.y, true);
 		else
 			lstAnimation[2]->Render(pos.x, pos.y, false);

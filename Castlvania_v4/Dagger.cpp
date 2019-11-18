@@ -2,10 +2,10 @@
 #include"BigTorch.h"
 
 
-void Dagger::InitialAttack(float x, float y, int direction)
+void Dagger::InitialAttack(float x, float y, int directionX)
 {
-	Weapon::InitialAttack(x, y, direction);
-	vx = DAGGER_SPEED * direction;
+	Weapon::InitialAttack(x, y, directionX);
+	vx = DAGGER_SPEED * directionX;
 }
 
 void Dagger::GetBoundingBox(float & left, float & top, float & right, float & bottom)
@@ -47,7 +47,7 @@ void Dagger::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void Dagger::Render(Camera * camera)
 {
 	D3DXVECTOR2 pos = camera->translateWorldToScreen(x, y);
-	if(direction == 1)
+	if(directionX == 1)
 		sprite->Draw(pos.x, pos.y, false);
 	else
 		sprite->Draw(pos.x, pos.y, true);

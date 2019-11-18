@@ -2,13 +2,13 @@
 #include"BigTorch.h"
 
 
-void Weapon::InitialAttack(float x, float y,int direction)
+void Weapon::InitialAttack(float x, float y,int directionX)
 {
 	isOn = true;
 	isWeaponSpawned = false;
 	this->x = x;
 	this->y = y;
-	this->direction = direction;
+	this->directionX = directionX;
 	isCollisionChecked = false;
 }
 

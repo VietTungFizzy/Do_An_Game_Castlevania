@@ -23,7 +23,7 @@ private:
 	vector<LPANIMATION> lstAnimation;
 	int level;
 public:
-	void InitialAttack(float x, float y,int direction);
+	void InitialAttack(float x, float y,int directionX);
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL) ;
 	void Render(Camera * camera);

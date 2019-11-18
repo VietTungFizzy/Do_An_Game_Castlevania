@@ -15,8 +15,8 @@ void DemoWorld::KeyState(BYTE * states)
 	if (Game::GetInstance()->IsKeyDown(DIK_DOWN))
 	{
 		simon->Sit();
-		if(Game::GetInstance()->IsKeyDown(DIK_RIGHT)) simon->setDirection(1);
-		else if (Game::GetInstance()->IsKeyDown(DIK_LEFT)) simon->setDirection(-1);
+		if(Game::GetInstance()->IsKeyDown(DIK_RIGHT)) simon->setDirectionX(1);
+		else if (Game::GetInstance()->IsKeyDown(DIK_LEFT)) simon->setDirectionX(-1);
 		return;
 	}
 	else
@@ -26,13 +26,13 @@ void DemoWorld::KeyState(BYTE * states)
 	if (Game::GetInstance()->IsKeyDown(DIK_RIGHT))
 	{
 		simon->isWalking = true;
-		simon->setDirection(1);
+		simon->setDirectionX(1);
 	}
 	else
 		if (Game::GetInstance()->IsKeyDown(DIK_LEFT))
 		{
 			simon->isWalking = true;
-			simon->setDirection(-1);
+			simon->setDirectionX(-1);
 		}
 		else
 		{
@@ -214,7 +214,7 @@ void DemoWorld::checkCollisionSimonWithObjectHidden()
 	{
 		if (simon->isCollideWithOtherObject(lstObject[OBJECT_HIDDEN_ID_FOR_GO_TO_NEXT_LEVEL]))
 		{
-			simon->setAutoWalk(POSITION_TO_STOP_AUTO_WALKING);
+			simon->setAutoWalk(POSITION_TO_STOP_AUTO_WALKING,1);
 			isSimonWalkingToCastle = true;
 		}
 	}

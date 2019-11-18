@@ -34,6 +34,9 @@
     <Filter Include="Object\Candle">
       <UniqueIdentifier>{1d77d6f9-6a48-456b-ba45-6022a2a44b33}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\SpecialObject">
+      <UniqueIdentifier>{8796ace5-1201-4fc5-bec7-e5d94941b1f8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -44,9 +47,6 @@
     </ClCompile>
     <ClCompile Include="DebugOut.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WorldManager.cpp">
-      <Filter>Manager</Filter>
     </ClCompile>
     <ClCompile Include="Sprite.cpp">
       <Filter>Graphic</Filter>
@@ -78,9 +78,6 @@
     <ClCompile Include="Map.cpp">
       <Filter>Graphic</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectHidden.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
     <ClCompile Include="Weapon.cpp">
       <Filter>Object\Weapon</Filter>
     </ClCompile>
@@ -108,14 +105,23 @@
     <ClCompile Include="WhipUpgrade.cpp">
       <Filter>Object\Item</Filter>
     </ClCompile>
-    <ClCompile Include="World_1.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LittleTorch.cpp">
       <Filter>Object\Candle</Filter>
     </ClCompile>
     <ClCompile Include="BreakableBrick.cpp">
       <Filter>Object\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectHidden.cpp">
+      <Filter>Object\SpecialObject</Filter>
+    </ClCompile>
+    <ClCompile Include="World_1.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="InitialStairEvent.cpp">
+      <Filter>Object\SpecialObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -127,9 +133,6 @@
     </ClInclude>
     <ClInclude Include="DebugOut.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WorldManager.h">
-      <Filter>Manager</Filter>
     </ClInclude>
     <ClInclude Include="Sprite.h">
       <Filter>Graphic</Filter>
@@ -161,9 +164,6 @@
     <ClInclude Include="Map.h">
       <Filter>Graphic</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectHidden.h">
-      <Filter>Object</Filter>
-    </ClInclude>
     <ClInclude Include="Weapon.h">
       <Filter>Object\Weapon</Filter>
     </ClInclude>
@@ -191,14 +191,23 @@
     <ClInclude Include="WhipUpgrade.h">
       <Filter>Object\Item</Filter>
     </ClInclude>
-    <ClInclude Include="World_1.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LittleTorch.h">
       <Filter>Object\Candle</Filter>
     </ClInclude>
     <ClInclude Include="BreakableBrick.h">
       <Filter>Object\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectHidden.h">
+      <Filter>Object\SpecialObject</Filter>
+    </ClInclude>
+    <ClInclude Include="World_1.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="InitialStairEvent.h">
+      <Filter>Object\SpecialObject</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldManager.h">
+      <Filter>Manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

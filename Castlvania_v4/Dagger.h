@@ -11,7 +11,7 @@ private:
 	LPSPRITE sprite;
 	Camera * camera;
 public:
-	virtual void InitialAttack(float x, float y, int direction);
+	virtual void InitialAttack(float x, float y, int directionX);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	virtual void Render(Camera * camera);

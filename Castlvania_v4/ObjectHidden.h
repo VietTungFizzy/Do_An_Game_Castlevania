@@ -4,8 +4,9 @@ class ObjectHidden :
 	public CGameObject
 {
 public:
-	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
-	void Render(Camera * camera);
+	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
+	virtual void Render(Camera * camera);
+	ObjectHidden();
 	ObjectHidden(float x, float y, float w, float h);
 	~ObjectHidden();
 };
