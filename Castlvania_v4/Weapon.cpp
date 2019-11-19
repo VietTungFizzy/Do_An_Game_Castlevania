@@ -1,6 +1,6 @@
 #include "Weapon.h"
 #include"BigTorch.h"
-
+#include"BreakableBrick.h"
 
 void Weapon::InitialAttack(float x, float y,int directionX)
 {
@@ -20,10 +20,10 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			if (isCollideWithOtherObject(coObjects->at(i)))
 			{
-				if (dynamic_cast<BigTorch*>(coObjects->at(i)))
+				if (dynamic_cast<BigTorch*>(coObjects->at(i)) ||
+					dynamic_cast<BreakableBrick*>(coObjects->at(i)))
 				{
 				coObjects->at(i)->lostHealth(1);
-				DebugOut(L"Hit ");
 				}
 			}
 		}

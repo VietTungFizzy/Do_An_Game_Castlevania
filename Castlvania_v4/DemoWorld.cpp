@@ -70,7 +70,7 @@ void DemoWorld::Update(DWORD dt)
 	{
 		float x, y;
 		simon->GetPosition(x, y);
-		if (abs(x - POSITION_TO_STOP_AUTO_WALKING) <= 1.0f)
+		if (abs(x - POSITION_TO_STOP_AUTO_WALKING_X) <= 1.0f)
 		{
 			WorldManager::GetInstance()->setWorld(new World_1());
 			return;
@@ -214,7 +214,7 @@ void DemoWorld::checkCollisionSimonWithObjectHidden()
 	{
 		if (simon->isCollideWithOtherObject(lstObject[OBJECT_HIDDEN_ID_FOR_GO_TO_NEXT_LEVEL]))
 		{
-			simon->setAutoWalk(POSITION_TO_STOP_AUTO_WALKING,1);
+			simon->setAutoWalk(POSITION_TO_STOP_AUTO_WALKING_X,POSITION_TO_STOP_AUTO_WALKING_Y,1);
 			isSimonWalkingToCastle = true;
 		}
 	}

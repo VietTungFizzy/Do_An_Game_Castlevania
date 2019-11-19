@@ -140,6 +140,7 @@
     <ClCompile Include="MoneyBag.cpp" />
     <ClCompile Include="MorningStar.cpp" />
     <ClCompile Include="ObjectHidden.cpp" />
+    <ClCompile Include="Pebble.cpp" />
     <ClCompile Include="Simon.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="SpecialMoneyBag.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="MoneyBag.h" />
     <ClInclude Include="MorningStar.h" />
     <ClInclude Include="ObjectHidden.h" />
+    <ClInclude Include="Pebble.h" />
     <ClInclude Include="Simon.h" />
     <ClInclude Include="SpecialMoneyBag.h" />
     <ClInclude Include="Sprite.h" />

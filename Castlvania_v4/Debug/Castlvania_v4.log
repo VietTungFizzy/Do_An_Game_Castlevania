@@ -1,12 +1,39 @@
-﻿  Simon.cpp
+﻿  BreakableBrick.cpp
   d:\third_party_lib\directx_sdk\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
 d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(15): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
   d:\third_party_lib\directx_sdk\include\dinput.h(42): note: see previous definition of 'DIRECTINPUT_VERSION'
 d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\camera.h(11): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
 d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\camera.h(12): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\simon.cpp(54): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\simon.cpp(431): warning C4018: '<': signed/unsigned mismatch
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\simon.cpp(448): warning C4305: '=': truncation from 'unsigned int' to 'float'
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\simon.cpp(647): warning C4018: '<': signed/unsigned mismatch
-d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\simon.cpp(652): warning C4018: '<': signed/unsigned mismatch
+d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\breakablebrick.cpp(18): warning C4018: '<': signed/unsigned mismatch
+d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\breakablebrick.cpp(28): warning C4018: '<': signed/unsigned mismatch
+d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\breakablebrick.cpp(32): warning C4018: '<': signed/unsigned mismatch
+d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\breakablebrick.cpp(56): warning C4018: '<': signed/unsigned mismatch
+  Pebble.cpp
+  d:\third_party_lib\directx_sdk\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(15): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+  d:\third_party_lib\directx_sdk\include\dinput.h(42): note: see previous definition of 'DIRECTINPUT_VERSION'
+d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\camera.h(11): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\camera.h(12): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+  Weapon.cpp
+  d:\third_party_lib\directx_sdk\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(15): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+  d:\third_party_lib\directx_sdk\include\dinput.h(42): note: see previous definition of 'DIRECTINPUT_VERSION'
+d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\camera.h(11): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\camera.h(12): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+  World_1.cpp
+  d:\third_party_lib\directx_sdk\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\define.h(15): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
+  d:\third_party_lib\directx_sdk\include\dinput.h(42): note: see previous definition of 'DIRECTINPUT_VERSION'
+d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\camera.h(11): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\camera.h(12): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\world_1.cpp(13): warning C4018: '<': signed/unsigned mismatch
+d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\world_1.cpp(50): warning C4018: '<': signed/unsigned mismatch
+d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\world_1.cpp(140): warning C4018: '<': signed/unsigned mismatch
+d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\world_1.cpp(180): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\world_1.cpp(183): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\world_1.cpp(186): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\world_1.cpp(190): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\world_1.cpp(194): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\exercise\doangame\prototype\castlvania_v4\castlvania_v4\world_1.cpp(215): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
   Castlvania_v4.vcxproj -> D:\Exercise\DoAnGame\Prototype\Castlvania_v4\Debug\Castlvania_v4.exe

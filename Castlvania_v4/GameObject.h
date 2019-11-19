@@ -67,7 +67,7 @@ public:
 		float &nx,
 		float &ny);
 	bool isCollideWithOtherObject(LPGAMEOBJECT obj);
-
+	bool isWithinCamera(Camera * camera);
 	CGameObject();
 
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom) = 0;

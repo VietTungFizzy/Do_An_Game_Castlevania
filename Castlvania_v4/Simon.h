@@ -83,7 +83,8 @@ private:
 	//Auto Go
 	int directionAfterAutoGo;
 	int autoGoDirection;
-	float posToGo;
+	float posToGoX;
+	float posToGoY;
 public:
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
@@ -102,7 +103,7 @@ public:
 	void Attack(WeaponType weaponType);
 	
 
-	void setAutoWalk(float positionToGo, int directionAfterAutoGo);
+	void setAutoWalk(float positionToGoX,float positionToGoY, int directionAfterAutoGo);
 	void upgradeWhip();
 	void setSecondaryWeapon(WeaponType weaponType);
 	WeaponType getSecondaryWeapon();

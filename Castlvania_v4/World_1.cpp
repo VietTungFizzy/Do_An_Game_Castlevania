@@ -23,9 +23,9 @@ void World_1::KeyState(BYTE * states)
 							simon->isOnStair = true;
 							float x, y, stairPos;
 							simon->GetPosition(x, y);
-							stairPos = temp->getStairPosition();
+							stairPos = temp->getStairPositionX();
 							if (abs(x - stairPos) >= 1)
-								simon->setAutoWalk(stairPos, temp->getDirectionX());
+								simon->setAutoWalk(stairPos, temp->getStairPositionY(),temp->getDirectionX());
 							else
 							{
 								simon->SetPosition(stairPos, y);
@@ -60,12 +60,12 @@ void World_1::KeyState(BYTE * states)
 								simon->isOnStair = true;
 								float x, y, stairPos;
 								simon->GetPosition(x, y);
-								stairPos = temp->getStairPosition();
+								stairPos = temp->getStairPositionX();
 								if (abs(x - stairPos) >= 1)
-									simon->setAutoWalk(stairPos, temp->getDirectionX());
+									simon->setAutoWalk(stairPos, temp->getStairPositionY(),temp->getDirectionX());
 								else
 								{
-									simon->SetPosition(stairPos, y);
+									simon->SetPosition(stairPos, temp->getStairPositionY());
 									simon->setDirectionX(temp->getDirectionX());
 								}
 								isSimonUseStair = true;
@@ -149,7 +149,7 @@ void World_1::Update(DWORD dt)
 
 	float x, y;
 	simon->GetPosition(x, y);
-	/*DebugOut(L"X= %f\n", x);*/
+	DebugOut(L"X= %f\n", x);
 	/*DebugOut(L"Y= %f\n", y);*/
 	camera->SetPosition(x - SCREEN_WIDTH / 2 + 30, camera->getY());
 	camera->Update(dt);
@@ -172,7 +172,7 @@ void World_1::LoadResources()
 		vector<LPGAMEOBJECT> tempVector;
 		for (int j = 0; j < totalObject; j++)
 		{
-			float stairPos;
+			float stairPosX,stairPosY;
 			input >> objectType >> x >> y >> w >> h >> type;
 			switch ((ObjectType)objectType)
 			{
@@ -186,12 +186,12 @@ void World_1::LoadResources()
 				tempObj = new BreakableBrick(x, y, w, h, type);
 				break;
 			case GO_UP_STAIR_OBJ:
-				input >> stairPos;
-				tempObj = new InitialStairEvent(x, y, w, h, -1, type,stairPos);
+				input >> stairPosX >> stairPosY;
+				tempObj = new InitialStairEvent(x, y, w, h, -1, type,stairPosX,stairPosY);
 				break;
 			case GO_DOWN_STAIR_OBJ:
-				input >> stairPos;
-				tempObj = new InitialStairEvent(x, y, w, h, 1, type, stairPos);
+				input >> stairPosX >> stairPosY;
+				tempObj = new InitialStairEvent(x, y, w, h, 1, type, stairPosX,stairPosY);
 				break;
 			default:
 				break;
@@ -206,7 +206,7 @@ void World_1::LoadResources()
 	stage = 0;
 
 	//testing
-	simon->SetPosition(703, 10);
+	simon->SetPosition(1028, 10);
 }
 
 void World_1::Render()

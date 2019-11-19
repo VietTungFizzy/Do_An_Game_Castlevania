@@ -110,7 +110,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			vx = 0;
 			vy = 0;
 		}
-		
+		collisionWhenSimonOnStair(coObjects);
 	}
 	else
 	{
@@ -152,12 +152,13 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (isInAir) return;
 			isWalking = true;
 			directionX = autoGoDirection;
-			if (abs(x - posToGo) < 1.0f)
+			if (abs(x - posToGoX) < 1.0f)
 			{
 				isAutoGo = false;
 				isWalking = false;
 				directionX = directionAfterAutoGo;
-				x = posToGo;
+				x = posToGoX;
+				y = posToGoY;
 			}
 		}
 #pragma endregion
@@ -519,17 +520,6 @@ void Simon::StepDown()
 	directionY = DOWN;
 }
 
-void Simon::setAutoWalk(float positionToGo, int directionAfterAutoGo)
-{
-	this->posToGo = positionToGo;
-	this->directionAfterAutoGo = directionAfterAutoGo;
-	isAutoGo = true;
-	if (x - positionToGo < 0)
-		autoGoDirection = 1;
-	else
-		autoGoDirection = -1;
-}
-
 void Simon::Attack(WeaponType weaponType)
 {
 	if (weaponType == NO_SECONDARY_WEAPON) return;
@@ -556,6 +546,18 @@ void Simon::Attack(WeaponType weaponType)
 		isWalking = false;
 		
 	}
+}
+
+void Simon::setAutoWalk(float positionToGoX, float positionToGoY, int directionAfterAutoGo)
+{
+	this->posToGoX = positionToGoX;
+	this->posToGoY = positionToGoY;
+	this->directionAfterAutoGo = directionAfterAutoGo;
+	isAutoGo = true;
+	if (x - positionToGoX < 0)
+		autoGoDirection = 1;
+	else
+		autoGoDirection = -1;
 }
 
 void Simon::upgradeWhip()

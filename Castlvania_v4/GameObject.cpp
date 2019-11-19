@@ -109,6 +109,14 @@ bool CGameObject::isCollideWithOtherObject(LPGAMEOBJECT obj)
 	return false;
 }
 
+bool CGameObject::isWithinCamera(Camera * camera)
+{
+	float l, t, r, b;
+	GetBoundingBox(l, t, r, b);
+	if (r < camera->getX() || b < camera->getY() || camera->getX() + SCREEN_WIDTH < l || camera->getY() + SCREEN_HEIGHT < t) return false;
+	return true;
+}
+
 
 CGameObject::CGameObject()
 {
