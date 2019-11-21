@@ -10,6 +10,7 @@ public:
 	float getY()						{ return y; }
 	int getBoundaryLeft()				{ return boundaryLeft; }
 	int getBoundaryRight()				{ return boundaryRight; }
+	
 
 	void Update(DWORD dt);
 	D3DXVECTOR2 translateWorldToScreen(float xWorld, float yWorld);

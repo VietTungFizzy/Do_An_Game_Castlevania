@@ -124,7 +124,7 @@
       <Filter>Object\SpecialObject</Filter>
     </ClCompile>
     <ClCompile Include="Pebble.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Object\Ground</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -213,7 +213,7 @@
       <Filter>Manager</Filter>
     </ClInclude>
     <ClInclude Include="Pebble.h">
-      <Filter>Header Files</Filter>
+      <Filter>Object\Ground</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

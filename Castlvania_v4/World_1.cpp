@@ -149,7 +149,7 @@ void World_1::Update(DWORD dt)
 
 	float x, y;
 	simon->GetPosition(x, y);
-	DebugOut(L"X= %f\n", x);
+	/*DebugOut(L"X= %f\n", x);*/
 	/*DebugOut(L"Y= %f\n", y);*/
 	camera->SetPosition(x - SCREEN_WIDTH / 2 + 30, camera->getY());
 	camera->Update(dt);
@@ -202,7 +202,11 @@ void World_1::LoadResources()
 	}
 	input.close();
 
-	simon = new Simon(camera);
+	simon = new Simon();
+	ifstream inputSimonData(L"Resources/Data/Temp.txt");
+	inputSimonData.read((char*)&simon, sizeof(simon));
+	inputSimonData.close();
+	simon->setCamera(camera);
 	stage = 0;
 
 	//testing

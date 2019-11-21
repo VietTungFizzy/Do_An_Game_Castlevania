@@ -37,6 +37,7 @@
 
 //Miscellaneous
 
+
 class Simon :
 	public CGameObject
 {
@@ -86,29 +87,36 @@ private:
 	float posToGoX;
 	float posToGoY;
 public:
+	//System
 	void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	void Render(Camera * camera);
 	void setDirectionX(int directionX) { this->directionX = directionX; }
 	void setDirectionY(int directionY) { this->directionY = directionY; }
-	
+	void setSecondaryWeapon(WeaponType weaponType);
+	WeaponType getSecondaryWeapon();
+	void collectHeart(int amount) { heart += amount; }
+	void setCamera(Camera * camera);
+
+	//Collision
 	void collisionWithGround(vector<LPGAMEOBJECT> *coObjects = NULL);
 	void collisionWhenSimonOnStair(vector<LPGAMEOBJECT> *coObjects = NULL);
 
+	//Control
 	void Jump();
 	void Sit();
 	void StandUp();
 	void StepUp();
 	void StepDown();
 	void Attack(WeaponType weaponType);
-	
 
+	//Support Function
 	void setAutoWalk(float positionToGoX,float positionToGoY, int directionAfterAutoGo);
 	void upgradeWhip();
-	void setSecondaryWeapon(WeaponType weaponType);
-	WeaponType getSecondaryWeapon();
-	void collectHeart(int amount) { heart += amount;}
-	Simon(Camera * camera);
+	void refreshSecondaryWeapon();
+
+	//Construction
+	Simon();
 	~Simon();
 };
 

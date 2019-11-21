@@ -572,11 +572,12 @@ void Simon::upgradeWhip()
 
 void Simon::setSecondaryWeapon(WeaponType weaponType)
 {
+	delete lstWeapon[weaponType];
+	lstWeapon[weaponType] = NULL;
 	switch (weaponType)
 	{
 	case Simon::KNIFE:
-		if (lstWeapon[weaponType] == NULL)
-			lstWeapon[weaponType] = new Dagger(camera);
+		lstWeapon[weaponType] = new Dagger(camera);
 		break;
 	case Simon::AXE:
 		break;
@@ -597,7 +598,30 @@ Simon::WeaponType Simon::getSecondaryWeapon()
 	return currentSecondaryWeaponType;
 }
 
-Simon::Simon(Camera * camera)
+void Simon::setCamera(Camera * camera)
+{
+	this->camera = camera;
+	if (lstWeapon[currentSecondaryWeaponType] == NULL) return;
+	switch (currentSecondaryWeaponType)
+	{
+	case Simon::KNIFE:
+		{	
+			Dagger * temp = dynamic_cast<Dagger*>(lstWeapon[currentSecondaryWeaponType]);
+			temp->setCamera(camera);
+		}
+		break;
+	case Simon::AXE:
+		break;
+	case Simon::HOLY_WATER:
+		break;
+	case Simon::BOOMERANG:
+		break;
+	default:
+		break;
+	}
+}
+
+Simon::Simon()
 {
 	std::ifstream input(L"Resources/Simon_Graphic.txt");
 	int n, tileID, id;
@@ -620,9 +644,6 @@ Simon::Simon(Camera * camera)
 	isSitting = isAttacking = isWalking = false;
 	isInAir = true;
 
-	x = 10;
-	y = 10;
-	this->camera = camera;
 	lstWeapon[MORNING_STAR] = new MorningStar();
 	currentSecondaryWeaponType = NO_SECONDARY_WEAPON;
 }

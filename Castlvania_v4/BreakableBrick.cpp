@@ -14,7 +14,7 @@ void BreakableBrick::Render(Camera * camera)
 	{
 		if (!isDoneAfterEffect)
 		{
-			isAllPebblesOutOfCameraSight = true;
+			bool isAllPebblesOutOfCameraSight = true;
 			for (int i = 0; i < afterEffect.size(); i++)
 			{
 				if (afterEffect[i]->isWithinCamera(camera) == true)
@@ -65,10 +65,10 @@ BreakableBrick::BreakableBrick(float x, float y, int w, int h, int type)
 	this->h = h;
 	sprite = CSprites::GetInstance()->Get(BRICK, type);
 	health = 1;
-	afterEffect.push_back(new Pebble(x + 8, y + 8, -0.15f, -0.25f));
-	afterEffect.push_back(new Pebble(x + 8, y + 8,  0.07f, -0.22f));
-	afterEffect.push_back(new Pebble(x + 8, y + 8,  0.15f, -0.2f));
-	afterEffect.push_back(new Pebble(x + 8, y + 8,  0.1f, -0.3f));
+	afterEffect.push_back(new Pebble(PEBBLE_X(x), PEBBLE_Y(y), PEBBLE_1_VX, PEBBLE_1_VY));
+	afterEffect.push_back(new Pebble(PEBBLE_X(x), PEBBLE_Y(y),  PEBBLE_2_VX, PEBBLE_2_VY));
+	afterEffect.push_back(new Pebble(PEBBLE_X(x), PEBBLE_Y(y),  PEBBLE_3_VX, PEBBLE_3_VY));
+	afterEffect.push_back(new Pebble(PEBBLE_X(x), PEBBLE_Y(y),  PEBBLE_4_VX, PEBBLE_4_VY));
 	isDoneAfterEffect =false;
 }
 

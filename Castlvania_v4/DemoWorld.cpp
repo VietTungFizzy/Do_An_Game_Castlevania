@@ -72,6 +72,9 @@ void DemoWorld::Update(DWORD dt)
 		simon->GetPosition(x, y);
 		if (abs(x - POSITION_TO_STOP_AUTO_WALKING_X) <= 1.0f)
 		{
+			ofstream output(L"Resources/Data/Temp.txt");
+			output.write((char*)&simon, sizeof(simon));
+			output.close();
 			WorldManager::GetInstance()->setWorld(new World_1());
 			return;
 		}
@@ -155,7 +158,8 @@ void DemoWorld::LoadResources()
 		}
 		lstItem[objectid] = temp;
 	}
-	simon = new Simon(camera);
+	simon = new Simon();
+	simon->setCamera(camera);
 }
 
 void DemoWorld::Render()

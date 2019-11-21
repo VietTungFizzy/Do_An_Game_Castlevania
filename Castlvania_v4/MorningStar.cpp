@@ -106,7 +106,7 @@ MorningStar::MorningStar()
 		int temp = MORNING_STAR_1 + i;
 		lstAnimation.push_back(CAnimations::GetInstance()->Get((AnimationID)temp));
 	}
-	level = 2;
+	level = 0;
 	isOn = false;
 
 }
