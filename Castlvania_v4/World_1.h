@@ -11,7 +11,7 @@ class World_1 :
 {
 private:
 	Camera * camera;
-	unordered_map<int,vector<LPGAMEOBJECT>> lstObject;
+	vector<LPGAMEOBJECT> lstObject;
 	unordered_map<int, Item*> lstItem;
 	Simon * simon;
 	int stage;

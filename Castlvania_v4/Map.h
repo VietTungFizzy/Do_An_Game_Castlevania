@@ -24,6 +24,7 @@ class Map
 public:
 	void Render(Camera * camera);
 	int getMapWidth();
+	int getMapHeight();
 	Map(LPCWSTR mapDesFilePath);
 	~Map();
 };

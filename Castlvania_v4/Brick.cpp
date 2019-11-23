@@ -12,10 +12,17 @@ void Brick::Render(Camera * camera)
 {
 	RenderBoundingBox(camera);
 	int frameWidth = CTextures::GetInstance()->Get(BRICK)->getFrameWidth();
-	int amount = (int)ceil(w / frameWidth);
-	for (int i = 0; i < amount; i++)
+	int frameHeight = CTextures::GetInstance()->Get(BRICK)->getFrameHeight();
+	int amountX = (int)ceil(w / frameWidth);
+	int amountY = (int)ceil(h / frameHeight);
+	for (int i = 0; i < amountX; i++)
 	{
 		D3DXVECTOR2 pos = camera->translateWorldToScreen(x + i * frameWidth, y);
+		sprite->Draw(pos.x, pos.y, false);
+	}
+	for (int i = 0; i < amountY; i++)
+	{
+		D3DXVECTOR2 pos = camera->translateWorldToScreen(x , y + i * frameHeight);
 		sprite->Draw(pos.x, pos.y, false);
 	}
 }
@@ -27,7 +34,7 @@ Brick::Brick(float x, float y, int w, int h, int type)
 	this->w = w;
 	this->h = h;
 	sprite = CSprites::GetInstance()->Get(BRICK, type);
-	health = -1;
+	health = 999;
 }
 
 Brick::~Brick()

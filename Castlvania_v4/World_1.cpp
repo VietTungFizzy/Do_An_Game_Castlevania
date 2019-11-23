@@ -3,6 +3,7 @@
 #include"LittleTorch.h"
 #include"BreakableBrick.h"
 #include "InitialStairEvent.h"
+#include "Grid.h"
 void World_1::KeyState(BYTE * states)
 {
 	if (simon->isAttacking || simon->isInAir || simon->isFreezing || simon->isAutoGo) return;
@@ -10,13 +11,13 @@ void World_1::KeyState(BYTE * states)
 	{
 		if (!simon->isOnStair)
 		{
-			for (int i = 0; i < lstObject[stage].size(); i++)
+			for (int i = 0; i < lstObject.size(); i++)
 			{
-				if (dynamic_cast<InitialStairEvent*>(lstObject[stage].at(i)))
+				if (dynamic_cast<InitialStairEvent*>(lstObject.at(i)))
 				{
-					if (simon->isCollideWithOtherObject(lstObject[stage].at(i)))
+					if (simon->isCollideWithOtherObject(lstObject.at(i)))
 					{
-						InitialStairEvent * temp = dynamic_cast<InitialStairEvent*>(lstObject[stage].at(i));
+						InitialStairEvent * temp = dynamic_cast<InitialStairEvent*>(lstObject.at(i));
 						if (temp->getDirectionY() == -1)
 						{
 							simon->setDirectionY(-1);
@@ -47,13 +48,13 @@ void World_1::KeyState(BYTE * states)
 			if (!simon->isOnStair)
 			{
 				bool isSimonUseStair = false;
-				for (int i = 0; i < lstObject[stage].size(); i++)
+				for (int i = 0; i < lstObject.size(); i++)
 				{
-					if (dynamic_cast<InitialStairEvent*>(lstObject[stage].at(i)))
+					if (dynamic_cast<InitialStairEvent*>(lstObject.at(i)))
 					{
-						if (simon->isCollideWithOtherObject(lstObject[stage].at(i)))
+						if (simon->isCollideWithOtherObject(lstObject.at(i)))
 						{
-							InitialStairEvent * temp = dynamic_cast<InitialStairEvent*>(lstObject[stage].at(i));
+							InitialStairEvent * temp = dynamic_cast<InitialStairEvent*>(lstObject.at(i));
 							if (temp->getDirectionY() == 1)
 							{
 								simon->setDirectionY(1);
@@ -136,20 +137,21 @@ void World_1::OnKeyUp(int KeyCode)
 
 void World_1::Update(DWORD dt)
 {
-	simon->Update(dt, &lstObject[stage]);
-	for (int i = 0; i < lstObject[stage].size(); i++)
+	Grid::GetInstance()->getList(lstObject, lstItem, camera);
+	simon->Update(dt, &lstObject);
+	for (int i = 0; i < lstObject.size(); i++)
 	{
-		lstObject[stage].at(i)->Update(dt, &lstObject[stage]);
-		if (lstObject[stage].at(i)->getHealth() == 0)
+		lstObject.at(i)->Update(dt, &lstObject);
+		/*if (lstObject.at(i)->getHealth() == 0)
 		{
-			lstObject[stage].at(i)->lostHealth(1);
-		}
+			lstObject.at(i)->lostHealth(1);
+		}*/
 
 	}
 
 	float x, y;
 	simon->GetPosition(x, y);
-	/*DebugOut(L"X= %f\n", x);*/
+	DebugOut(L"X= %f\n", x);
 	/*DebugOut(L"Y= %f\n", y);*/
 	camera->SetPosition(x - SCREEN_WIDTH / 2 + 30, camera->getY());
 	camera->Update(dt);
@@ -162,63 +164,29 @@ void World_1::LoadResources()
 	camera = new Camera(0, (float)(MapManager::GetInstance()->getMap()->getMapWidth() - SCREEN_WIDTH));
 	camera->SetPosition(0, 0);
 
-	std::ifstream input(L"Resources/Map_World_1_Ground_Object.txt");
-	int n,totalObject ,objectType, x, y, w, h, type;
-	input >> n;
-	for (int i = 0; i < n; i++)
-	{
-		input >> totalObject;
-		LPGAMEOBJECT tempObj = NULL;
-		vector<LPGAMEOBJECT> tempVector;
-		for (int j = 0; j < totalObject; j++)
-		{
-			float stairPosX,stairPosY;
-			input >> objectType >> x >> y >> w >> h >> type;
-			switch ((ObjectType)objectType)
-			{
-			case BRICK_OBJ:
-				tempObj = new Brick(x, y, w, h, type);
-				break;
-			case LITTLE_TORCH_OBJ:
-				tempObj = new LittleTorch(x, y);
-				break;
-			case BREAKABLE_BRICK_OBJ:
-				tempObj = new BreakableBrick(x, y, w, h, type);
-				break;
-			case GO_UP_STAIR_OBJ:
-				input >> stairPosX >> stairPosY;
-				tempObj = new InitialStairEvent(x, y, w, h, -1, type,stairPosX,stairPosY);
-				break;
-			case GO_DOWN_STAIR_OBJ:
-				input >> stairPosX >> stairPosY;
-				tempObj = new InitialStairEvent(x, y, w, h, 1, type, stairPosX,stairPosY);
-				break;
-			default:
-				break;
-			}
-			tempVector.push_back(tempObj);
-		}
-		lstObject[i] = tempVector;
-	}
-	input.close();
+	Grid::GetInstance()->setMap(WORLD_1);
 
 	simon = new Simon();
 	ifstream inputSimonData(L"Resources/Data/Temp.txt");
-	inputSimonData.read((char*)&simon, sizeof(simon));
+	if (inputSimonData.is_open())
+	{
+		inputSimonData.read((char*)&simon, sizeof(simon));
+		remove("Resources/Data/Temp.txt");
+	}
 	inputSimonData.close();
 	simon->setCamera(camera);
 	stage = 0;
 
 	//testing
-	simon->SetPosition(1028, 10);
+	simon->SetPosition(1500, 10);
 }
 
 void World_1::Render()
 {
 	MapManager::GetInstance()->getMap()->Render(camera);
-	for (int i = 0; i < lstObject[stage].size(); i++)
+	for (int i = 0; i < lstObject.size(); i++)
 	{
-		lstObject[stage].at(i)->Render(camera);
+		lstObject.at(i)->Render(camera);
 	}
 
 	simon->Render(camera);

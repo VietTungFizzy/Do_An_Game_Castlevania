@@ -125,6 +125,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 #pragma region Process Simon weapon
 	for (auto i : lstWeapon)
 	{
+		if (i.second == NULL) continue;
 		if (i.second->isOn)
 		{
 			if (i.second->isWeaponSpawned)
@@ -172,13 +173,14 @@ void Simon::Render(Camera * camera)
 	RenderBoundingBox(camera);
 #pragma region Weapon
 	for (auto i : lstWeapon)
+	{
+		if (i.second == NULL) continue;
+		if (i.second->isOn && i.second->isWeaponSpawned)
 		{
-			if (i.second->isOn && i.second->isWeaponSpawned)
-			{
-				i.second->RenderBoundingBox(camera);
-				i.second->Render(camera);
-			}
+			i.second->RenderBoundingBox(camera);
+			i.second->Render(camera);
 		}
+	}
 #pragma endregion
 
 	
@@ -623,7 +625,7 @@ void Simon::setCamera(Camera * camera)
 
 Simon::Simon()
 {
-	std::ifstream input(L"Resources/Simon_Graphic.txt");
+	std::ifstream input(L"Resources/Loader/Simon_Graphic.txt");
 	int n, tileID, id;
 	input >> n;
 	for (int i = 0; i < n; i++)

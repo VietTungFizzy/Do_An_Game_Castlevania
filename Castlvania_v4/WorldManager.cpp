@@ -46,7 +46,8 @@ void WorldManager::LoadResources()
 	CSprites *spriteManager = CSprites::GetInstance();
 	CAnimations * animationManager = CAnimations::GetInstance();
 	MapManager * mapManager = MapManager::GetInstance();
-	std::ifstream input1(L"Resources/TileSet_Description.txt");
+	Grid * grid = Grid::GetInstance();
+	std::ifstream input1(L"Resources/Loader/TileSet_Description.txt");
 
 	if (!input1.is_open())DebugOut(L"Khong mo duoc file\n");
 
@@ -79,7 +80,7 @@ void WorldManager::LoadResources()
 	}
 	input1.close();
 
-	input1.open(L"Resources/Animation_Description.txt");
+	input1.open(L"Resources/Loader/Animation_Description.txt");
 
 	if (!input1.is_open())DebugOut(L"Khong mo duoc file\n");
 	input1 >> n;

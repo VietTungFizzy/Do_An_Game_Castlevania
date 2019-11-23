@@ -8,7 +8,7 @@
 #include"BigHeart.h"
 #include"Dagger_Item.h"
 #include"SpecialMoneyBag.h"
-
+#include"Grid.h"
 void DemoWorld::KeyState(BYTE * states)
 {
 	if (simon->isAttacking ||  simon->isInAir || simon->isFreezing || simon->isAutoGo) return;
@@ -64,6 +64,7 @@ void DemoWorld::OnKeyUp(int KeyCode)
 
 void DemoWorld::Update(DWORD dt)
 {	
+	Grid::GetInstance()->getList(lstObject, lstItem, camera);
 	simon->Update(dt, &lstObject);
 
 	if (isSimonWalkingToCastle)
@@ -85,7 +86,7 @@ void DemoWorld::Update(DWORD dt)
 		lstObject[i]->Update(dt, &lstObject);
 		if (lstObject[i]->getHealth() == 0)
 		{
-			lstItem[i]->isOn = true;
+			lstItem[lstObject[i]->getID()]->isOn = true;
 			lstObject[i]->lostHealth(1);
 		}
 
@@ -109,55 +110,8 @@ void DemoWorld::LoadResources()
 	MapManager::GetInstance()->setMap(PROLOGUE);
 	camera = new Camera(0, (float)(MapManager::GetInstance()->getMap()->getMapWidth() - SCREEN_WIDTH));
 	camera->SetPosition(0, 0);
-
-	std::ifstream input(L"Resources/Map_Prologue_Object_Description.txt");
-	int n,objectType,x,y,w,h,type;
-	input >> n;
-	for (int i = 0; i < n; i++)
-	{
-		input >> objectType >> x >> y >> w >> h >> type;
-		LPGAMEOBJECT temp = NULL;
-		switch (objectType)
-		{
-		case BRICK_OBJ:
-			temp = new Brick(x, y, w, h,type);
-			break;
-		case BIG_TORCH_OBJ:
-			temp = new BigTorch(x, y);
-			break;
-		case HIDDEN_OBJ:
-			temp = new ObjectHidden(x, y,w,h);
-			break;
-		default:
-			break;
-		}
-		temp->setID(i);
-		lstObject.push_back(temp);
-	}
-	input >> n;
-	int objectid, itemType,model;
-	for (int i = 0; i < n; i++)
-	{
-		input >> objectid >> itemType >> x >> y >> model;
-		Item * temp = NULL;
-		switch (itemType)
-		{
-		case WHIP_UPGRADE:
-			temp = new WhipUpgrade(x, y);
-			break;
-		case BIG_HEART:
-			temp = new BigHeart(x, y);
-			break;
-		case DAGGER:
-			temp = new Dagger_Item(x, y);
-			break;
-		case SPECIAL_MONEY_BAG:
-			temp = new SpecialMoneyBag(x, y);
-		default:
-			break;
-		}
-		lstItem[objectid] = temp;
-	}
+	Grid::GetInstance()->setMap(PROLOGUE);
+	
 	simon = new Simon();
 	simon->setCamera(camera);
 }
@@ -209,17 +163,24 @@ void DemoWorld::checkCollisionSimonWithItem()
 
 void DemoWorld::checkCollisionSimonWithObjectHidden()
 {
-	if (simon->isCollideWithOtherObject(lstObject[OBJECT_HIDDEN_ID_FOR_SPECIAL_BONUS]))
+	for (int i = 0; i < lstObject.size(); i++)
 	{
-		if(lstItem[OBJECT_HIDDEN_ID_FOR_SPECIAL_BONUS]->isItemSpawned == false)
-			lstItem[OBJECT_HIDDEN_ID_FOR_SPECIAL_BONUS]->isOn = true;
-	}
-	else
-	{
-		if (simon->isCollideWithOtherObject(lstObject[OBJECT_HIDDEN_ID_FOR_GO_TO_NEXT_LEVEL]))
+		if (dynamic_cast<ObjectHidden*>(lstObject[i]))
 		{
-			simon->setAutoWalk(POSITION_TO_STOP_AUTO_WALKING_X,POSITION_TO_STOP_AUTO_WALKING_Y,1);
-			isSimonWalkingToCastle = true;
+			if(simon->isCollideWithOtherObject(lstObject[i]))
+				if (lstObject[i]->getID() == OBJECT_HIDDEN_ID_FOR_SPECIAL_BONUS)
+				{
+					if (lstItem[OBJECT_HIDDEN_ID_FOR_SPECIAL_BONUS]->isItemSpawned == false)
+						lstItem[OBJECT_HIDDEN_ID_FOR_SPECIAL_BONUS]->isOn = true;
+				}
+				else
+				{
+					if (lstObject[i]->getID() == OBJECT_HIDDEN_ID_FOR_GO_TO_NEXT_LEVEL)
+					{
+						simon->setAutoWalk(POSITION_TO_STOP_AUTO_WALKING_X, POSITION_TO_STOP_AUTO_WALKING_Y, 1);
+						isSimonWalkingToCastle = true;
+					}
+				}
 		}
 	}
 }

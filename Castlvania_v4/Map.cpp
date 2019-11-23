@@ -23,6 +23,11 @@ int Map::getMapWidth()
 	return mapWidth * CTextures::GetInstance()->Get(tileID)->getFrameWidth();
 }
 
+int Map::getMapHeight()
+{
+	return mapHeight * CTextures::GetInstance()->Get(tileID)->getFrameHeight();
+}
+
 Map::Map(LPCWSTR mapDesFilePath)
 {
 	std::ifstream input(mapDesFilePath);
@@ -85,7 +90,7 @@ void MapManager::setMap(WorldID id)
 
 MapManager::MapManager()
 {
-	std::ifstream input(L"Resources/Map_Information.txt");
+	std::ifstream input(L"Resources/Loader/Map_Information.txt");
 	if(!input.is_open()) DebugOut(L"Khong mo duoc file\n");
 	int n, id;
 	input >> n;

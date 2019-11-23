@@ -1,0 +1,9 @@
+6
+1 1 88 113 -1
+2 0 215 113 -1
+3 0 342 113 -1
+4 1 469 113 -1
+5 3 596 113 -1
+6 4 630 113 -1
+//totalItem
+//Object Index - ItemID - x - y - type (-1 is no type, for money bag only)
