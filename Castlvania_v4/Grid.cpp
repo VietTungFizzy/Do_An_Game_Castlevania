@@ -10,6 +10,7 @@
 #include "Dagger_Item.h"
 #include "BigHeart.h"
 #include "SpecialMoneyBag.h"
+#include "Door.h"
 Grid * Grid::__instance = NULL;
 Grid * Grid::GetInstance()
 {
@@ -59,6 +60,9 @@ void Grid::loadObject(WorldID id)
 			tempObj = new InitialStairEvent(x, y, w, h, 1, type, stairPosX, stairPosY);
 		}
 		break;
+		case DOOR_OBJ:
+			tempObj = new Door(x, y);
+			break;
 		default:
 			break;
 		}
@@ -160,8 +164,8 @@ void Grid::getList(vector<LPGAMEOBJECT>& lstObject, unordered_map<int, Item*>& l
 
 			for (int k = 0; k < this->lstObject[i][j].size(); k++)
 			{
-				int t = this->lstObject[i][j].at(k)->getID();
-				DebugOut(L"t = %d\n", t);
+				/*int t = this->lstObject[i][j].at(k)->getID();
+				DebugOut(L"t = %d\n", t);*/
 				lstObject.push_back(this->lstObject[i][j].at(k));
 				if(this->lstObject[i][j].at(k)->getHealth() != 999)
 					lstItem[this->lstObject[i][j].at(k)->getID()] = this->lstItem[this->lstObject[i][j].at(k)->getID()];

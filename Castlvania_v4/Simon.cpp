@@ -2,6 +2,7 @@
 #include"Brick.h"
 #include"Dagger.h"
 #include"InitialStairEvent.h"
+#include"Ghost.h"
 void Simon::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
 	if (isSitting)
@@ -84,13 +85,28 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 #pragma region Process Freeze State
 	if (isFreezing)
 	{
-		if (timeFreezed < SIMON_FREEZE_TIME_MAX)
+		if (timeFreezed <= SIMON_FREEZE_TIME_MAX)
 		{
 			timeFreezed += dt;
 			return;
 		}
 		else
 			isFreezing = false;
+	}
+#pragma endregion
+
+#pragma region Classify Object For Processing Collision
+	vector<LPGAMEOBJECT> lstBrick;
+	vector<LPGAMEOBJECT> lstInitialStairEvent;
+
+	for (int i = 0; i < coObjects->size(); i++)
+	{
+		if (dynamic_cast<Brick*>(coObjects->at(i)))
+			lstBrick.push_back(coObjects->at(i));
+
+		if (dynamic_cast<InitialStairEvent*>(coObjects->at(i)))
+			lstInitialStairEvent.push_back(coObjects->at(i));
+
 	}
 #pragma endregion
 
@@ -101,8 +117,8 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		
 		if (isWalking)
 		{
-			vx = SIMON_STEP_ON_STAIR_SPEED * directionX;
-			vy = SIMON_STEP_ON_STAIR_SPEED * directionY;
+			vx = SIMON_STEP_ON_STAIR_SPEED_X * directionX;
+			vy = SIMON_STEP_ON_STAIR_SPEED_Y * directionY;
 			
 		}
 		else 
@@ -110,15 +126,20 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			vx = 0;
 			vy = 0;
 		}
-		collisionWhenSimonOnStair(coObjects);
+		collisionWhenSimonOnStair(&lstInitialStairEvent,&lstBrick);
 	}
 	else
 	{
 		vy += SIMON_GRAVITY * dt;
-		collisionWithGround(coObjects);
+		collisionWithGround(&lstBrick);
 		if (isWalking)
-			vx = SIMON_WALKING_SPEED * directionX;
-		else vx = 0;
+			if (isAutoGo)
+				vx = SIMON_AUTO_WALKING_SPEED * directionX;
+			else
+				vx = SIMON_WALKING_SPEED * directionX;
+		else 
+			if(!isHurt)
+				vx = 0;
 	}
 #pragma endregion
 	
@@ -149,22 +170,35 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 #pragma region Process Auto Go
 	if (isAutoGo)
+	{
+		if (isInAir) return;
+		isWalking = true;
+		directionX = autoGoDirection;
+		float distanceWalked = abs(x - savedX);
+		if (distanceWalked >= this->distance)
 		{
-			if (isInAir) return;
-			isWalking = true;
-			directionX = autoGoDirection;
-			if (abs(x - posToGoX) < 1.0f)
-			{
-				isAutoGo = false;
-				isWalking = false;
-				directionX = directionAfterAutoGo;
-				x = posToGoX;
-				y = posToGoY;
-			}
+			isAutoGo = false;
+			isWalking = false;
+			directionX = directionAfterAutoGo;
+			x = posToGoX;
+			y = posToGoY;
 		}
+	}
 #pragma endregion
 
-	
+#pragma region Process Untouchable State
+	if (isUntouchable)
+	{
+		if (timeUntouchable <= SIMON_UNTOUCHABLE_TIME_MAX)
+			timeUntouchable += dt;
+		else
+		{
+			isUntouchable = false;
+			isHurt = false;
+		}
+	}
+#pragma endregion
+
 }
 
 void Simon::Render(Camera * camera)
@@ -378,15 +412,8 @@ void Simon::collisionWithGround(vector<LPGAMEOBJECT>* coObjects)
 	std::vector<LPCOLLISIONEVENT> coEvents;
 	std::vector<LPCOLLISIONEVENT> coEventsResult;
 	coEvents.clear();
-	std::vector<LPGAMEOBJECT> lstBrick;
-	for (UINT i = 0; i < coObjects->size(); i++)
-	{
-		if (dynamic_cast<Brick*>(coObjects->at(i)))
-		{
-			lstBrick.push_back(coObjects->at(i));
-		}
-	}
-	CalcPotentialCollisions(&lstBrick, coEvents);
+
+	CalcPotentialCollisions(coObjects, coEvents);
 
 	if (coEvents.size() == 0)
 	{
@@ -405,22 +432,27 @@ void Simon::collisionWithGround(vector<LPGAMEOBJECT>* coObjects)
 
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
+
 		if (isInAir)
 		{
 			isInAir = false;
 			y -= 1;
 		}
+		if (isHurt)
+		{
+			isUntouchable = true;
+			vx = 0;
+		}
 	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
-void Simon::collisionWhenSimonOnStair(vector<LPGAMEOBJECT>* coObjects)
+void Simon::collisionWhenSimonOnStair(vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJECT> * lstBrick)
 {
 	bool isSimonWantToGetOffStair = false;
 	for (int i = 0; i < coObjects->size(); i++)
 	{
-		if (dynamic_cast<InitialStairEvent*>(coObjects->at(i)) &&
-			isCollideWithOtherObject(coObjects->at(i)))
+		if (isCollideWithOtherObject(coObjects->at(i)))
 		{
 			InitialStairEvent* temp = dynamic_cast<InitialStairEvent*>(coObjects->at(i));
 			if (directionY != temp->getDirectionY())
@@ -439,15 +471,7 @@ void Simon::collisionWhenSimonOnStair(vector<LPGAMEOBJECT>* coObjects)
 		std::vector<LPCOLLISIONEVENT> coEvents;
 		std::vector<LPCOLLISIONEVENT> coEventsResult;
 		coEvents.clear();
-		std::vector<LPGAMEOBJECT> lstBrick;
-		for (UINT i = 0; i < coObjects->size(); i++)
-		{
-			if (dynamic_cast<Brick*>(coObjects->at(i)))
-			{
-				lstBrick.push_back(coObjects->at(i));
-			}
-		}
-		CalcPotentialCollisions(&lstBrick, coEvents);
+		CalcPotentialCollisions(lstBrick, coEvents);
 
 		if (coEvents.size() == 0)
 		{
@@ -482,6 +506,46 @@ void Simon::collisionWhenSimonOnStair(vector<LPGAMEOBJECT>* coObjects)
 		y += dy;
 		
 	}
+}
+
+void Simon::collisionWithEnenmy(vector<LPGAMEOBJECT>* coObjects)
+{
+	if (isHurt) return;
+
+	std::vector<LPCOLLISIONEVENT> coEvents;
+	std::vector<LPCOLLISIONEVENT> coEventsResult;
+	coEvents.clear();
+
+	CalcPotentialCollisions(coObjects, coEvents);
+
+	if (coEvents.size() != 0) //Collide
+	{
+		float min_tx, min_ty, nx = 0, ny;
+
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+
+		// block 
+		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+		y += min_ty * dy + ny * 0.4f;
+
+		if (nx != 0)
+		{
+			if (isOnStair == false)
+			{
+				vx = SIMON_BOUNCE_OFF_ENEMY_SPEED_X * nx;
+				vy = SIMON_BOUNCE_OFF_ENEMY_SPEED_Y;
+				isHurt = true;
+				isWalking = false;
+				isAttacking = false;
+				lstWeapon[MORNING_STAR]->isOn = false;
+				StandUp();
+			}
+		}
+		timeUntouchable = 0;
+		health -= 2;
+
+	}
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
 void Simon::Jump()
@@ -552,9 +616,13 @@ void Simon::Attack(WeaponType weaponType)
 
 void Simon::setAutoWalk(float positionToGoX, float positionToGoY, int directionAfterAutoGo)
 {
+	this->distance = abs(x - positionToGoX);
+	savedX = x;
+
 	this->posToGoX = positionToGoX;
 	this->posToGoY = positionToGoY;
 	this->directionAfterAutoGo = directionAfterAutoGo;
+
 	isAutoGo = true;
 	if (x - positionToGoX < 0)
 		autoGoDirection = 1;
@@ -642,7 +710,8 @@ Simon::Simon()
 	input.close();
 
 	directionX = LEFT;
-	heart = 5;
+	heart = SIMON_DEFAULT_HEART;
+	health = SIMON_DEFAULT_HEALTH;
 	isSitting = isAttacking = isWalking = false;
 	isInAir = true;
 

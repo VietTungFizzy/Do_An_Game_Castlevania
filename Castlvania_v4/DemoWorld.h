@@ -31,8 +31,8 @@ public:
 	void LoadResources();
 	void Render();
 
-	void checkCollisionSimonWithItem();
-	void checkCollisionSimonWithObjectHidden();
+	void processSimonCollideWithItem();
+	void processSimonCollideWithObjectHidden();
 	DemoWorld();
 	~DemoWorld();
 };

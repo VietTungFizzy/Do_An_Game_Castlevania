@@ -17,6 +17,12 @@
 #define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 240
 
+//Direction
+#define UP -1
+#define DOWN 1
+#define LEFT -1
+#define RIGHT 1
+
 enum TileSetID
 {
 	BBOX =-100,
@@ -26,7 +32,13 @@ enum TileSetID
 	SIMON_TILESET =4,
 	PROLOGUE_TILESET = 5,
 	BRICK = 6,
-	MORNING_START = 7
+	MORNING_START = 7,
+	FIREBALL =8,
+	WORLD_1_HALLWAY_TILE_SET = 9,
+	DOOR_TILESET = 10,
+	GHOST_TILESET = 11,
+	PANTHER_TILESET =12,
+	FISHER_TILESET =13
 };
 enum AnimationID
 {
@@ -46,7 +58,10 @@ enum AnimationID
 	MONEY_BAG,
 	MORNING_STAR_1,
 	MORNING_STAR_2,
-	MORNING_STAR_3
+	MORNING_STAR_3,
+	DOOR_OPEN,
+	DOOR_CLOSE,
+	GHOST_WALKING
 };
 enum WorldID
 {
@@ -64,7 +79,8 @@ enum ObjectType
 	LITTLE_TORCH_OBJ = 8,
 	BREAKABLE_BRICK_OBJ =9,
 	GO_UP_STAIR_OBJ =10,
-	GO_DOWN_STAIR_OBJ =11
+	GO_DOWN_STAIR_OBJ =11,
+	DOOR_OBJ = 12
 };
 enum ItemType
 {

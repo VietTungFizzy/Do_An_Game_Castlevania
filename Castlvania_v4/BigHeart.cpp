@@ -4,8 +4,8 @@
 
 void BigHeart::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
-	left = x;
-	top = y;
+	left = x + BIG_HEART_OFFSET_X;
+	top = y + BIG_HEART_OFFSET_Y;
 	right = left + BIG_HEART_BBOX_WIDTH;
 	bottom = top + BIG_HEART_BBOX_HEIGHT;
 }

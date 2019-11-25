@@ -3,6 +3,7 @@
 #define DAGGER_ITEM_SPRITE_ID 2
 #define DAGGER_ITEM_BBOX_WIDTH 17
 #define DAGGER_ITEM_BBOX_HEIGHT 9
+#define DAGGER_ITEM_OFFSET_Y 5
 class Dagger_Item :
 	public Item
 {

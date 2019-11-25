@@ -3,7 +3,7 @@
 void Dagger_Item::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
 	left = x;
-	top = y;
+	top = y + DAGGER_ITEM_OFFSET_Y;
 	right = left + DAGGER_ITEM_BBOX_WIDTH;
 	bottom = top + DAGGER_ITEM_BBOX_HEIGHT;
 }

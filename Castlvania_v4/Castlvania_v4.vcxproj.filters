@@ -40,6 +40,9 @@
     <Filter Include="Manager\World">
       <UniqueIdentifier>{d006af22-7281-4d3d-b047-aa64031f6ffd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Enemy">
+      <UniqueIdentifier>{069d9517-23a5-47b3-a3cc-ade4b1834a83}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -117,9 +120,6 @@
     <ClCompile Include="Pebble.cpp">
       <Filter>Object\Ground</Filter>
     </ClCompile>
-    <ClCompile Include="Door.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DemoWorld.cpp">
       <Filter>Manager\World</Filter>
     </ClCompile>
@@ -134,6 +134,15 @@
     </ClCompile>
     <ClCompile Include="Grid.cpp">
       <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>Object\SpecialObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Panther.cpp">
+      <Filter>Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Ghost.cpp">
+      <Filter>Object\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -212,9 +221,6 @@
     <ClInclude Include="Pebble.h">
       <Filter>Object\Ground</Filter>
     </ClInclude>
-    <ClInclude Include="Door.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DemoWorld.h">
       <Filter>Manager\World</Filter>
     </ClInclude>
@@ -229,6 +235,15 @@
     </ClInclude>
     <ClInclude Include="Grid.h">
       <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
+      <Filter>Object\SpecialObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Ghost.h">
+      <Filter>Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Panther.h">
+      <Filter>Object\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -7,6 +7,7 @@
 #define SIMON_SITTING_SPRITE_ID 1
 #define SIMON_ON_STAIR_GOING_UP_SPRITE_ID 2
 #define SIMON_ON_STAIR_GOING_DOWN_SPRITE_ID 3
+#define SIMON_BOUNCE_OFF_ENEMY_SPRITE_DI 4
 
 //BBox
 #define SIMON_DIRECTION_RIGHT_OFFSET_X 10
@@ -25,16 +26,16 @@
 //Simon's attribute
 #define SIMON_GRAVITY 0.0005f
 #define SIMON_WALKING_SPEED 0.12f
+#define SIMON_AUTO_WALKING_SPEED 0.06f
 #define SIMON_JUMPING_SPEED -0.2f
 #define SIMON_FREEZE_TIME_MAX 500
-#define SIMON_STEP_ON_STAIR_SPEED 0.025f
-
-//Direction
-#define UP -1
-#define DOWN 1
-#define LEFT -1
-#define RIGHT 1
-
+#define SIMON_STEP_ON_STAIR_SPEED_Y 0.023f
+#define SIMON_STEP_ON_STAIR_SPEED_X 0.024f
+#define SIMON_DEFAULT_HEALTH 16
+#define SIMON_DEFAULT_HEART 5
+#define SIMON_BOUNCE_OFF_ENEMY_SPEED_X 0.12f
+#define SIMON_BOUNCE_OFF_ENEMY_SPEED_Y -0.1f
+#define SIMON_UNTOUCHABLE_TIME_MAX 3000
 //Miscellaneous
 
 
@@ -79,11 +80,14 @@ private:
 	//Parameters for calculation
 	WeaponType currentSecondaryWeaponType;
 	DWORD timeFreezed;
-
+	DWORD timeUntouchable;
+	bool isUntouchable;
 
 	//Auto Go
 	int directionAfterAutoGo;
 	int autoGoDirection;
+	float savedX;
+	float distance;
 	float posToGoX;
 	float posToGoY;
 public:
@@ -100,7 +104,8 @@ public:
 
 	//Collision
 	void collisionWithGround(vector<LPGAMEOBJECT> *coObjects = NULL);
-	void collisionWhenSimonOnStair(vector<LPGAMEOBJECT> *coObjects = NULL);
+	void collisionWhenSimonOnStair(vector<LPGAMEOBJECT> *coObjects , vector<LPGAMEOBJECT> * lstBrick);
+	void collisionWithEnenmy(vector<LPGAMEOBJECT> *coObjects = NULL);
 
 	//Control
 	void Jump();
@@ -113,8 +118,7 @@ public:
 	//Support Function
 	void setAutoWalk(float positionToGoX,float positionToGoY, int directionAfterAutoGo);
 	void upgradeWhip();
-	void refreshSecondaryWeapon();
-
+	void getHurt(int direction);
 	//Construction
 	Simon();
 	~Simon();

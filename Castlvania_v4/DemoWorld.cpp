@@ -71,7 +71,7 @@ void DemoWorld::Update(DWORD dt)
 	{
 		float x, y;
 		simon->GetPosition(x, y);
-		if (abs(x - POSITION_TO_STOP_AUTO_WALKING_X) <= 1.0f)
+		if (abs(x - POSITION_TO_STOP_AUTO_WALKING_X) <= 1.0f && simon->isInAir == false)
 		{
 			ofstream output(L"Resources/Data/Temp.txt");
 			output.write((char*)&simon, sizeof(simon));
@@ -101,8 +101,8 @@ void DemoWorld::Update(DWORD dt)
 	camera->SetPosition(x - SCREEN_WIDTH / 2 + 30, camera->getY());
 	camera->Update(dt);
 
-	checkCollisionSimonWithItem();
-	checkCollisionSimonWithObjectHidden();
+	processSimonCollideWithItem();
+	processSimonCollideWithObjectHidden();
 }
 
 void DemoWorld::LoadResources()
@@ -134,7 +134,7 @@ void DemoWorld::Render()
 	simon->Render(camera);
 }
 
-void DemoWorld::checkCollisionSimonWithItem()
+void DemoWorld::processSimonCollideWithItem()
 {
 	for (pair<int, Item*> element : lstItem)
 	{
@@ -161,7 +161,7 @@ void DemoWorld::checkCollisionSimonWithItem()
 	}
 }
 
-void DemoWorld::checkCollisionSimonWithObjectHidden()
+void DemoWorld::processSimonCollideWithObjectHidden()
 {
 	for (int i = 0; i < lstObject.size(); i++)
 	{

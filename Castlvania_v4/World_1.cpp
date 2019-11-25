@@ -1,12 +1,16 @@
 #include "World_1.h"
-#include"Brick.h"
-#include"LittleTorch.h"
-#include"BreakableBrick.h"
+#include "Brick.h"
+#include "LittleTorch.h"
+#include "BreakableBrick.h"
 #include "InitialStairEvent.h"
 #include "Grid.h"
+#include "Door.h"
+#include "Ghost.h"
 void World_1::KeyState(BYTE * states)
 {
-	if (simon->isAttacking || simon->isInAir || simon->isFreezing || simon->isAutoGo) return;
+	if (simon->isAttacking || simon->isInAir 
+		|| simon->isFreezing || simon->isAutoGo 
+		|| isSimonGoNextStage) return;
 	if (Game::GetInstance()->IsKeyDown(DIK_UP))
 	{
 		if (!simon->isOnStair)
@@ -117,7 +121,7 @@ void World_1::KeyState(BYTE * states)
 
 void World_1::OnKeyDown(int KeyCode)
 {
-	if (simon->isAttacking || simon->isFreezing || simon->isAutoGo) return;
+	if (simon->isAttacking || simon->isFreezing || simon->isAutoGo || isSimonGoNextStage) return;
 	if (KeyCode == DIK_A && Game::GetInstance()->IsKeyDown(DIK_UP))
 	{
 		simon->Attack(simon->getSecondaryWeapon());
@@ -137,8 +141,66 @@ void World_1::OnKeyUp(int KeyCode)
 
 void World_1::Update(DWORD dt)
 {
+	if (isSimonGoNextStage)
+	{
+		if (isSimonGoThroughDoor)
+		{
+			if (camera->isAutoGo == false)
+			{
+				if (camera->getX() != CAMERA_CONSTRAINT_FOR_STAGE_2_LEFT)
+				{
+					stage++;
+					camera->setAutoGo(CAMERA_CONSTRAINT_FOR_STAGE_2_LEFT);
+				}
+				else
+				{
+					Door * temp = NULL;
+					for (int i = 0; i < lstObject.size(); i++)
+					{
+						if (dynamic_cast<Door*>(lstObject[i]))
+						{
+							temp = dynamic_cast<Door*>(lstObject[i]);
+							temp->close();
+						}
+					}
+					camera->setBoundary(CAMERA_CONSTRAINT_FOR_STAGE_2_LEFT, CAMERA_CONSTRAINT_FOR_STAGE_2_RIGHT);
+					isSimonGoNextStage = false;
+					camera->isFollowingSimon = true;
+				}
+				
+			}
+		}
+		else
+		{
+			if (camera->isAutoGo == false)
+			{
+				Door * temp = NULL;
+				for (int i = 0; i < lstObject.size(); i++)
+				{
+					if (dynamic_cast<Door*>(lstObject[i]))
+					{
+						temp = dynamic_cast<Door*>(lstObject[i]);
+						temp->open();
+					}
+				}
+				if (temp->isWaitingSimonGoThrough)
+				{
+					float x, y;
+					simon->GetPosition(x, y);
+					if (x != SIMON_POSITION_WHEN_GO_TO_STAGE_2)
+						simon->setAutoWalk(SIMON_POSITION_WHEN_GO_TO_STAGE_2, y, RIGHT);
+					else
+					{
+						isSimonGoThroughDoor = true;
+					}
+				}
+			}
+		}
+	}
+
 	Grid::GetInstance()->getList(lstObject, lstItem, camera);
 	simon->Update(dt, &lstObject);
+	simon->collisionWithEnenmy(&lstEnemy);
 	for (int i = 0; i < lstObject.size(); i++)
 	{
 		lstObject.at(i)->Update(dt, &lstObject);
@@ -149,19 +211,26 @@ void World_1::Update(DWORD dt)
 
 	}
 
+	for (int i = 0; i < lstEnemy.size(); i++)
+	{
+		lstEnemy[i]->Update(dt, &lstObject);
+	}
 	float x, y;
 	simon->GetPosition(x, y);
-	DebugOut(L"X= %f\n", x);
+	/*DebugOut(L"X= %f\n", x);*/
 	/*DebugOut(L"Y= %f\n", y);*/
-	camera->SetPosition(x - SCREEN_WIDTH / 2 + 30, camera->getY());
+	if (camera->isFollowingSimon)
+		camera->SetPosition(x - SCREEN_WIDTH / 2 + 30, camera->getY());
 	camera->Update(dt);
-	
+
+	processSimonCollideWithObjectHidden();
+	spawnEnemy();
 }
 
 void World_1::LoadResources()
 {
 	MapManager::GetInstance()->setMap(WORLD_1);
-	camera = new Camera(0, (float)(MapManager::GetInstance()->getMap()->getMapWidth() - SCREEN_WIDTH));
+	camera = new Camera(0, (float)(CAMERA_CONSTRAINT_FOR_STAGE_1_RIGHT - SCREEN_WIDTH));
 	camera->SetPosition(0, 0);
 
 	Grid::GetInstance()->setMap(WORLD_1);
@@ -171,14 +240,15 @@ void World_1::LoadResources()
 	if (inputSimonData.is_open())
 	{
 		inputSimonData.read((char*)&simon, sizeof(simon));
+		inputSimonData.close();
 		remove("Resources/Data/Temp.txt");
 	}
-	inputSimonData.close();
 	simon->setCamera(camera);
 	stage = 0;
-
+	timeEnemyCreated = 0;
+	timeWaveEnded = 0;
 	//testing
-	simon->SetPosition(1500, 10);
+	simon->SetPosition(10, 10);
 }
 
 void World_1::Render()
@@ -189,7 +259,95 @@ void World_1::Render()
 		lstObject.at(i)->Render(camera);
 	}
 
+	for (int i = 0; i < lstEnemy.size(); i++)
+	{
+		lstEnemy.at(i)->Render(camera);
+	}
 	simon->Render(camera);
+}
+
+void World_1::processSimonCollideWithObjectHidden()
+{
+	for (int i = 0; i < lstObject.size(); i++)
+	{
+		if (dynamic_cast<ObjectHidden*>(lstObject[i]))
+		{
+			if (lstObject[i]->getID() == OBJECT_HIDDEN_ID_FOR_GO_TO_STAGE_2)
+			{
+				if (simon->isCollideWithOtherObject(lstObject[i]) && isSimonGoNextStage ==false)
+				{
+					isSimonGoNextStage = true;
+					isSimonGoThroughDoor = false;
+					camera->setAutoGo(CAMERA_POSITION_1_WHEN_SIMON_GO_TO_STAGE_2);
+					camera->setBoundary(0, CAMERA_CONSTRAINT_FOR_STAGE_2_RIGHT);
+					camera->isFollowingSimon = false;
+					simon->isWalking = false;
+				}
+			}
+		}
+	}
+}
+
+void World_1::spawnEnemy()
+{
+	float x, y;
+	simon->GetPosition(x, y);
+	
+	if (x <= AREA_ENEMY_SPAWN_1_BOUNDARY_RIGHT && x >= AREA_ENEMY_SPAWN_1_BOUNDARY_LEFT)
+	{
+		DWORD now = GetTickCount();
+		if (isInWave)
+		{
+			if (amountEnemy < AMOUNT_ENEMY_MAX_AT_1_TIME)
+			{
+				if (now - timeEnemyCreated >= TIME_BETWEEN_SPAWN_2_ENEMY)
+				{
+					if (camera->getX() - camera->getBoundaryLeft() > GHOST_BBOX_WIDTH)
+					{
+						int random = rand() % 4;
+						if (random == 0)
+							lstEnemy.push_back(new Ghost(camera->getX() - GHOST_BBOX_WIDTH, y - 10, RIGHT, camera));
+						else
+							lstEnemy.push_back(new Ghost(camera->getX() + SCREEN_WIDTH, y - 10, LEFT, camera));
+					}
+					else
+					{
+						lstEnemy.push_back(new Ghost(camera->getX() + SCREEN_WIDTH, y - 10, LEFT, camera));
+					}
+					timeEnemyCreated = now;
+					amountEnemy++;
+
+					if (amountEnemy == 3)
+					{
+						isInWave = false;
+					}
+				}
+			}
+		}
+		else
+		{
+			if (amountEnemy > 0)
+			{
+				int temp = 0;
+				for (int i = 0; i < lstEnemy.size(); i++)
+				{
+					if (lstEnemy[i]->getHealth() <= 0)
+					{
+						temp++;
+					}
+				}
+				if (temp == amountEnemy)
+				{
+					amountEnemy = 0;
+					timeWaveEnded = now;
+					lstEnemy.~vector();
+				}
+			}
+			else
+				if (now - timeWaveEnded >= TIME_BETWEEN_2_WAVE)
+					isInWave = true;
+		}
+	}
 }
 
 World_1::World_1()
