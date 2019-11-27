@@ -190,11 +190,15 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (isUntouchable)
 	{
 		if (timeUntouchable <= SIMON_UNTOUCHABLE_TIME_MAX)
+		{
 			timeUntouchable += dt;
+			alpha = rand() % 256;
+		}
 		else
 		{
 			isUntouchable = false;
 			isHurt = false;
+			alpha = 255;
 		}
 	}
 #pragma endregion
@@ -284,123 +288,131 @@ void Simon::Render(Camera * camera)
 	}
 	else
 	{
-		if (isOnStair && !isAutoGo)
+		if (isHurt && !isUntouchable)
 		{
-			if (directionY == 1)
-			{
-				if (isWalking)
-				{
-					if (directionX == RIGHT)
-						lstAnimation.at((int)SIMON_GO_DOWN_STAIR)->Render(pos.x, pos.y, true);
-					else
-						lstAnimation.at((int)SIMON_GO_DOWN_STAIR)->Render(pos.x, pos.y, false);
-				}
-				else
-				{
-					if (isAttacking)
-					{
-						if (directionX == RIGHT)
-							lstAnimation.at((int)SIMON_ATTACKING_GO_DOWN_STAIR)->Render(pos.x, pos.y, true);
-						else
-							lstAnimation.at((int)SIMON_ATTACKING_GO_DOWN_STAIR)->Render(pos.x, pos.y, false);
-					}
-					else
-						if (directionX == RIGHT)
-							lstSprite.at(SIMON_ON_STAIR_GOING_DOWN_SPRITE_ID)->Draw(pos.x, pos.y, true);
-						else
-							lstSprite.at(SIMON_ON_STAIR_GOING_DOWN_SPRITE_ID)->Draw(pos.x, pos.y, false);
-				}
-			}
+			if(directionX == LEFT)
+				lstSprite[SIMON_BOUNCE_OFF_ENEMY_SPRITE_ID]->Draw(pos.x, pos.y, false);
 			else
-			{
-				if (isWalking)
-				{
-					if (directionX == RIGHT)
-						lstAnimation.at((int)SIMON_GO_UP_STAIR)->Render(pos.x, pos.y, true);
-					else
-						lstAnimation.at((int)SIMON_GO_UP_STAIR)->Render(pos.x, pos.y, false);
-				}
-				else
-				{
-					if (isAttacking)
-					{
-						if (directionX == RIGHT)
-							lstAnimation.at((int)SIMON_ATTACKING_GO_UP_STAIR)->Render(pos.x, pos.y, true);
-						else
-							lstAnimation.at((int)SIMON_ATTACKING_GO_UP_STAIR)->Render(pos.x, pos.y, false);
-					}
-					else
-					{
-						if (directionX == RIGHT)
-							lstSprite.at(SIMON_ON_STAIR_GOING_UP_SPRITE_ID)->Draw(pos.x, pos.y, true);
-						else
-							lstSprite.at(SIMON_ON_STAIR_GOING_UP_SPRITE_ID)->Draw(pos.x, pos.y, false);
-					}
-				}
-			}
+				lstSprite[SIMON_BOUNCE_OFF_ENEMY_SPRITE_ID]->Draw(pos.x, pos.y, true);
 		}
 		else
-			if (isSitting)
+			if (isOnStair && !isAutoGo)
 			{
-				if (isAttacking)
+				if (directionY == 1)
 				{
-					if (directionX == RIGHT)
-						lstAnimation.at((int)SIMON_ATTACKING_SITTING)->Render(pos.x, pos.y + 5, true);
-					else
-						lstAnimation.at((int)SIMON_ATTACKING_SITTING)->Render(pos.x, pos.y + 5, false);
-				}
-				else
-				{
-					if (directionX == RIGHT)
-						lstSprite.at(SIMON_SITTING_SPRITE_ID)->Draw(pos.x, pos.y + 5, true);
-					else
-						lstSprite.at(SIMON_SITTING_SPRITE_ID)->Draw(pos.x, pos.y + 5, false);
-				}
-
-			}
-			else
-			{
-				if (isInAir)
-				{
-					if (isAttacking)
-					{
-						if (directionX == RIGHT)
-							lstAnimation.at((int)SIMON_ATTACKING_STANDING)->Render(pos.x, pos.y, true);
-						else
-							lstAnimation.at((int)SIMON_ATTACKING_STANDING)->Render(pos.x, pos.y, false);
-					}
-					else
-					{
-						if (directionX == RIGHT)
-							lstSprite.at(SIMON_SITTING_SPRITE_ID)->Draw(pos.x, pos.y, true);
-						else
-							lstSprite.at(SIMON_SITTING_SPRITE_ID)->Draw(pos.x, pos.y, false);
-					}
-				}
-				else
 					if (isWalking)
 					{
 						if (directionX == RIGHT)
-							lstAnimation.at((int)SIMON_WALKING)->Render(pos.x, pos.y + 1, true);
+							lstAnimation.at((int)SIMON_GO_DOWN_STAIR)->Render(pos.x, pos.y, true,alpha);
 						else
-							lstAnimation.at((int)SIMON_WALKING)->Render(pos.x, pos.y + 1, false);
+							lstAnimation.at((int)SIMON_GO_DOWN_STAIR)->Render(pos.x, pos.y, false, alpha);
 					}
 					else
 					{
 						if (isAttacking)
 						{
 							if (directionX == RIGHT)
-								lstAnimation.at((int)SIMON_ATTACKING_STANDING)->Render(pos.x, pos.y + 1, true);
+								lstAnimation.at((int)SIMON_ATTACKING_GO_DOWN_STAIR)->Render(pos.x, pos.y, true, alpha);
 							else
-								lstAnimation.at((int)SIMON_ATTACKING_STANDING)->Render(pos.x, pos.y + 1, false);
+								lstAnimation.at((int)SIMON_ATTACKING_GO_DOWN_STAIR)->Render(pos.x, pos.y, false, alpha);
 						}
 						else
 							if (directionX == RIGHT)
-								lstSprite.at(SIMON_STANDING_SPRITE_ID)->Draw(pos.x, pos.y + 1, true);
+								lstSprite.at(SIMON_ON_STAIR_GOING_DOWN_SPRITE_ID)->Draw(pos.x, pos.y, true, alpha);
 							else
-								lstSprite.at(SIMON_STANDING_SPRITE_ID)->Draw(pos.x, pos.y + 1, false);
+								lstSprite.at(SIMON_ON_STAIR_GOING_DOWN_SPRITE_ID)->Draw(pos.x, pos.y, false, alpha);
 					}
+				}
+				else
+				{
+					if (isWalking)
+					{
+						if (directionX == RIGHT)
+							lstAnimation.at((int)SIMON_GO_UP_STAIR)->Render(pos.x, pos.y, true, alpha);
+						else
+							lstAnimation.at((int)SIMON_GO_UP_STAIR)->Render(pos.x, pos.y, false, alpha);
+					}
+					else
+					{
+						if (isAttacking)
+						{
+							if (directionX == RIGHT)
+								lstAnimation.at((int)SIMON_ATTACKING_GO_UP_STAIR)->Render(pos.x, pos.y, true, alpha);
+							else
+								lstAnimation.at((int)SIMON_ATTACKING_GO_UP_STAIR)->Render(pos.x, pos.y, false, alpha);
+						}
+						else
+						{
+							if (directionX == RIGHT)
+								lstSprite.at(SIMON_ON_STAIR_GOING_UP_SPRITE_ID)->Draw(pos.x, pos.y, true, alpha);
+							else
+								lstSprite.at(SIMON_ON_STAIR_GOING_UP_SPRITE_ID)->Draw(pos.x, pos.y, false, alpha);
+						}
+					}
+				}
 			}
+			else
+				if (isSitting)
+				{
+					if (isAttacking)
+					{
+						if (directionX == RIGHT)
+							lstAnimation.at((int)SIMON_ATTACKING_SITTING)->Render(pos.x, pos.y + 5, true, alpha);
+						else
+							lstAnimation.at((int)SIMON_ATTACKING_SITTING)->Render(pos.x, pos.y + 5, false, alpha);
+					}
+					else
+					{
+						if (directionX == RIGHT)
+							lstSprite.at(SIMON_SITTING_SPRITE_ID)->Draw(pos.x, pos.y + 5, true, alpha);
+						else
+							lstSprite.at(SIMON_SITTING_SPRITE_ID)->Draw(pos.x, pos.y + 5, false, alpha);
+					}
+
+				}
+				else
+				{
+					if (isInAir)
+					{
+						if (isAttacking)
+						{
+							if (directionX == RIGHT)
+								lstAnimation.at((int)SIMON_ATTACKING_STANDING)->Render(pos.x, pos.y, true, alpha);
+							else
+								lstAnimation.at((int)SIMON_ATTACKING_STANDING)->Render(pos.x, pos.y, false, alpha);
+						}
+						else
+						{
+							if (directionX == RIGHT)
+								lstSprite.at(SIMON_SITTING_SPRITE_ID)->Draw(pos.x, pos.y, true, alpha);
+							else
+								lstSprite.at(SIMON_SITTING_SPRITE_ID)->Draw(pos.x, pos.y, false, alpha);
+						}
+					}
+					else
+						if (isWalking)
+						{
+							if (directionX == RIGHT)
+								lstAnimation.at((int)SIMON_WALKING)->Render(pos.x, pos.y + 1, true, alpha);
+							else
+								lstAnimation.at((int)SIMON_WALKING)->Render(pos.x, pos.y + 1, false, alpha);
+						}
+						else
+						{
+							if (isAttacking)
+							{
+								if (directionX == RIGHT)
+									lstAnimation.at((int)SIMON_ATTACKING_STANDING)->Render(pos.x, pos.y + 1, true, alpha);
+								else
+									lstAnimation.at((int)SIMON_ATTACKING_STANDING)->Render(pos.x, pos.y + 1, false, alpha);
+							}
+							else
+								if (directionX == RIGHT)
+									lstSprite.at(SIMON_STANDING_SPRITE_ID)->Draw(pos.x, pos.y + 1, true, alpha);
+								else
+									lstSprite.at(SIMON_STANDING_SPRITE_ID)->Draw(pos.x, pos.y + 1, false, alpha);
+						}
+				}
 	}
 
 #pragma endregion
@@ -515,8 +527,13 @@ void Simon::collisionWithEnenmy(vector<LPGAMEOBJECT>* coObjects)
 	std::vector<LPCOLLISIONEVENT> coEvents;
 	std::vector<LPCOLLISIONEVENT> coEventsResult;
 	coEvents.clear();
-
-	CalcPotentialCollisions(coObjects, coEvents);
+	vector<LPGAMEOBJECT> lstsEnemyAlive;
+	for (int i = 0; i < coObjects->size(); i++)
+	{
+		if (coObjects->at(i)->getHealth() > 0)
+			lstsEnemyAlive.push_back(coObjects->at(i));
+	}
+	CalcPotentialCollisions(&lstsEnemyAlive, coEvents);
 
 	if (coEvents.size() != 0) //Collide
 	{
@@ -539,6 +556,7 @@ void Simon::collisionWithEnenmy(vector<LPGAMEOBJECT>* coObjects)
 				isAttacking = false;
 				lstWeapon[MORNING_STAR]->isOn = false;
 				StandUp();
+				directionX = nx * -1;
 			}
 		}
 		timeUntouchable = 0;
@@ -715,6 +733,7 @@ Simon::Simon()
 	isSitting = isAttacking = isWalking = false;
 	isInAir = true;
 
+	alpha = 255;
 	lstWeapon[MORNING_STAR] = new MorningStar();
 	currentSecondaryWeaponType = NO_SECONDARY_WEAPON;
 }

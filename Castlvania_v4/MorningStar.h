@@ -28,6 +28,7 @@ public:
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL) ;
 	void Render(Camera * camera);
 	void Upgrade();
+	bool isHit(LPGAMEOBJECT obj);
 	MorningStar();
 	~MorningStar();
 };

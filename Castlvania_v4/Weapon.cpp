@@ -16,18 +16,29 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		if (coObjects->at(i)->getHealth() > 0)
+		if (isHit(coObjects->at(i)))
 		{
-			if (isCollideWithOtherObject(coObjects->at(i)))
+			if (dynamic_cast<BigTorch*>(coObjects->at(i)) ||
+				dynamic_cast<BreakableBrick*>(coObjects->at(i)))
 			{
-				if (dynamic_cast<BigTorch*>(coObjects->at(i)) ||
-					dynamic_cast<BreakableBrick*>(coObjects->at(i)))
-				{
 				coObjects->at(i)->lostHealth(1);
-				}
 			}
 		}
 	}
+}
+
+
+bool Weapon::isHit(LPGAMEOBJECT obj)
+{
+	if (obj->getHealth() <= 0 || isOn ==false) return false;
+	
+	if (isWeaponSpawned && isCollisionChecked == false)
+	{
+		bool isCollided =  isCollideWithOtherObject(obj);
+		if (isCollided) isCollisionChecked = true;
+		return isCollided;
+	}
+	return false;
 }
 
 Weapon::Weapon()

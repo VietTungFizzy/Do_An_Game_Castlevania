@@ -7,7 +7,7 @@
 #define SIMON_SITTING_SPRITE_ID 1
 #define SIMON_ON_STAIR_GOING_UP_SPRITE_ID 2
 #define SIMON_ON_STAIR_GOING_DOWN_SPRITE_ID 3
-#define SIMON_BOUNCE_OFF_ENEMY_SPRITE_DI 4
+#define SIMON_BOUNCE_OFF_ENEMY_SPRITE_ID 4
 
 //BBox
 #define SIMON_DIRECTION_RIGHT_OFFSET_X 10
@@ -24,7 +24,7 @@
 #define SIMON_JUMPING_BBOX_OFFSET_Y 9
 
 //Simon's attribute
-#define SIMON_GRAVITY 0.0005f
+#define SIMON_GRAVITY 0.00055f
 #define SIMON_WALKING_SPEED 0.12f
 #define SIMON_AUTO_WALKING_SPEED 0.06f
 #define SIMON_JUMPING_SPEED -0.2f
@@ -63,6 +63,9 @@ public:
 		STOP_WATCH,
 		NO_SECONDARY_WEAPON
 	};
+
+	//Sub-order
+	unordered_map<WeaponType, Weapon*> lstWeapon;
 private:
 	//Attribute
 	int directionX;
@@ -72,9 +75,9 @@ private:
 	//Graphic
 	std::vector<LPANIMATION> lstAnimation;
 	std::vector<LPSPRITE> lstSprite;
-	
+	int alpha;
+
 	//Sub-Objects
-	unordered_map<WeaponType, Weapon*> lstWeapon;
 	Camera * camera;
 	
 	//Parameters for calculation
@@ -118,7 +121,7 @@ public:
 	//Support Function
 	void setAutoWalk(float positionToGoX,float positionToGoY, int directionAfterAutoGo);
 	void upgradeWhip();
-	void getHurt(int direction);
+
 	//Construction
 	Simon();
 	~Simon();

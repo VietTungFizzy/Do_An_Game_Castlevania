@@ -58,10 +58,9 @@ void MorningStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		x -= ADJUST_POSITION_X_SIMON_STAND_LEFT;
 	}
-	if (lstAnimation[level]->getCurrentFrame() == ANIMATION_FRAME_TO_CHECK_COLLSION && isCollisionChecked == false)
+	if (lstAnimation[level]->getCurrentFrame() == ANIMATION_FRAME_TO_CHECK_COLLSION)
 	{
 		Weapon::Update(dt, coObjects);
-		isCollisionChecked = true;
 	}
 }
 
@@ -97,6 +96,12 @@ void MorningStar::Upgrade()
 {
 	if (level == 2) return;
 	level++;
+}
+
+bool MorningStar::isHit(LPGAMEOBJECT obj)
+{
+	if(lstAnimation[level]->getCurrentFrame() != ANIMATION_FRAME_TO_CHECK_COLLSION) return false;
+	return Weapon::isHit(obj);
 }
 
 MorningStar::MorningStar()

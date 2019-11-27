@@ -6,6 +6,7 @@
 #include "Grid.h"
 #include "Door.h"
 #include "Ghost.h"
+#include "Panther.h"
 void World_1::KeyState(BYTE * states)
 {
 	if (simon->isAttacking || simon->isInAir 
@@ -215,6 +216,7 @@ void World_1::Update(DWORD dt)
 	{
 		lstEnemy[i]->Update(dt, &lstObject);
 	}
+
 	float x, y;
 	simon->GetPosition(x, y);
 	/*DebugOut(L"X= %f\n", x);*/
@@ -224,13 +226,14 @@ void World_1::Update(DWORD dt)
 	camera->Update(dt);
 
 	processSimonCollideWithObjectHidden();
+	processWeaponWithEnemy();
 	spawnEnemy();
 }
 
 void World_1::LoadResources()
 {
 	MapManager::GetInstance()->setMap(WORLD_1);
-	camera = new Camera(0, (float)(CAMERA_CONSTRAINT_FOR_STAGE_1_RIGHT - SCREEN_WIDTH));
+	camera = new Camera(CAMERA_CONSTRAINT_FOR_STAGE_1_LEFT, (float)(CAMERA_CONSTRAINT_FOR_STAGE_1_RIGHT - SCREEN_WIDTH));
 	camera->SetPosition(0, 0);
 
 	Grid::GetInstance()->setMap(WORLD_1);
@@ -248,7 +251,7 @@ void World_1::LoadResources()
 	timeEnemyCreated = 0;
 	timeWaveEnded = 0;
 	//testing
-	simon->SetPosition(10, 10);
+	simon->SetPosition(1089, 10);
 }
 
 void World_1::Render()
@@ -288,17 +291,35 @@ void World_1::processSimonCollideWithObjectHidden()
 	}
 }
 
+void World_1::processWeaponWithEnemy()
+{
+	for (auto i : simon->lstWeapon)
+	{
+		if (i.second == NULL) continue;
+		if (i.second->isOn && i.second->isWeaponSpawned)
+		{
+			for (int j = 0; j < lstEnemy.size(); j++)
+			{
+				if (i.second->isHit(lstEnemy[j]))
+				{
+					lstEnemy[j]->lostHealth(1);
+				}
+			}
+		}
+	}
+}
+
 void World_1::spawnEnemy()
 {
 	float x, y;
 	simon->GetPosition(x, y);
-	
-	if (x <= AREA_ENEMY_SPAWN_1_BOUNDARY_RIGHT && x >= AREA_ENEMY_SPAWN_1_BOUNDARY_LEFT)
+	DWORD now = GetTickCount();
+	if (isInWave)
 	{
-		DWORD now = GetTickCount();
-		if (isInWave)
+		if (amountEnemy < AMOUNT_ENEMY_MAX_AT_1_TIME)
 		{
-			if (amountEnemy < AMOUNT_ENEMY_MAX_AT_1_TIME)
+#pragma region Ghost Area
+			if (x <= AREA_ENEMY_SPAWN_1_BOUNDARY_RIGHT && x >= AREA_ENEMY_SPAWN_1_BOUNDARY_LEFT)
 			{
 				if (now - timeEnemyCreated >= TIME_BETWEEN_SPAWN_2_ENEMY)
 				{
@@ -323,30 +344,73 @@ void World_1::spawnEnemy()
 					}
 				}
 			}
-		}
-		else
-		{
-			if (amountEnemy > 0)
+
+			if (x <= AREA_ENEMY_SPAWN_3_BOUNDARY_RIGHT && x >= AREA_ENEMY_SPAWN_3_BOUNDARY_LEFT)
 			{
-				int temp = 0;
-				for (int i = 0; i < lstEnemy.size(); i++)
+				if ((CAMERA_CONSTRAINT_FOR_STAGE_1_RIGHT - (camera->getX() + SCREEN_WIDTH) > GHOST_BBOX_WIDTH))
 				{
-					if (lstEnemy[i]->getHealth() <= 0)
-					{
-						temp++;
-					}
+					int random = rand() % 4;
+					if (random == 0)
+						lstEnemy.push_back(new Ghost(camera->getX() - GHOST_BBOX_WIDTH, y - 10, RIGHT, camera));
+					else
+						lstEnemy.push_back(new Ghost(camera->getX() + SCREEN_WIDTH, y - 10, LEFT, camera));
 				}
-				if (temp == amountEnemy)
+				else
 				{
-					amountEnemy = 0;
-					timeWaveEnded = now;
-					lstEnemy.~vector();
+					lstEnemy.push_back(new Ghost(camera->getX() - GHOST_BBOX_WIDTH, y - 10, RIGHT, camera));
+				}
+				timeEnemyCreated = now;
+				amountEnemy++;
+
+				if (amountEnemy == 3)
+				{
+					isInWave = false;
 				}
 			}
-			else
-				if (now - timeWaveEnded >= TIME_BETWEEN_2_WAVE)
-					isInWave = true;
+#pragma endregion
+
+#pragma region Panther Area
+			if (x <= AREA_ENEMY_SPAWN_2_BOUNDARY_RIGHT && x >= AREA_ENEMY_SPAWN_2_BOUNDARY_LEFT)
+			{
+				if (now - timeEnemyCreated >= TIME_BETWEEN_SPAWN_2_ENEMY)
+				{
+					lstEnemy.push_back(new Panther(PANTHER_1_POSITION_X, PANTHER_1_POSITION_Y, simon, camera));
+					lstEnemy.push_back(new Panther(PANTHER_2_POSITION_X, PANTHER_2_POSITION_Y, simon, camera));
+					lstEnemy.push_back(new Panther(PANTHER_3_POSITION_X, PANTHER_3_POSITION_Y, simon, camera));
+					timeEnemyCreated = now;
+					amountEnemy+= 3;
+
+					if (amountEnemy == 3)
+					{
+						isInWave = false;
+					}
+				}
+			}
+#pragma endregion
 		}
+	}
+	else
+	{
+		if (amountEnemy > 0)
+		{
+			int temp = 0;
+			for (int i = 0; i < lstEnemy.size(); i++)
+			{
+				if (lstEnemy[i]->getHealth() <= 0)
+				{
+					temp++;
+				}
+			}
+			if (temp == amountEnemy)
+			{
+				amountEnemy = 0;
+				timeWaveEnded = now;
+				lstEnemy.~vector();
+			}
+		}
+		else
+			if (now - timeWaveEnded >= TIME_BETWEEN_2_WAVE)
+				isInWave = true;
 	}
 }
 
