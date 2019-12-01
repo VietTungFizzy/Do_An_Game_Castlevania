@@ -23,9 +23,9 @@ void World_1::KeyState(BYTE * states)
 					if (simon->isCollideWithOtherObject(lstObject.at(i)))
 					{
 						InitialStairEvent * temp = dynamic_cast<InitialStairEvent*>(lstObject.at(i));
-						if (temp->getDirectionY() == -1)
+						if (temp->getDirectionY() == UP)
 						{
-							simon->setDirectionY(-1);
+							simon->setDirectionY(UP);
 							simon->isOnStair = true;
 							float x, y, stairPos;
 							simon->GetPosition(x, y);
@@ -60,9 +60,9 @@ void World_1::KeyState(BYTE * states)
 						if (simon->isCollideWithOtherObject(lstObject.at(i)))
 						{
 							InitialStairEvent * temp = dynamic_cast<InitialStairEvent*>(lstObject.at(i));
-							if (temp->getDirectionY() == 1)
+							if (temp->getDirectionY() == DOWN)
 							{
-								simon->setDirectionY(1);
+								simon->setDirectionY(DOWN);
 								simon->isOnStair = true;
 								float x, y, stairPos;
 								simon->GetPosition(x, y);
@@ -105,13 +105,13 @@ void World_1::KeyState(BYTE * states)
 	if (Game::GetInstance()->IsKeyDown(DIK_RIGHT))
 	{
 		simon->isWalking = true;
-		simon->setDirectionX(1);
+		simon->setDirectionX(RIGHT);
 	}
 	else
 		if (Game::GetInstance()->IsKeyDown(DIK_LEFT))
 		{
 			simon->isWalking = true;
-			simon->setDirectionX(-1);
+			simon->setDirectionX(LEFT);
 		}
 		else
 		{
@@ -133,6 +133,32 @@ void World_1::OnKeyDown(int KeyCode)
 	if (KeyCode == DIK_S)
 	{
 		simon->Jump();
+	}
+
+	if (KeyCode == DIK_TAB)
+	{
+		stage++;
+		if (stage > 2) stage = 0;
+		switch (stage)
+		{
+		case 0:
+			simon->SetPosition(10, 10);
+			camera->SetPosition(0, 0);
+			camera->setBoundary(CAMERA_CONSTRAINT_FOR_STAGE_1_LEFT, CAMERA_CONSTRAINT_FOR_STAGE_1_RIGHT);
+			break;
+		case 1:
+			simon->SetPosition(1550, 10);
+			camera->SetPosition(CAMERA_CONSTRAINT_FOR_STAGE_2_LEFT, 0);
+			camera->setBoundary(CAMERA_CONSTRAINT_FOR_STAGE_2_LEFT, CAMERA_CONSTRAINT_FOR_STAGE_2_RIGHT);
+			break;
+		case 2:
+			simon->SetPosition(2060, 10);
+			camera->SetPosition(CAMERA_CONSTRAINT_FOR_STAGE_3_LEFT, 0);
+			camera->setBoundary(CAMERA_CONSTRAINT_FOR_STAGE_3_LEFT, CAMERA_CONSTRAINT_FOR_STAGE_3_RIGHT);
+			break;
+		default:
+			break;
+		}
 	}
 }
 
@@ -205,10 +231,6 @@ void World_1::Update(DWORD dt)
 	for (int i = 0; i < lstObject.size(); i++)
 	{
 		lstObject.at(i)->Update(dt, &lstObject);
-		/*if (lstObject.at(i)->getHealth() == 0)
-		{
-			lstObject.at(i)->lostHealth(1);
-		}*/
 
 	}
 
@@ -232,26 +254,26 @@ void World_1::Update(DWORD dt)
 
 void World_1::LoadResources()
 {
-	MapManager::GetInstance()->setMap(WORLD_1);
+	MapManager::GetInstance()->setMap(WORLD_1_GROUND);
 	camera = new Camera(CAMERA_CONSTRAINT_FOR_STAGE_1_LEFT, (float)(CAMERA_CONSTRAINT_FOR_STAGE_1_RIGHT - SCREEN_WIDTH));
 	camera->SetPosition(0, 0);
 
-	Grid::GetInstance()->setMap(WORLD_1);
+	Grid::GetInstance()->setMap(WORLD_1_GROUND);
 
 	simon = new Simon();
-	ifstream inputSimonData(L"Resources/Data/Temp.txt");
+	ifstream inputSimonData(L"Resources/Temp.txt");
 	if (inputSimonData.is_open())
 	{
 		inputSimonData.read((char*)&simon, sizeof(simon));
 		inputSimonData.close();
-		remove("Resources/Data/Temp.txt");
+		remove("Resources/Temp.txt");
 	}
 	simon->setCamera(camera);
 	stage = 0;
 	timeEnemyCreated = 0;
 	timeWaveEnded = 0;
 	//testing
-	simon->SetPosition(1089, 10);
+	simon->SetPosition(929, 10);
 }
 
 void World_1::Render()
@@ -362,7 +384,7 @@ void World_1::spawnEnemy()
 				timeEnemyCreated = now;
 				amountEnemy++;
 
-				if (amountEnemy == 3)
+				if (amountEnemy == AMOUNT_ENEMY_MAX_AT_1_TIME)
 				{
 					isInWave = false;
 				}
@@ -374,13 +396,13 @@ void World_1::spawnEnemy()
 			{
 				if (now - timeEnemyCreated >= TIME_BETWEEN_SPAWN_2_ENEMY)
 				{
-					lstEnemy.push_back(new Panther(PANTHER_1_POSITION_X, PANTHER_1_POSITION_Y, simon, camera));
-					lstEnemy.push_back(new Panther(PANTHER_2_POSITION_X, PANTHER_2_POSITION_Y, simon, camera));
-					lstEnemy.push_back(new Panther(PANTHER_3_POSITION_X, PANTHER_3_POSITION_Y, simon, camera));
+					lstEnemy.push_back(new Panther(1, simon, camera));
+					/*lstEnemy.push_back(new Panther(2, simon, camera));
+					lstEnemy.push_back(new Panther(3, simon, camera));*/
 					timeEnemyCreated = now;
 					amountEnemy+= 3;
 
-					if (amountEnemy == 3)
+					if (amountEnemy == AMOUNT_ENEMY_MAX_AT_1_TIME)
 					{
 						isInWave = false;
 					}

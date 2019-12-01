@@ -43,6 +43,9 @@
     <Filter Include="Object\Enemy">
       <UniqueIdentifier>{069d9517-23a5-47b3-a3cc-ade4b1834a83}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Bullet">
+      <UniqueIdentifier>{63f10b2d-b6c8-4c0a-abfd-c60f47a4d190}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -144,6 +147,18 @@
     <ClCompile Include="Ghost.cpp">
       <Filter>Object\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="World_1_Water.cpp">
+      <Filter>Manager\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Bat.cpp">
+      <Filter>Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Fish.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Fireball.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Define.h">
@@ -244,6 +259,18 @@
     </ClInclude>
     <ClInclude Include="Panther.h">
       <Filter>Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="World_1_Water.h">
+      <Filter>Manager\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Bat.h">
+      <Filter>Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Fish.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Fireball.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

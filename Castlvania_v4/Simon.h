@@ -29,7 +29,7 @@
 #define SIMON_AUTO_WALKING_SPEED 0.06f
 #define SIMON_JUMPING_SPEED -0.2f
 #define SIMON_FREEZE_TIME_MAX 500
-#define SIMON_STEP_ON_STAIR_SPEED_Y 0.023f
+#define SIMON_STEP_ON_STAIR_SPEED_Y 0.024f
 #define SIMON_STEP_ON_STAIR_SPEED_X 0.024f
 #define SIMON_DEFAULT_HEALTH 16
 #define SIMON_DEFAULT_HEART 5
@@ -108,7 +108,7 @@ public:
 	//Collision
 	void collisionWithGround(vector<LPGAMEOBJECT> *coObjects = NULL);
 	void collisionWhenSimonOnStair(vector<LPGAMEOBJECT> *coObjects , vector<LPGAMEOBJECT> * lstBrick);
-	void collisionWithEnenmy(vector<LPGAMEOBJECT> *coObjects = NULL);
+	void collisionWithEnenmy(vector<LPGAMEOBJECT> *lstEnemy , vector<LPGAMEOBJECT> *lstBullet = NULL);
 
 	//Control
 	void Jump();

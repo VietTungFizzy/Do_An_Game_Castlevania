@@ -3,6 +3,7 @@
 #include"Dagger.h"
 #include"InitialStairEvent.h"
 #include"Ghost.h"
+#include"BreakableBrick.h"
 void Simon::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
 	if (isSitting)
@@ -103,6 +104,11 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		if (dynamic_cast<Brick*>(coObjects->at(i)))
 			lstBrick.push_back(coObjects->at(i));
+		if (dynamic_cast<BreakableBrick*>(coObjects->at(i)))\
+		{
+			if(coObjects->at(i)->getHealth() > 0)
+				lstBrick.push_back(coObjects->at(i));
+		}
 
 		if (dynamic_cast<InitialStairEvent*>(coObjects->at(i)))
 			lstInitialStairEvent.push_back(coObjects->at(i));
@@ -172,7 +178,6 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (isAutoGo)
 	{
 		if (isInAir) return;
-		isWalking = true;
 		directionX = autoGoDirection;
 		float distanceWalked = abs(x - savedX);
 		if (distanceWalked >= this->distance)
@@ -208,7 +213,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void Simon::Render(Camera * camera)
 {
 	D3DXVECTOR2 pos = camera->translateWorldToScreen(x, y);
-	RenderBoundingBox(camera);
+	/*RenderBoundingBox(camera);*/
 #pragma region Weapon
 	for (auto i : lstWeapon)
 	{
@@ -477,7 +482,10 @@ void Simon::collisionWhenSimonOnStair(vector<LPGAMEOBJECT>* coObjects, vector<LP
 		if (directionY == UP)
 		{
 			y -= 20;
-			x += 10;
+			if (directionX == RIGHT)
+				x += 5;
+			else
+				x -= 5;
 			dy = INFINITE;
 		}
 		std::vector<LPCOLLISIONEVENT> coEvents;
@@ -520,20 +528,28 @@ void Simon::collisionWhenSimonOnStair(vector<LPGAMEOBJECT>* coObjects, vector<LP
 	}
 }
 
-void Simon::collisionWithEnenmy(vector<LPGAMEOBJECT>* coObjects)
+void Simon::collisionWithEnenmy(vector<LPGAMEOBJECT>* lstEnemy , vector<LPGAMEOBJECT> *lstBullet )
 {
 	if (isHurt) return;
 
 	std::vector<LPCOLLISIONEVENT> coEvents;
 	std::vector<LPCOLLISIONEVENT> coEventsResult;
 	coEvents.clear();
-	vector<LPGAMEOBJECT> lstsEnemyAlive;
-	for (int i = 0; i < coObjects->size(); i++)
+	vector<LPGAMEOBJECT> lstObj;
+	for (int i = 0; i < lstEnemy->size(); i++)
 	{
-		if (coObjects->at(i)->getHealth() > 0)
-			lstsEnemyAlive.push_back(coObjects->at(i));
+		if (lstEnemy->at(i)->getHealth() > 0)
+			lstObj.push_back(lstEnemy->at(i));
 	}
-	CalcPotentialCollisions(&lstsEnemyAlive, coEvents);
+	//add bullet come from enemy to check collision (if there is one)
+	if (lstBullet != NULL)
+	{
+		for (int i = 0; i < lstBullet->size(); i++)
+		{
+			lstObj.push_back(lstBullet->at(i));
+		}
+	}
+	CalcPotentialCollisions(&lstObj, coEvents);
 
 	if (coEvents.size() != 0) //Collide
 	{
@@ -545,7 +561,7 @@ void Simon::collisionWithEnenmy(vector<LPGAMEOBJECT>* coObjects)
 		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
 		y += min_ty * dy + ny * 0.4f;
 
-		if (nx != 0)
+		if (nx != 0  || ny!=0)
 		{
 			if (isOnStair == false)
 			{
@@ -642,10 +658,11 @@ void Simon::setAutoWalk(float positionToGoX, float positionToGoY, int directionA
 	this->directionAfterAutoGo = directionAfterAutoGo;
 
 	isAutoGo = true;
+	isWalking = true;
 	if (x - positionToGoX < 0)
-		autoGoDirection = 1;
+		autoGoDirection = RIGHT;
 	else
-		autoGoDirection = -1;
+		autoGoDirection = LEFT;
 }
 
 void Simon::upgradeWhip()

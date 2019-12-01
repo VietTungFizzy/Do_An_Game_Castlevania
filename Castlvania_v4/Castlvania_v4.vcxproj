@@ -121,6 +121,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bat.cpp" />
     <ClCompile Include="BigHeart.cpp" />
     <ClCompile Include="BigTorch.cpp" />
     <ClCompile Include="BreakableBrick.cpp" />
@@ -131,6 +132,8 @@
     <ClCompile Include="DebugOut.cpp" />
     <ClCompile Include="DemoWorld.cpp" />
     <ClCompile Include="Door.cpp" />
+    <ClCompile Include="Fireball.cpp" />
+    <ClCompile Include="Fish.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameWorld.cpp" />
@@ -154,8 +157,10 @@
     <ClCompile Include="WhipUpgrade.cpp" />
     <ClCompile Include="WorldManager.cpp" />
     <ClCompile Include="World_1.cpp" />
+    <ClCompile Include="World_1_Water.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bat.h" />
     <ClInclude Include="BigHeart.h" />
     <ClInclude Include="BigTorch.h" />
     <ClInclude Include="BreakableBrick.h" />
@@ -167,6 +172,8 @@
     <ClInclude Include="Define.h" />
     <ClInclude Include="DemoWorld.h" />
     <ClInclude Include="Door.h" />
+    <ClInclude Include="Fireball.h" />
+    <ClInclude Include="Fish.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameWorld.h" />
@@ -189,6 +196,7 @@
     <ClInclude Include="WhipUpgrade.h" />
     <ClInclude Include="WorldManager.h" />
     <ClInclude Include="World_1.h" />
+    <ClInclude Include="World_1_Water.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

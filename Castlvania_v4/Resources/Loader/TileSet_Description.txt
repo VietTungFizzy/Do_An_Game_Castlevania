@@ -1,4 +1,4 @@
-14
+15
 Resources/Texture/bbox.png
 -100 1 1 255 255 255
 Resources/Texture/Item_SpriteSheet.png 
@@ -12,7 +12,7 @@ Resources/Texture/simon_tileset.png
 Resources/Texture/tileset_prologue.png
 5 10 3 255 255 255
 Resources/Texture/groung.png
-6 4 1 255 255 255
+6 5 1 255 255 255
 Resources/Texture/morning_star.png
 7 4 3 255 255 255
 Resources/Texture/FireBall.png
@@ -27,5 +27,7 @@ Resources/Texture/Panther.png
 12 4 1 96 68 106
 Resources/Texture/Fish.png
 13 3 1 96 68 106
+Resources/Texture/Bat.png
+14 5 1 96 68 106
 // filePath 
 // id  - totalColumn - totalRow - transparent color R - G  - B
